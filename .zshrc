@@ -15,12 +15,18 @@ fi
 export PROMPT="%n%F{$prompt_color}@%f%m:%B%4~%b %F{$prompt_color}%(?..%B)%#%(?..%b)%f "
 
 export EDITOR=vim
-export VISUAL="gvim -geom=80x25 -f 2>/dev/null"
 export PATH=$PATH:/sbin:/usr/sbin:~/bin:~/opt/bin:/usr/local/bin
 if [ "$(uname)" = "Darwin" ] ; then
     PATH=/opt/local/bin:$PATH
-    MANPATH=/opt/local/man:$MANPATH
+    MANPATH=/usr/local/share/man:/opt/local/man:$MANPATH
+    alias ls='ls -G'
+    export VISUAL="mvim -f"
+else
+    alias ls='ls --color=auto'
+    alias gvim='gvim -geom=80x45'
+    export VISUAL="gvim -geom=80x25 -f 2>/dev/null"
 fi
+
 if [ -d "/usr/local/heroku/bin" ] ; then
     export PATH="/usr/local/heroku/bin:$PATH"
 fi
@@ -35,7 +41,3 @@ export WORDCHARS=${WORDCHARS//\//}
 
 setopt extendedglob
 setopt histfindnodups
-
-alias ls='ls --color=auto'
-### alias gvim='gvim -geom=80x45 2>/dev/null'
-alias gvim='gvim -geom=80x45'
