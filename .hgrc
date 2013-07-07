@@ -13,7 +13,6 @@ rebase=
 pager=
 progress=
 bookmarks=
-git=
 
 [pager]
 pager = less -R
