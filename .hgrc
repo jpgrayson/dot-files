@@ -1,0 +1,40 @@
+[ui]
+username = Peter Grayson <jpgrayson@gmail.com>
+merge = kdiff3
+
+[extensions]
+color=
+convert=
+extdiff=
+graphlog=
+mq=
+purge=
+rebase=
+pager=
+progress=
+bookmarks=
+git=
+
+[pager]
+pager = less -R
+
+[diff]
+showfunc = True
+### git = True
+nodates = True
+
+[extdiff]
+cmd.meld = meld
+cmd.vimdiff = gvim
+opts.vimdiff = -geom=170x60 -f '+next' '+execute "DirDiff" argv(0) argv(1)'
+
+[alias]
+unmerge = update -C -r .
+qrefresh = qrefresh --git
+qnew = qnew --git
+qimport = qimport --git
+qdiff = qdiff --git
+diff = diff --git
+
+[tortoisehg]
+vdiff = meld

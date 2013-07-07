@@ -1,0 +1,16 @@
+[advice]
+	statusHints = false
+[user]
+	name = Peter Grayson
+	email = jpgrayson@gmail.com
+[github]
+	user = jpgrayson
+[credential]
+	helper = cache
+[color]
+	ui = auto
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
+	grep = auto
