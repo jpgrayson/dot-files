@@ -51,5 +51,6 @@ set sidescroll=8
 let g:python_highlight_all=1
 
 autocmd FileType python set sw=4
+autocmd FileType markdown set sw=4 et tw=72
 
 " vim: set et sw=2 ts=2
