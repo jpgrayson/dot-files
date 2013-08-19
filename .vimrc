@@ -24,7 +24,7 @@ set noswapfile
 set directory=~/tmp/vim,/var/tmp,/tmp
 
 if has("gui_running")
-  set guifont=Menlo\ 10
+  set guifont="Menlo 10"
   set guioptions=agi
 endif
 
@@ -50,7 +50,9 @@ set sidescroll=8
 " python-syntax options
 let g:python_highlight_all=1
 
-autocmd FileType python set sw=4
-autocmd FileType markdown set sw=4 et tw=72
+autocmd FileType python setlocal sw=4
+autocmd FileType markdown setlocal sw=4 et tw=72
+autocmd FileType html setlocal sw=2 et
+autocmd FileType htmldjango setlocal sw=2 et
 
 " vim: set et sw=2 ts=2
