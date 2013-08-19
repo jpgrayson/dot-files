@@ -15,10 +15,10 @@ fi
 export PROMPT="%n%F{$prompt_color}@%f%m:%B%4~%b %F{$prompt_color}%(?..%B)%#%(?..%b)%f "
 
 export EDITOR=vim
-export PATH=$PATH:/sbin:/usr/sbin:~/bin:~/opt/bin:/usr/local/bin
+
 if [ "$(uname)" = "Darwin" ] ; then
-    PATH=/opt/local/bin:$PATH
-    MANPATH=/usr/local/share/man:/opt/local/man:$MANPATH
+    PATH=/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+    MANPATH=~/opt/man:/opt/local/man:/usr/local/share/man:$MANPATH
     alias ls='ls -G'
     export VISUAL="mvim -f"
 else
@@ -30,6 +30,8 @@ fi
 if [ -d "/usr/local/heroku/bin" ] ; then
     export PATH="/usr/local/heroku/bin:$PATH"
 fi
+
+export PATH="~/opt/bin:$PATH"
 
 export PYTHONSTARTUP=~/.pythonstartup
 export HISTSIZE=1024
