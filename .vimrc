@@ -51,8 +51,10 @@ set sidescroll=8
 let g:python_highlight_all=1
 
 autocmd FileType python setlocal sw=4
-autocmd FileType markdown setlocal sw=4 et tw=72
+autocmd FileType markdown setlocal sw=4 et tw=72 spell
 autocmd FileType html setlocal sw=2 et
 autocmd FileType htmldjango setlocal sw=2 et
+autocmd FileType javascript setlocal sw=4 et
+autocmd FileType rust setlocal sw=4 et tw=100
 
 " vim: set et sw=2 ts=2
