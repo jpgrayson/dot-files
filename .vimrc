@@ -35,6 +35,7 @@ endif
 set showfulltag
 set nowrap
 set sidescroll=8
+set sidescrolloff=0
 
 " Emacs-style command line editing
 :cnoremap <C-A>         <Home>
