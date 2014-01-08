@@ -13,6 +13,7 @@ rebase=
 pager=
 progress=
 bookmarks=
+### reviewboard=~/project/mercurial-reviewboard
 
 [pager]
 pager = less -R
@@ -37,3 +38,6 @@ diff = diff --git
 
 [tortoisehg]
 vdiff = meld
+
+[reviewboard]
+explicit_publish_update = True
