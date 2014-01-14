@@ -41,3 +41,6 @@ vdiff = meld
 
 [reviewboard]
 explicit_publish_update = True
+
+[color]
+qseries.unapplied = bold
