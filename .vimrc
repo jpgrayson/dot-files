@@ -57,5 +57,6 @@ autocmd FileType html setlocal sw=2 et
 autocmd FileType htmldjango setlocal sw=2 et
 autocmd FileType javascript setlocal sw=4 et
 autocmd FileType rust setlocal sw=4 et tw=100
+autocmd FileType hgcommit setlocal tw=72 spell
 
 " vim: set et sw=2 ts=2
