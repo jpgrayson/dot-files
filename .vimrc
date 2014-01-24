@@ -15,7 +15,8 @@ set background=dark
 if has("gui_running")
   colorscheme solarized
 else
-  colorscheme wombat256mod
+  colorscheme solarized
+  "colorscheme wombat256mod
 endif
 
 set nobackup
@@ -35,7 +36,7 @@ endif
 set showfulltag
 set nowrap
 set sidescroll=8
-set sidescrolloff=0
+set sidescrolloff=1
 
 " Emacs-style command line editing
 :cnoremap <C-A>         <Home>
@@ -51,12 +52,15 @@ set sidescrolloff=0
 " python-syntax options
 let g:python_highlight_all=1
 
-autocmd FileType python setlocal sw=4
+autocmd FileType python setlocal sw=4 tw=79 cc=+1 number
 autocmd FileType markdown setlocal sw=4 et tw=72 spell
 autocmd FileType html setlocal sw=2 et
 autocmd FileType htmldjango setlocal sw=2 et
 autocmd FileType javascript setlocal sw=4 et
 autocmd FileType rust setlocal sw=4 et tw=100
-autocmd FileType hgcommit setlocal tw=72 spell
+autocmd FileType hgcommit setlocal tw=72 cc=+1 spell ff=unix
+
+" Aggressively check for files' timestamps changing
+autocmd InsertEnter,BufEnter,CursorHold * checktime
 
 " vim: set et sw=2 ts=2
