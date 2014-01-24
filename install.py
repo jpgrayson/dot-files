@@ -7,6 +7,8 @@ import sys
 
 
 excludes = [os.path.basename(__file__),
+            'README.md',
+            'LICENSE.md',
             '.git',
             '.gitmodules',
             '.gitignore']
