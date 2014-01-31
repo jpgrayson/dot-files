@@ -34,7 +34,7 @@ def ask(prompt):
 
 def main(argv):
     home = os.environ['HOME']
-    here = os.path.dirname(__file__)
+    here = os.path.dirname(os.path.join(os.path.curdir, __file__))
 
     for x in os.listdir(here):
         if x in excludes:
