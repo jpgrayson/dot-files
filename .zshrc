@@ -31,7 +31,7 @@ if [ -d "/usr/local/heroku/bin" ] ; then
     export PATH="/usr/local/heroku/bin:$PATH"
 fi
 
-export PATH="~/opt/bin:$PATH"
+export PATH="$HOME/opt/bin:$PATH"
 
 export PYTHONSTARTUP=~/.pythonstartup
 export HISTSIZE=1024
