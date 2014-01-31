@@ -52,6 +52,7 @@ set sidescrolloff=1
 " python-syntax options
 let g:python_highlight_all=1
 
+autocmd FileType cpp setlocal sw=4 et number
 autocmd FileType python setlocal sw=4 tw=79 cc=+1 number
 autocmd FileType markdown setlocal sw=4 et tw=72 spell
 autocmd FileType html setlocal sw=2 et
