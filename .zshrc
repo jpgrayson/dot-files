@@ -20,7 +20,7 @@ if [ "$(uname)" = "Darwin" ] ; then
     PATH=/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
     MANPATH=~/opt/man:/opt/local/man:/usr/local/share/man:$MANPATH
     alias ls='ls -G'
-    export VISUAL="mvim -f"
+    export VISUAL="mvim --cmd 'set lines=30 columns=80' -f"
 else
     alias ls='ls --color=auto'
     alias gvim='gvim -geom=80x45'
