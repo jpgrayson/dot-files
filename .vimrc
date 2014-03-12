@@ -52,9 +52,15 @@ set sidescrolloff=1
 " python-syntax options
 let g:python_highlight_all=1
 
+set cinoptions=N-s,:0,(0,W4,g0,i0
+
+autocmd BufNew,BufRead SConstruct,SConscript setfiletype python
+
 autocmd FileType cpp setlocal sw=4 et number
 autocmd FileType python setlocal sw=4 tw=79 cc=+1 number
 autocmd FileType markdown setlocal sw=4 et tw=72 spell
+autocmd FileType rst setlocal sw=4 et tw=72 spell
+autocmd FileType yaml setlocal sw=2 et
 autocmd FileType html setlocal sw=2 et
 autocmd FileType htmldjango setlocal sw=2 et
 autocmd FileType javascript setlocal sw=4 et
