@@ -34,6 +34,7 @@ fi
 export PATH="$HOME/opt/bin:$PATH"
 
 export PYTHONSTARTUP=~/.pythonstartup
+export SCONSFLAGS="-Q"
 export HISTSIZE=1024
 export SAVEHIST=1020
 export HIST_EXPIRE_DUPS_FIRST=1
