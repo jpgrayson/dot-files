@@ -1,5 +1,8 @@
 [advice]
 	statusHints = false
+[alias]
+	st = status
+	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 [user]
 	name = Peter Grayson
 	email = jpgrayson@gmail.com
