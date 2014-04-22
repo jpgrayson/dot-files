@@ -37,3 +37,9 @@
 [submodule ".vim/bundle/vim-rust"]
 	path = .vim/bundle/vim-rust
 	url = https://github.com/wting/rust.vim.git
+[submodule ".vim/bundle/tagbar"]
+	path = .vim/bundle/tagbar
+	url = https://github.com/majutsushi/tagbar.git
+[submodule ".vim/bundle/vim-bufkill"]
+	path = .vim/bundle/vim-bufkill
+	url = https://github.com/belike81/vim-bufkill.git
