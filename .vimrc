@@ -54,7 +54,7 @@ let g:python_highlight_all=1
 
 set cinoptions=N-s,:0,(0,W4,g0,i0
 
-autocmd BufNew,BufRead SConstruct,SConscript setfiletype python
+autocmd BufNew,BufRead SConstruct,SConscript set filetype=python
 
 autocmd FileType cpp setlocal sw=4 et number
 autocmd FileType python setlocal sw=4 tw=79 cc=+1 number
