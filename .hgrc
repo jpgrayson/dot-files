@@ -3,6 +3,7 @@ username = Peter Grayson <jpgrayson@gmail.com>
 merge = kdiff3
 
 [extensions]
+### churn=
 color=
 convert=
 extdiff=
@@ -14,19 +15,19 @@ pager=
 progress=
 bookmarks=
 ### reviewboard=~/project/mercurial-reviewboard
+### mqext=~/project/mqext
 
 [pager]
 pager = less -R
 
 [diff]
 showfunc = True
-### git = True
+git = True
 nodates = True
 
 [extdiff]
 cmd.meld = meld
-cmd.vimdiff = gvim
-opts.vimdiff = -geom=170x60 -f '+next' '+execute "DirDiff" argv(0) argv(1)'
+cmd.vimdiff = vimdiff
 
 [alias]
 unmerge = update -C -r .
@@ -35,6 +36,7 @@ qnew = qnew --git
 qimport = qimport --git
 qdiff = qdiff --git
 diff = diff --git
+postreview = postreview --git
 
 [tortoisehg]
 vdiff = meld
@@ -44,3 +46,6 @@ explicit_publish_update = True
 
 [color]
 qseries.unapplied = bold
+
+[mqext]
+mqcommit = auto
