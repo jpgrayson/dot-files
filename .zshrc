@@ -27,6 +27,11 @@ else
     export VISUAL="gvim -geom=80x25 -f 2>/dev/null"
 fi
 
+if [ -x "$(which ack-grep)" ]
+then
+    alias ack="ack-grep"
+fi
+
 if [ -d "/usr/local/heroku/bin" ] ; then
     export PATH="/usr/local/heroku/bin:$PATH"
 fi
