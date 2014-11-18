@@ -57,6 +57,7 @@ set cinoptions=N-s,:0,(0,W4,g0,i0
 
 autocmd BufNew,BufRead SConstruct,SConscript set filetype=python
 
+autocmd FileType c setlocal sw=8 ts=8 noet number
 autocmd FileType cpp setlocal sw=4 et number
 autocmd FileType python setlocal sw=4 tw=79 cc=+1 number
 autocmd FileType markdown setlocal sw=4 et tw=72 spell
