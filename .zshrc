@@ -12,7 +12,8 @@ then
 else
     prompt_color=cyan
 fi
-export PROMPT="%n%F{$prompt_color}@%f%m:%B%4~%b %F{$prompt_color}%(?..%B)%#%(?..%b)%f "
+
+export PROMPT="%F{$prompt_color}@%f%m:%B%4~%b %F{$prompt_color}%(?..%B)%#%(?..%b)%f "
 
 export EDITOR=vim
 
