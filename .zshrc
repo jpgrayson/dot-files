@@ -22,7 +22,12 @@ if [ "$(uname)" = "Darwin" ] ; then
     MANPATH=~/opt/man:/opt/local/man:/usr/local/share/man:$MANPATH
     alias ls='ls -G'
     export VISUAL="mvim --cmd 'set lines=30 columns=80' -f"
+elif [ "$(uname -o)" = "Cygwin" ] ; then
+    export CYGWIN="winsymlinks:nativestrict"
+    PATH=~/opt/bin:$PATH
+    alias ls='ls --color=auto'
 else
+    PATH=~/opt/bin:$PATH
     alias ls='ls --color=auto'
     alias gvim='gvim -geom=80x45'
     export VISUAL="gvim -geom=80x25 -f 2>/dev/null"
