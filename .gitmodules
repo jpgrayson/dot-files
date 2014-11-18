@@ -52,3 +52,6 @@
 [submodule ".vim/bundle/patchreview-vim"]
 	path = .vim/bundle/patchreview-vim
 	url = https://github.com/junkblocker/patchreview-vim.git
+[submodule ".vim/bundle/vim-sleuth"]
+	path = .vim/bundle/vim-sleuth
+	url = https://github.com/tpope/vim-sleuth.git
