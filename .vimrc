@@ -37,6 +37,7 @@ set showfulltag
 set nowrap
 set sidescroll=8
 set sidescrolloff=1
+set wildmode=list:longest,full
 
 " Emacs-style command line editing
 :cnoremap <C-A>         <Home>
