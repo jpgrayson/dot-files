@@ -71,4 +71,6 @@ autocmd FileType hgcommit setlocal tw=72 cc=+1 spell ff=unix
 " Aggressively check for files' timestamps changing
 autocmd InsertEnter,BufEnter,CursorHold * checktime
 
+let g:signify_vcs_list = ['hg', 'git']
+
 " vim: set et sw=2 ts=2
