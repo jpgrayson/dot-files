@@ -10,9 +10,6 @@
 	user = jpgrayson
 [credential]
 	helper = cache
-[core]
-	autocrlf = false
-	safecrlf = true
 [color]
 	ui = auto
 	diff = auto

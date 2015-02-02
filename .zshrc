@@ -2,7 +2,7 @@
 
 fpath=("$HOME/.zsh.d" $fpath)
 
-autoload -U compinit; compinit -i
+autoload -U compinit; compinit
 
 bindkey -e
 

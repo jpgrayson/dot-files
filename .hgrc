@@ -1,31 +1,21 @@
 [ui]
-username = Pete Grayson <pete.grayson@sandisk.com>
+username = Peter Grayson <jpgrayson@gmail.com>
 merge = kdiff3
-editor = "C:\Program Files (x86)\Vim\vim74\gvim.exe" --noplugin
-#editor = vim
-ignore=C:\Users\pgrayson\Documents\hgignore_global.txt
-slash = True
 
 [extensions]
 ### churn=
-bookmarks=
 color=
 convert=
-eol=
 extdiff=
 graphlog=
-histedit=
 mq=
-pager=
-progress=
 purge=
 rebase=
-record=
-shelve=
-
+pager=
+progress=
+bookmarks=
 ### reviewboard=~/project/mercurial-reviewboard
-mqext=~/project/mqext
-hgsubversion=
+### mqext=~/project/mqext
 
 [pager]
 pager = less -R
@@ -38,14 +28,10 @@ nodates = True
 [extdiff]
 cmd.meld = meld
 cmd.vimdiff = vimdiff
-cmd.wdiff = wdiff
-opts.wdiff = -3
-cmd.xdiff = my-xml-diff
 
 [alias]
 unmerge = update -C -r .
 qrefresh = qrefresh --git
-qseries = qseries --color=on
 qnew = qnew --git
 qimport = qimport --git
 qdiff = qdiff --git
@@ -53,7 +39,7 @@ diff = diff --git
 postreview = postreview --git
 
 [tortoisehg]
-editor = "C:\Program Files (x86)\Vim\vim74\gvim.exe"
+vdiff = meld
 
 [reviewboard]
 explicit_publish_update = True
