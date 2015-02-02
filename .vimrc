@@ -1,3 +1,7 @@
+if has('win32') || has('win64')
+  let &runtimepath = '~\.vim,' . &runtimepath . ',~\.vim\after'
+endif
+
 execute pathogen#infect()
 syntax on
 filetype plugin indent on
@@ -25,7 +29,11 @@ set noswapfile
 set directory=~/tmp/vim,/var/tmp,/tmp
 
 if has("gui_running")
-  set guifont="Menlo 10"
+  if has("gui_win32")
+    set guifont=Consolas:h9:cANSI
+  else
+    set guifont="Menlo 10"
+  endif
   set guioptions=agi
 endif
 
@@ -50,6 +58,8 @@ set wildmode=list:longest,full
 :cnoremap <Esc><C-B>    <S-Left>
 :cnoremap <Esc><C-F>    <S-Right>
 
+map <Leader>/ :silent Ack!<CR>
+
 " python-syntax options
 let g:python_highlight_all=1
 
@@ -72,6 +82,6 @@ autocmd FileType hgcommit setlocal tw=72 cc=+1 spell ff=unix
 " Aggressively check for files' timestamps changing
 autocmd InsertEnter,BufEnter,CursorHold * checktime
 
-let g:signify_vcs_list = ['hg', 'git']
+let g:signify_vcs_list = ['hg', 'git', 'svn']
 
 " vim: set et sw=2 ts=2
