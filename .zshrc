@@ -55,3 +55,4 @@ export WORDCHARS=${WORDCHARS//\//}
 
 setopt extendedglob
 setopt histfindnodups
+setopt autocd
