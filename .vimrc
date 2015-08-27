@@ -47,16 +47,7 @@ set sidescroll=8
 set sidescrolloff=1
 set wildmode=list:longest,full
 
-" Emacs-style command line editing
-:cnoremap <C-A>         <Home>
-:cnoremap <C-B>         <Left>
-:cnoremap <C-D>         <Del>
-:cnoremap <C-E>         <End>
-:cnoremap <C-F>         <Right>
-:cnoremap <C-N>         <Down>
-:cnoremap <C-P>         <Up>
-:cnoremap <Esc><C-B>    <S-Left>
-:cnoremap <Esc><C-F>    <S-Right>
+let g:rsi_no_meta=1
 
 map <Leader>/ :silent Ack!<CR>
 
