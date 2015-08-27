@@ -46,6 +46,7 @@ set nowrap
 set sidescroll=8
 set sidescrolloff=1
 set wildmode=list:longest,full
+set wildignore+=*/__pycache__/*,*.pyo,*.o,*.obj
 
 let g:rsi_no_meta=1
 
