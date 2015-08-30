@@ -30,7 +30,6 @@ else
     PATH=~/opt/bin:$PATH
     alias ls='ls --color=auto'
     alias gvim='gvim -geom=80x45'
-    export VISUAL="gvim -geom=80x25 -f 2>/dev/null"
 fi
 
 if [ -x "$(which ack-grep)" ]
