@@ -15,7 +15,8 @@ excludes = [os.path.basename(__file__),
 
 
 def hash_digest(path):
-    return hashlib.md5(open(path).read().encode()).hexdigest()
+    with open(path) as f:
+        return hashlib.md5(f.read().encode()).hexdigest()
 
 
 def identical(path0, path1):
