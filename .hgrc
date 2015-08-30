@@ -18,7 +18,7 @@ bookmarks=
 ### mqext=~/project/mqext
 
 [pager]
-pager = less -R
+pager = less -RFX
 
 [diff]
 showfunc = True
