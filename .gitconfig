@@ -21,3 +21,5 @@
 	grep = auto
 [push]
 	default = simple
+[diff]
+	submodule = log
