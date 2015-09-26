@@ -76,4 +76,8 @@ autocmd InsertEnter,BufEnter,CursorHold * checktime
 
 let g:signify_vcs_list = ['hg', 'git', 'svn']
 
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
 " vim: set et sw=2 ts=2
