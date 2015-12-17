@@ -168,3 +168,6 @@ client.urgent           $baseO3    $baseO2    $red      $blue
 client.placeholder      $base02    $base03    #ffffff   #000000
 
 client.background $baseO2
+
+exec VBoxClient-all
+exec urxvt
