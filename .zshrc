@@ -37,9 +37,21 @@ then
     alias ack="ack-grep"
 fi
 
-if [ -d "/usr/local/heroku/bin" ] ; then
-    export PATH="/usr/local/heroku/bin:$PATH"
-fi
+my-font() {
+    if [ -z $1 ]
+    then
+        local font="xft:DejaVu Sans Mono:pixelsize=12"
+    else
+        local font=$1
+    fi
+
+    if [ -z "$TMUX" ]
+    then
+        printf '\e]710;%s\007' "$font"
+    else
+        printf '\ePtmux;\e\e]710;%s\007\e\\' "$font"
+    fi
+}
 
 export PATH="$HOME/opt/bin:$PATH"
 
