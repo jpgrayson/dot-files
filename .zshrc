@@ -67,3 +67,5 @@ export WORDCHARS=${WORDCHARS//\//}
 setopt extendedglob
 setopt histfindnodups
 setopt autocd
+setopt completeinword
+setopt numericglobsort
