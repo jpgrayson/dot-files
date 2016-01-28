@@ -82,10 +82,12 @@ URxvt*.color15:                 #fdf6e3
 URxvt.*fading: 40
 URxvt*.letterSpace: -1
 URxvt*.scrollBar: false
-URxvt*.mouseWheelScrollPage: false
+URxvt*.saveLines: 0
 
+URxvt*.font: xft:DejaVu Sans Mono:pixelsize=12
+! URxvt*.font: xft:Inconsolata:pixelsize=11
 ! URxvt*.font: xft:Bitstream Vera Sans Mono:pixelsize=12
-URxvt*.font: xft:Ubuntu Mono:pixelsize=14
+! URxvt*.font: xft:Ubuntu Mono:pixelsize=14
 
 URxvt.perl-ext-common:      default,clipboard,url-select,keyboard-select
 URxvt.url-select.launcher:  /usr/bin/xdg-open
