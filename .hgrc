@@ -1,6 +1,7 @@
 [ui]
 username = Peter Grayson <jpgrayson@gmail.com>
 merge = kdiff3
+ignore = ~/.hgignore
 
 [extensions]
 ### churn=
