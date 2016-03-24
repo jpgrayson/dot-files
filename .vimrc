@@ -1,8 +1,46 @@
+call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-surround'
+
+Plug 'altercation/vim-colors-solarized'
+Plug 'kien/ctrlp.vim'
+Plug 'mileszs/ack.vim'
+Plug 'belike81/vim-bufkill'
+
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-flagship'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-markdown'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-tbone'
+
+Plug 'itchyny/lightline.vim'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+
+Plug 'scrooloose/syntastic'
+Plug 'mhinz/vim-signify'
+Plug 'majutsushi/tagbar'
+
+Plug 'davidhalter/jedi-vim'
+Plug 'hdima/python-syntax'
+Plug 'hynek/vim-python-pep8-indent'
+Plug 'nvie/vim-flake8'
+
+Plug 'JuliaLang/julia-vim'
+Plug 'aklt/plantuml-syntax'
+Plug 'wting/rust.vim'
+
+"Plug 'junkblocker/patchreview-vim'
+call plug#end()
+
 if has('win32') || has('win64')
   let &runtimepath = '~\.vim,' . &runtimepath . ',~\.vim\after'
 endif
 
-execute pathogen#infect()
 syntax on
 filetype plugin indent on
 
@@ -79,5 +117,7 @@ let g:signify_vcs_list = ['hg', 'git', 'svn']
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
+
+let g:jedi#popup_on_dot = 0
 
 " vim: set et sw=2 ts=2
