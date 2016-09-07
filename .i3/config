@@ -138,6 +138,7 @@ bar {
         modifier $mod
         position bottom
         workspace_buttons yes
+        binding_mode_indicator yes
 }
 
 hide_edge_borders vertical
@@ -161,9 +162,9 @@ set $base2      #eee8d5
 set $base3      #fdf6e3
 
 # class                 border     backgrnd   text      indicator
-client.focused          $baseO1    $baseO0    $base3    $magenta
-client.focused_inactive $baseO3    $baseO2    $base2    $cyan
-client.unfocused        $baseO3    $baseO2    $baseO1   $violet
+client.focused_inactive $base1     $baseO3    $baseO1   $cyan
+client.focused          $base1     $baseO3    $orange   $green
+client.unfocused        $baseO1    $baseO3    $baseO1   $violet
 client.urgent           $baseO3    $baseO2    $red      $blue
 client.placeholder      $base02    $base03    #ffffff   #000000
 
