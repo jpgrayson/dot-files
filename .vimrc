@@ -10,6 +10,7 @@ Plug 'mileszs/ack.vim'
 Plug 'belike81/vim-bufkill'
 
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-flagship'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
@@ -27,7 +28,7 @@ Plug 'majutsushi/tagbar'
 
 Plug 'davidhalter/jedi-vim'
 Plug 'hdima/python-syntax'
-Plug 'hynek/vim-python-pep8-indent'
+Plug 'hattya/python-indent.vim'
 Plug 'nvie/vim-flake8'
 
 Plug 'JuliaLang/julia-vim'
@@ -84,7 +85,7 @@ set nowrap
 set sidescroll=8
 set sidescrolloff=1
 set wildmode=list:longest,full
-set wildignore+=*/__pycache__/*,*.pyo,*.o,*.obj
+set wildignore+=*/__pycache__/*,*.pyo,*.pyc,*.o,*.obj
 
 let g:rsi_no_meta=1
 
@@ -95,7 +96,9 @@ let g:python_highlight_all=1
 
 set cinoptions=N-s,:0,(0,W4,g0,i0
 
-autocmd BufNew,BufRead SConstruct,SConscript set filetype=python
+autocmd BufNew,BufRead SConstruct,SConscript setfiletype python
+autocmd BufNew,BufRead .stgit-edit.txt setlocal tw=72
+autocmd BufNew,BufRead .stgit-new.txt setlocal tw=72
 
 autocmd FileType c setlocal sw=8 ts=8 noet number
 autocmd FileType cpp setlocal sw=4 et number
@@ -112,6 +115,8 @@ autocmd FileType hgcommit setlocal tw=72 cc=+1 spell ff=unix
 " Aggressively check for files' timestamps changing
 autocmd InsertEnter,BufEnter,CursorHold * checktime
 
+let g:ctrlp_custom_ignore = '\v\.pyc'
+
 let g:signify_vcs_list = ['hg', 'git', 'svn']
 
 if executable('ag')
@@ -119,5 +124,6 @@ if executable('ag')
 endif
 
 let g:jedi#popup_on_dot = 0
+let g:jedi#smart_auto_mappings = 0
 
 " vim: set et sw=2 ts=2
