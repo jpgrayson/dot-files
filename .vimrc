@@ -97,8 +97,6 @@ let g:python_highlight_all=1
 set cinoptions=N-s,:0,(0,W4,g0,i0
 
 autocmd BufNew,BufRead SConstruct,SConscript setfiletype python
-autocmd BufNew,BufRead .stgit-edit.txt setlocal tw=72
-autocmd BufNew,BufRead .stgit-new.txt setlocal tw=72
 
 autocmd FileType c setlocal sw=8 ts=8 noet number
 autocmd FileType cpp setlocal sw=4 et number
