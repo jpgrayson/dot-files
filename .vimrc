@@ -25,14 +25,7 @@ Plug 'scrooloose/syntastic'
 Plug 'mhinz/vim-signify'
 Plug 'majutsushi/tagbar'
 
-Plug 'davidhalter/jedi-vim'
-Plug 'hdima/python-syntax'
-Plug 'hattya/python-indent.vim'
-Plug 'nvie/vim-flake8'
-
-Plug 'JuliaLang/julia-vim'
-Plug 'aklt/plantuml-syntax'
-Plug 'wting/rust.vim'
+Plug 'sheerun/vim-polyglot'
 
 "Plug 'junkblocker/patchreview-vim'
 call plug#end()
