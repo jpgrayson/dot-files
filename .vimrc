@@ -19,8 +19,6 @@ Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-tbone'
 
 Plug 'itchyny/lightline.vim'
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
 
 Plug 'scrooloose/syntastic'
 Plug 'mhinz/vim-signify'
@@ -123,5 +121,39 @@ endif
 
 let g:jedi#popup_on_dot = 0
 let g:jedi#smart_auto_mappings = 0
+
+let g:lightline = {
+\   'active': {
+\     'left': [['mode', 'paste'],
+\              ['readonly', 'modified', 'relativepath', 'syntastic']],
+\     'right': [['lineinfo'],
+\               ['percent'],
+\               ['fileformat', 'fileencoding', 'filetype']]
+\   },
+\   'inactive': {
+\     'left': [['modified', 'relativepath']],
+\     'right': [['lineinfo'],
+\               ['percent']]
+\   },
+\   'component_expand': {
+\     'syntastic': 'SyntasticStatuslineFlag',
+\   },
+\   'component_type': {
+\     'syntastic': 'warning',
+\   },
+\   'component': {'relativepath': '%{expand("%:h:t") . "/" . expand("%:t")}'},
+\ }
+
+let g:syntastic_mode_map = { 'mode': 'passive' }
+
+augroup AutoSyntastic
+  autocmd!
+  autocmd BufWritePost *.py,*.c,*.cpp call s:syntastic()
+augroup END
+
+function! s:syntastic()
+  SyntasticCheck
+  call lightline#update()
+endfunction
 
 " vim: set et sw=2 ts=2
