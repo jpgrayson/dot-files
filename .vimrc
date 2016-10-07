@@ -112,6 +112,7 @@ autocmd FileType hgcommit setlocal tw=72 cc=+1 spell ff=unix
 autocmd InsertEnter,BufEnter,CursorHold * checktime
 
 let g:ctrlp_custom_ignore = '\v\.pyc'
+let g:ctrlp_root_markers = ['.projectroot', 'setup.py']
 
 let g:signify_vcs_list = ['hg', 'git', 'svn']
 
