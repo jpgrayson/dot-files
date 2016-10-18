@@ -8,7 +8,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'kien/ctrlp.vim'
 Plug 'dbakker/vim-projectroot'
 Plug 'mileszs/ack.vim'
-Plug 'belike81/vim-bufkill'
+Plug 'qpkorr/vim-bufkill'
 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
