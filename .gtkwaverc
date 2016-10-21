@@ -1,0 +1,97 @@
+use_standard_trace_select no
+highlight_wavewindow yes
+alt_wheel_mode yes
+vcd_preserve_glitches no
+vcd_preserve_glitches_real no
+
+ignore_savefile_pane_pos no
+ignore_savefile_pos no
+ignore_savefile_size no
+
+ruler_origin 0
+ruler_step 0
+disable_ae2_alias no
+keep_xz_colors no
+
+strace_repeat_count 1
+enable_fast_exit yes
+disable_empty_gui off
+analog_redraw_skip_count 200
+splash_disable on
+hide_sst off
+sst_dynamic_filter on
+use_standard_clicking on
+use_toolbutton_interface on
+use_pango_fonts on
+use_scrollwheel_as_y on
+scale_to_time_dimension *
+zoom_dynamic on
+zoom_dynamic_end on
+
+vlist_spill off
+vlist_prepack off
+vlist_compression 4
+
+hier_max_level 2
+force_toolbars 0
+#cursor_snap 8
+zoom_pow10_snap on
+
+dynamic_resizing 1
+hpane_pack 1
+#initial_window_x 1000
+#initial_window_y 600
+#initial_window_xpos 50
+#initial_window_ypos 50
+
+use_maxtime_display 0
+
+enable_vcd_autosave 0
+use_roundcaps 1
+
+use_nonprop_fonts yes
+enable_horiz_grid yes
+use_big_fonts no
+constant_marker_update yes
+show_grid yes
+show_base_symbols no
+
+atomic_vectors yes
+vcd_explicit_zero_subscripts no
+
+#
+# color additions
+#
+color_back   000000
+color_baseline ffffff
+color_grid   202070
+color_grid2  6a5acd
+color_high   79f6f2
+color_low    5dbebb
+color_1      00ff00
+color_0      008000
+color_trans  00c000
+color_mid    c0c000
+
+color_value  eeeeee
+color_vbox   898989
+color_vtrans 696969
+
+color_x      ff0000
+color_xfill  400000
+color_u      cc0000
+color_ufill  200000
+color_w      79f6f2
+color_wfill  3f817f
+color_dash   edf508
+color_dashfill 7d8104
+
+color_umark  ff8080
+color_mark   ffff80
+
+color_time   ffffff
+color_timeb  000000
+
+color_brkred cc0000
+color_ltblue 5dbebb
+color_gmstrd 7d8104
