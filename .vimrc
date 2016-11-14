@@ -21,7 +21,7 @@ Plug 'tpope/vim-tbone'
 
 Plug 'itchyny/lightline.vim'
 
-Plug 'scrooloose/syntastic'
+Plug 'vim-syntastic/syntastic'
 Plug 'mhinz/vim-signify'
 Plug 'majutsushi/tagbar'
 
