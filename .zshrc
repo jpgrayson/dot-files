@@ -4,6 +4,10 @@ fpath=("$HOME/.zsh.d" $fpath)
 
 autoload -U compinit; compinit
 
+autoload edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
+
 bindkey -e
 
 if [ $SSH_CLIENT ]
