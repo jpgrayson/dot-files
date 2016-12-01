@@ -84,10 +84,21 @@ URxvt*.letterSpace: -1
 URxvt*.scrollBar: false
 URxvt*.saveLines: 0
 
-URxvt*.font: xft:DejaVu Sans Mono:pixelsize=12
-! URxvt*.font: xft:Inconsolata:pixelsize=11
-! URxvt*.font: xft:Bitstream Vera Sans Mono:pixelsize=12
-! URxvt*.font: xft:Ubuntu Mono:pixelsize=14
+URxvt*.font:                    xft:Office Code Pro D:pixelsize=11:style=Medium,\
+                                xft:Source Code Pro:pixelsize=11:style=Medium,\
+                                xft:DejaVu Sans Mono:pixelsize=11
+
+URxvt*.boldFont:                xft:Office Code Pro D:pixelsize=11:style=Bold,\
+                                xft:Source Code Pro:pixelsize=11:style=Bold,\
+                                xft:DejaVu Sans Mono:pixelsize=11:style=Bold
+
+URxvt*.italicFont:              xft:Office Code Pro D:pixelsize=11:style=Medium Italic,\
+                                xft:Source Code Pro:pixelsize=11:style=Italic,\
+                                xft:DejaVu Sans Mono:pixelsize=11:style=Oblique
+
+URxvt*.boldItalicFont:          xft:Office Code Pro D:pixelsize=11:style=Bold Italic,\
+                                xft:Source Code Pro:pixelsize=11:style=Black Italic,\
+                                xft:DejaVu Sans Mono:pixelsize=11:style=Bold Oblique
 
 URxvt.perl-ext-common:      default,clipboard,url-select,keyboard-select
 URxvt.url-select.launcher:  /usr/bin/xdg-open
