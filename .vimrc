@@ -9,6 +9,7 @@ Plug 'kien/ctrlp.vim'
 Plug 'dbakker/vim-projectroot'
 Plug 'mileszs/ack.vim'
 Plug 'qpkorr/vim-bufkill'
+Plug 'tmux-plugins/vim-tmux-focus-events'
 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
