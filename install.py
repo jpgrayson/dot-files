@@ -6,12 +6,15 @@ import shutil
 import sys
 
 
-excludes = [os.path.basename(__file__),
-            'README.md',
-            'LICENSE.md',
-            '.git',
-            '.gitmodules',
-            '.gitignore']
+root_excludes = [
+    os.path.basename(__file__),
+    '.config',
+    'README.md',
+    'LICENSE.md',
+    '.git',
+    '.gitmodules',
+    '.gitignore'
+]
 
 
 def hash_digest(path):
@@ -33,10 +36,7 @@ def ask(prompt):
     return input(prompt).strip().lower().startswith('y')
 
 
-def main(argv):
-    home = os.environ['HOME']
-    here = os.path.dirname(os.path.join(os.path.curdir, __file__))
-
+def install(home, here, excludes=()):
     for x in os.listdir(here):
         if x in excludes:
             continue
@@ -63,6 +63,18 @@ def main(argv):
                     raise
                 finally:
                     shutil.rmtree(backup)
+
+
+def main(argv):
+    home = os.environ['HOME']
+    here = os.path.dirname(os.path.join(os.path.curdir, __file__))
+    install(home, here, root_excludes)
+
+    home_config = os.path.join(home, '.config')
+    here_config = os.path.join(here, '.config')
+    if not os.path.exists(home_config):
+        os.mkdir(home_config)
+    install(home_config, here_config)
 
 
 if __name__ == '__main__':
