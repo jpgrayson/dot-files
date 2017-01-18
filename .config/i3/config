@@ -101,7 +101,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Really exit i3?' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -136,7 +136,7 @@ bar {
         status_command i3status
         ### mode hide
         modifier $mod
-        position bottom
+        position top
         workspace_buttons yes
         binding_mode_indicator yes
 }
@@ -166,7 +166,7 @@ client.focused_inactive $base1     $baseO3    $baseO1   $cyan
 client.focused          $base1     $baseO3    $orange   $green
 client.unfocused        $baseO1    $baseO3    $baseO1   $violet
 client.urgent           $baseO3    $baseO2    $red      $blue
-client.placeholder      $base02    $base03    #ffffff   #000000
+client.placeholder      $baseO2    $baseO3    #ffffff   #000000
 
 client.background $baseO2
 
