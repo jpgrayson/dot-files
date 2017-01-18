@@ -170,5 +170,6 @@ client.placeholder      $baseO2    $baseO3    #ffffff   #000000
 
 client.background $baseO2
 
+exec setxkbmap -variant altgr-intl
 exec VBoxClient-all
 exec urxvt
