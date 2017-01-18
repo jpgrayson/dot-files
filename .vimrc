@@ -27,6 +27,7 @@ Plug 'mhinz/vim-signify'
 Plug 'majutsushi/tagbar'
 
 Plug 'sheerun/vim-polyglot'
+Plug 'editorconfig/editorconfig-vim'
 
 "Plug 'junkblocker/patchreview-vim'
 call plug#end()
