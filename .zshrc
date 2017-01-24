@@ -2,7 +2,8 @@
 
 fpath=("$HOME/.zsh.d" $fpath)
 
-autoload -U compinit; compinit
+autoload -Uz compinit
+compinit
 
 if [ $SSH_CLIENT ]
 then
@@ -23,22 +24,6 @@ elif [ "$(uname -o)" = "Cygwin" ] ; then
     alias ls='ls --color=auto'
 else
     alias ls='ls --color=auto'
-
-    my-font() {
-        if [ -z $1 ]
-        then
-            local font="xft:DejaVu Sans Mono:pixelsize=12"
-        else
-            local font=$1
-        fi
-
-        if [ -z "$TMUX" ]
-        then
-            printf '\e]710;%s\007' "$font"
-        else
-            printf '\ePtmux;\e\e]710;%s\007\e\\' "$font"
-        fi
-    }
 fi
 
 export PATH="$HOME/opt/bin:$PATH"
@@ -58,6 +43,6 @@ setopt numericglobsort
 
 bindkey -e
 
-autoload -U edit-command-line;
+autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
