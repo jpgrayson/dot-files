@@ -4,7 +4,8 @@ Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 
-Plug 'altercation/vim-colors-solarized'
+Plug 'lifepillar/vim-solarized8'
+"Plug 'altercation/vim-colors-solarized'
 Plug 'kien/ctrlp.vim'
 Plug 'dbakker/vim-projectroot'
 Plug 'mileszs/ack.vim'
@@ -40,24 +41,12 @@ endif
 syntax on
 filetype plugin indent on
 
+set termguicolors
+" let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
+" let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
+
 set background=dark
-
-"set termguicolors
-
-"let g:solarized_termcolors=256
-"let g:solarized_termtrans=1
-"let g:solarized_bold=1
-"let g:solarized_italic=1
-"let g:solarized_degrade=1
-"let g:solarized_contrast="high"
-"let g:solarized_visibility="high"
-
-if has("gui_running")
-  colorscheme solarized
-else
-  colorscheme solarized
-  "colorscheme wombat256mod
-endif
+colorscheme solarized8_dark
 
 set nobackup
 set nowritebackup
