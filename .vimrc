@@ -22,13 +22,14 @@ Plug 'tpope/vim-tbone'
 
 Plug 'itchyny/lightline.vim'
 
+Plug 'yggdroot/indentline'
 Plug 'vim-syntastic/syntastic'
 Plug 'mhinz/vim-signify'
 Plug 'majutsushi/tagbar'
 
+Plug 'hattya/python-indent.vim', {'for': 'python'}
 Plug 'sheerun/vim-polyglot'
 Plug 'editorconfig/editorconfig-vim'
-
 "Plug 'junkblocker/patchreview-vim'
 call plug#end()
 
@@ -40,6 +41,8 @@ syntax on
 filetype plugin indent on
 
 set background=dark
+
+"set termguicolors
 
 "let g:solarized_termcolors=256
 "let g:solarized_termtrans=1
@@ -85,9 +88,6 @@ let g:rsi_no_meta=1
 
 map <Leader>/ :silent Ack!<CR>
 
-" python-syntax options
-let g:python_highlight_all=1
-
 set cinoptions=N-s,:0,(0,W4,g0,i0
 
 autocmd BufNew,BufRead SConstruct,SConscript setfiletype python
@@ -107,7 +107,11 @@ autocmd FileType hgcommit setlocal tw=72 cc=+1 spell ff=unix
 " Aggressively check for files' timestamps changing
 autocmd InsertEnter,BufEnter,CursorHold * checktime
 
-let g:ctrlp_custom_ignore = '\v\.pyc'
+let g:ctrlp_custom_ignore = {
+  \ 'dir': '\v[\/]_?build_?$',
+  \ 'file': '\v\.pyc',
+  \ }
+" let g:ctrlp_custom_ignore = '\v\.pyc'
 let g:ctrlp_root_markers = ['.projectroot', 'setup.py']
 
 let g:signify_vcs_list = ['hg', 'git', 'svn']
@@ -154,5 +158,14 @@ function! s:syntastic()
   SyntasticCheck
   call lightline#update()
 endfunction
+
+let g:indentLine_color_term = 0
+let g:indentLine_char = '┆'
+
+let g:polyglot_disabled = ['python']
+
+let g:python_indent_multiline_statement = 1
+
+let g:python_highlight_all=1
 
 " vim: set et sw=2 ts=2
