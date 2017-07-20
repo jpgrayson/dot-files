@@ -15,20 +15,23 @@ draw_bold_text_with_bright_colors: true
 # Font configuration (changes require restart)
 font:
   normal:
-    family: Source Code Pro Medium
+    family: Office Code Pro D
     style: Regular
   bold:
-    family: Source Code Pro Semibold
+    family: Office Code Pro D
     style: Semibold
   italic:
-    family: Source Code Pro Semibold
+    family: Office Code Pro D
     style: Italic
   size: 9.0
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
   offset:
-    x: 2.0
-    y: -7.0
+    x: 0.0
+    y: 0.0
+  glyph_offset:
+    x: 0.0
+    y: 0.0
 
 # Should display the render timer
 render_timer: false
@@ -80,6 +83,11 @@ colors:
     magenta: '0x6c71c4'
     cyan:    '0x93a1a1'
     white:   '0xfdf6e3'
+
+
+visual_bell:
+  animation: EaseOutExpo
+  duration: 0.25
 
 # Key bindings
 #
