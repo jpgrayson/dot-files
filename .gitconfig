@@ -22,5 +22,10 @@
 [push]
 	default = simple
 [diff]
+	algorithm = histogram
 	submodule = log
 	compactionheuristic = true
+[status]
+	short = true
+[core]
+	editor = nvim
