@@ -29,3 +29,4 @@
 	short = true
 [core]
 	editor = nvim
+	excludesfile = /home/pgrayson/.config/git/ignore
