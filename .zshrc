@@ -14,10 +14,9 @@ fi
 
 export PROMPT="%F{$prompt_color}@%f%m:%B%4~%b %F{$prompt_color}%(?..%B)%#%(?..%b)%f "
 
-export EDITOR=vim
+export EDITOR=nvim
 
 if [ "$(uname)" = "Darwin" ] ; then
-    PATH=/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
     export CLICOLOR=1
 elif [ "$(uname -o)" = "Cygwin" ] ; then
     export CYGWIN="winsymlinks:nativestrict"
@@ -26,7 +25,6 @@ else
     alias ls='ls --color=auto'
 fi
 
-export PATH="$HOME/opt/bin:$PATH"
 export PYTHONSTARTUP=~/.pythonstartup
 export SCONSFLAGS="-Q"
 export HISTSIZE=1024
