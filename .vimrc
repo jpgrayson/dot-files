@@ -14,7 +14,7 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-flagship'
+"Plug 'tpope/vim-flagship'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-repeat'
@@ -26,9 +26,8 @@ Plug 'itchyny/lightline.vim'
 Plug 'yggdroot/indentline'
 Plug 'vim-syntastic/syntastic'
 Plug 'mhinz/vim-signify'
-Plug 'majutsushi/tagbar'
+"Plug 'majutsushi/tagbar'
 
-Plug 'hattya/python-indent.vim', {'for': 'python'}
 Plug 'sheerun/vim-polyglot'
 Plug 'editorconfig/editorconfig-vim'
 "Plug 'junkblocker/patchreview-vim'
@@ -42,9 +41,6 @@ syntax on
 filetype plugin indent on
 
 set termguicolors
-" let &t_8f = "\<Esc>[38:2:%lu:%lu:%lum"
-" let &t_8b = "\<Esc>[48:2:%lu:%lu:%lum"
-
 set background=dark
 colorscheme solarized8_dark
 
@@ -148,10 +144,12 @@ function! s:syntastic()
   call lightline#update()
 endfunction
 
-let g:indentLine_color_term = 0
+let g:solarized8_term_italics = 1
+
+"let g:indentLine_color_term = 0
 let g:indentLine_char = '┆'
 
-let g:polyglot_disabled = ['python']
+let g:polyglot_disabled = []
 
 let g:python_indent_multiline_statement = 1
 
