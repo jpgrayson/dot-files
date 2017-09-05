@@ -53,7 +53,7 @@ if has("gui_running")
   if has("gui_win32")
     set guifont=Consolas:h9:cANSI
   else
-    set guifont="Menlo 10"
+    set guifont="Iosevka Medium 10"
   endif
   set guioptions=agi
 endif
