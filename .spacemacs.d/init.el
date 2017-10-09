@@ -13,17 +13,12 @@
 
      ;; auto-completion
      better-defaults
-     emacs-lisp
+     cscope
      git
      (ibuffer :variables
               ibuffer-group-buffers-by 'projects)
-     markdown
      org
-     plantuml
-     (python :variables
-             python-fill-column 79
-             python-test-runner 'pytest)
-     rust
+     semantic
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -34,12 +29,25 @@
      ;; vim-powerline
      vimscript
      vinegar
+
+     ;; Languages
+     c-c++
+     emacs-lisp
+     ipython-notebook
+     latex
+     markdown
+     plantuml
+     (python :variables
+             python-fill-column 79
+             python-test-runner 'pytest)
+     restructuredtext
+     rust
      yaml
      )
    dotspacemacs-additional-packages '()
    dotspacemacs-frozen-packages '()
    dotspacemacs-excluded-packages '(evil-escape evil-tutor)
-   dotspacemacs-install-packages 'used-but-keep-unused))
+   dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
   (setq-default
@@ -75,6 +83,7 @@
    dotspacemacs-default-layout-name "Default"
    dotspacemacs-display-default-layout t
    dotspacemacs-auto-resume-layouts t
+   dotspacemacs-auto-generate-layout-names t
    dotspacemacs-large-file-size 1
    dotspacemacs-auto-save-file-location 'cache
    dotspacemacs-max-rollback-slots 5
@@ -85,6 +94,7 @@
    dotspacemacs-enable-paste-transient-state nil
    dotspacemacs-which-key-delay 0.4
    dotspacemacs-which-key-position 'bottom
+   dotspacemacs-switch-to-buffer-prefers-purpose nil
    dotspacemacs-loading-progress-bar t
    dotspacemacs-fullscreen-at-startup nil
    dotspacemacs-fullscreen-use-non-native nil
@@ -118,16 +128,24 @@
    ))
 
 (defun dotspacemacs/user-init ()
+  (setq solarized-distinct-fringe-background t)
+  (setq solarized-use-more-italic t)
+  (setq solarized-high-contrast-mode-line nil)
   )
 
 (defun dotspacemacs/user-config ()
   (spacemacs/toggle-highlight-current-line-globally-off)
+  (remove-hook 'prog-mode-hook #'smartparens-mode)
   (setq create-lockfiles nil)
   (setq evil-magit-want-horizontal-movement t)
   (setq evilmi-always-simple-jump t)
   (setq powerline-default-separator 'arrow-fade)
   (setq evil-search-module 'evil-search)
+  (setq-default evil-symbol-word-search t)
   (setq neo-theme 'arrow)
+  (setq magit-revision-show-gravatars nil)
+  (setq ein:slice-image t)
+  (setq fci-rule-color "#073642")
   (define-key evil-motion-state-map (kbd "C-w C-h") 'evil-window-left)
   (define-key evil-motion-state-map (kbd "C-w C-l") 'evil-window-right)
   (define-key evil-motion-state-map (kbd "C-w C-j") 'evil-window-down)
@@ -152,13 +170,16 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (dash-functional iedit evil-lion packed avy hydra org-brain evil-org unfill mwim ivy-purpose vimrc-mode dactyl-mode wgrep smex ivy-hydra counsel-projectile counsel swiper ivy async plantuml-mode stgit yaml-mode pythonic ibuffer-projectile org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot color-theme-solarized color-theme autothemer color-theme-sanityinc-solarized org-plus-contrib markdown-mode gitignore-mode fringe-helper git-gutter+ git-gutter pos-tip flycheck magit magit-popup git-commit with-editor evil projectile helm helm-core dash evil-escape yapfify xterm-color ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org stickyfunc-enhance srefactor spaceline solarized-theme smeargle shell-pop restart-emacs rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox orgit org-bullets open-junk-file neotree multi-term move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint info+ indent-guide hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-ag google-translate golden-ratio gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flyspell-correct-helm flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help elisp-slime-nav dumb-jump disaster diff-hl define-word cython-mode column-enforce-mode color-identifiers-mode cmake-mode clean-aindent-mode clang-format auto-highlight-symbol auto-dictionary auto-compile anaconda-mode aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
- '(paradox-github-token t))
+    (counsel evil flycheck helm projectile org-plus-contrib magit magit-popup git-commit dash powerline ivy xcscope realgud test-simple loc-changes load-relative disaster cmake-mode cmake-ide levenshtein clang-format auctex-latexmk auctex stickyfunc-enhance srefactor helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-flx helm-descbinds helm-ag evil-tutor evil-escape ace-jump-helm-line yapfify yaml-mode xterm-color ws-butler winum which-key wgrep volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package unfill toml-mode toc-org symon string-inflection spaceline solarized-theme smex smeargle shell-pop restart-emacs rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin plantuml-mode pip-requirements persp-mode pcre2el password-generator paradox orgit org-projectile org-present org-pomodoro org-download org-bullets org-brain open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint ivy-purpose ivy-hydra info+ indent-guide ibuffer-projectile hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flycheck-rust flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-surround evil-search-highlight-persist evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help elisp-slime-nav ein editorconfig dumb-jump diff-hl define-word dactyl-mode cython-mode counsel-projectile column-enforce-mode clean-aindent-mode cargo browse-at-remote auto-highlight-symbol auto-compile anaconda-mode aggressive-indent adaptive-wrap ace-window ace-link)))
+ '(safe-local-variable-values
+   (quote
+    ((eval when
+           (fboundp
+            (quote rainbow-mode))
+           (rainbow-mode 1))))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
