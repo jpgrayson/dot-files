@@ -13,12 +13,14 @@
 
      ;; auto-completion
      better-defaults
-     cscope
+     ;; cscope
      git
+     gtags
      (ibuffer :variables
               ibuffer-group-buffers-by 'projects)
-     org
-     semantic
+     nlinum
+     ;; org
+     ;; semantic
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -33,6 +35,7 @@
      ;; Languages
      c-c++
      emacs-lisp
+     html
      ipython-notebook
      latex
      markdown
@@ -54,7 +57,7 @@
    dotspacemacs-elpa-https t
    dotspacemacs-elpa-timeout 5
    dotspacemacs-check-for-update nil
-   dotspacemacs-elpa-subdirectory nil
+   dotspacemacs-elpa-subdirectory 'emacs-version
    dotspacemacs-editing-style 'vim
    dotspacemacs-verbose-loading nil
    dotspacemacs-startup-banner 'official
@@ -83,7 +86,7 @@
    dotspacemacs-default-layout-name "Default"
    dotspacemacs-display-default-layout t
    dotspacemacs-auto-resume-layouts t
-   dotspacemacs-auto-generate-layout-names t
+   dotspacemacs-auto-generate-layout-names nil
    dotspacemacs-large-file-size 1
    dotspacemacs-auto-save-file-location 'cache
    dotspacemacs-max-rollback-slots 5
@@ -131,6 +134,7 @@
   (setq solarized-distinct-fringe-background t)
   (setq solarized-use-more-italic t)
   (setq solarized-high-contrast-mode-line nil)
+  (setq solarized-scale-org-headlines nil)
   )
 
 (defun dotspacemacs/user-config ()
@@ -154,6 +158,7 @@
     'spacemacs/evil-search-clear-highlight)
   (define-key evil-normal-state-map (kbd "C-p") 'counsel-projectile-find-file)
   (add-to-list 'auto-mode-alist '("\\.uml\\'" . plantuml-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
   )
 
 ;; -------------------------------------------------------------------
@@ -170,16 +175,9 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (counsel evil flycheck helm projectile org-plus-contrib magit magit-popup git-commit dash powerline ivy xcscope realgud test-simple loc-changes load-relative disaster cmake-mode cmake-ide levenshtein clang-format auctex-latexmk auctex stickyfunc-enhance srefactor helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-flx helm-descbinds helm-ag evil-tutor evil-escape ace-jump-helm-line yapfify yaml-mode xterm-color ws-butler winum which-key wgrep volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package unfill toml-mode toc-org symon string-inflection spaceline solarized-theme smex smeargle shell-pop restart-emacs rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort popwin plantuml-mode pip-requirements persp-mode pcre2el password-generator paradox orgit org-projectile org-present org-pomodoro org-download org-bullets org-brain open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint ivy-purpose ivy-hydra info+ indent-guide ibuffer-projectile hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flycheck-rust flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-surround evil-search-highlight-persist evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help elisp-slime-nav ein editorconfig dumb-jump diff-hl define-word dactyl-mode cython-mode counsel-projectile column-enforce-mode clean-aindent-mode cargo browse-at-remote auto-highlight-symbol auto-compile anaconda-mode aggressive-indent adaptive-wrap ace-window ace-link)))
- '(safe-local-variable-values
-   (quote
-    ((eval when
-           (fboundp
-            (quote rainbow-mode))
-           (rainbow-mode 1))))))
+    (overseer nameless google-c-style counsel-gtags yapfify yaml-mode xterm-color ws-butler winum which-key wgrep web-mode volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package unfill toml-mode toc-org tagedit symon string-inflection spaceline solarized-theme smex smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs realgud rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el password-generator paradox org-plus-contrib org-bullets open-junk-file nlinum-relative neotree mwim multi-term move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode link-hint less-css-mode ivy-purpose ivy-hydra info+ indent-guide impatient-mode ibuffer-projectile hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md ggtags flycheck-rust flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav ein editorconfig dumb-jump disaster diminish diff-hl define-word dactyl-mode cython-mode counsel-projectile column-enforce-mode cmake-mode cmake-ide clean-aindent-mode clang-format cargo browse-at-remote auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent adaptive-wrap ace-window ace-link))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
