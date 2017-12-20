@@ -4,9 +4,12 @@ Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 
-Plug 'lifepillar/vim-solarized8'
+Plug 'iCyMind/NeoSolarized'
+"Plug 'lifepillar/vim-solarized8'
 "Plug 'altercation/vim-colors-solarized'
 Plug 'kien/ctrlp.vim'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 Plug 'dbakker/vim-projectroot'
 Plug 'mileszs/ack.vim'
 Plug 'qpkorr/vim-bufkill'
@@ -14,7 +17,7 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
-"Plug 'tpope/vim-flagship'
+Plug 'tpope/vim-flagship'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-repeat'
@@ -23,6 +26,7 @@ Plug 'tpope/vim-tbone'
 
 Plug 'itchyny/lightline.vim'
 
+Plug 'bfredl/nvim-ipy'
 Plug 'yggdroot/indentline'
 Plug 'vim-syntastic/syntastic'
 Plug 'mhinz/vim-signify'
@@ -40,9 +44,13 @@ endif
 syntax on
 filetype plugin indent on
 
+set t_8f=[38;2;%lu;%lu;%lum
+set t_8b=[48;2;%lu;%lu;%lum
+
 set termguicolors
 set background=dark
-colorscheme solarized8_dark
+colorscheme NeoSolarized
+"colorscheme solarized8_dark
 
 set nobackup
 set nowritebackup
@@ -71,8 +79,6 @@ set wildignore+=*/__pycache__/*,*.pyo,*.pyc,*.o,*.obj
 
 let g:rsi_no_meta=1
 
-map <Leader>/ :silent Ack!<CR>
-
 set cinoptions=N-s,:0,(0,W4,g0,i0
 
 autocmd BufNew,BufRead SConstruct,SConscript setfiletype python
@@ -100,11 +106,15 @@ let g:ctrlp_custom_ignore = {
 let g:ctrlp_root_markers = ['.projectroot', 'setup.py']
 
 let g:signify_vcs_list = ['hg', 'git', 'svn']
+let g:signify_realtime = 0
+let g:signify_sign_show_count = 0
 
 if executable('rg')
   let g:ackprg = 'rg --vimgrep'
+  "set grepprg=rg\ --vimgrep
 elseif executable('ag')
   let g:ackprg = 'ag --vimgrep'
+  "set grepprg=rg\ --vimgrep
 endif
 
 let g:jedi#popup_on_dot = 0
@@ -144,7 +154,9 @@ function! s:syntastic()
   call lightline#update()
 endfunction
 
-let g:solarized8_term_italics = 1
+"let g:solarized8_term_italics = 1
+
+let g:neosolarized_italic = 1
 
 "let g:indentLine_color_term = 0
 let g:indentLine_char = '┆'
@@ -154,5 +166,33 @@ let g:polyglot_disabled = []
 let g:python_indent_multiline_statement = 1
 
 let g:python_highlight_all=1
+
+let g:flagship_skip = 'fugitive#statusline'
+let g:tabprefix = ''
+
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg -nSFL --column --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+map <leader>/ :silent Rg<CR>
+map <leader>* :silent Ack!<CR>
 
 " vim: set et sw=2 ts=2
