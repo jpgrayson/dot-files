@@ -40,6 +40,7 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      ivy
+
      ;; auto-completion
      better-defaults
      git
@@ -61,7 +62,10 @@ This function should only modify configuration layer settings."
      emacs-lisp
      groovy
      html
+     ;; ipython-notebook
+     ;; javascript
      latex
+     ;; lua
      markdown
      plantuml
      (python :variables
@@ -90,7 +94,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(evil-escape evil-tutor)
+   dotspacemacs-excluded-packages '(evil-escape evil-tutor importmagic org)
 
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -213,11 +217,11 @@ It should only modify the values of Spacemacs settings."
                          solarized-light)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
-   ;; `all-the-icons', `custom', `vim-powerline' and `vanilla'. The first three
-   ;; are spaceline themes. `vanilla' is default Emacs mode-line. `custom' is a
-   ;; user defined themes, refer to the DOCUMENTATION.org for more info on how
-   ;; to create your own spaceline theme. Value can be a symbol or list with\
-   ;; additional properties.
+   ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
+   ;; first three are spaceline themes. `doom' is the doom-emacs mode-line.
+   ;; `vanilla' is default Emacs mode-line. `custom' is a user defined themes,
+   ;; refer to the DOCUMENTATION.org for more info on how to create your own
+   ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
    dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
 
@@ -227,10 +231,9 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Iosevka SS01"
-                               :size 13
-                               :weight normal
-                               :width normal)
+   dotspacemacs-default-font
+   '(("Iosevka SS01"    :size 18 :weight medium :width normal :powerline-scale 1.1)
+     ("Source Code Pro" :size 12 :weight normal :width normal :powerline-scale 1.1))
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -291,9 +294,9 @@ It should only modify the values of Spacemacs settings."
    ;; Maximum number of rollback slots to keep in the cache. (default 5)
    dotspacemacs-max-rollback-slots 5
 
-   ;; If non-nil, the paste transient-state is enabled. While enabled, pressing
-   ;; `p' several times cycles through the elements in the `kill-ring'.
-   ;; (default nil)
+   ;; If non-nil, the paste transient-state is enabled. While enabled, after you
+   ;; paste something, pressing `C-j' and `C-k' several times cycles through the
+   ;; elements in the `kill-ring'. (default nil)
    dotspacemacs-enable-paste-transient-state nil
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
@@ -470,10 +473,15 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  (setq custom-file "~/.emacs.d/.cache/.custom-settings")
+  (load custom-file)
   (setq solarized-distinct-fringe-background t)
   (setq solarized-use-more-italic t)
   (setq solarized-high-contrast-mode-line nil)
   (setq solarized-scale-org-headlines nil)
+  (setq configuration-layer-elpa-archives '(("melpa" . "melpa.org/packages/")
+                                            ("org" . "orgmode.org/elpa/")
+                                            ("gnu" . "elpa.gnu.org/packages/")))
   )
 
 (defun dotspacemacs/user-load ()
@@ -521,6 +529,7 @@ before packages are loaded."
   (unbind-key "M-0" winum-keymap)
   (add-to-list 'auto-mode-alist '("\\.uml\\'" . plantuml-mode))
   (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
+  (setq profiler-report-cpu-line-format '((80 left) (24 right ((19 right) (5 right)))))
 
   ;; (with-eval-after-load 'auto-highlight-symbol
   ;;   (unbind-key "*" evil-motion-state-map)
@@ -528,40 +537,3 @@ before packages are loaded."
   ;;   (define-key evil-motion-state-map (kbd "*") 'evil-search-word-forward)
   ;;   (define-key evil-motion-state-map (kbd "#") 'evil-search-word-backward))
   )
-
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (ws-butler window-numbering which-key uuidgen use-package toc-org spaceline restart-emacs request persp-mode paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-indentation hide-comnt help-fns+ helm-themes helm-projectile helm-make projectile helm-descbinds helm-ag google-translate eyebrowse expand-region exec-path-from-shell evil-visual-mark-mode evil-unimpaired evil-surround evil-search-highlight-persist evil-nerd-commenter evil-mc evil-matchit evil-iedit-state iedit evil-exchange evil-ediff dumb-jump f s column-enforce-mode auto-compile aggressive-indent ace-window ace-link ace-jump-helm-line avy highlight anzu smartparens dash evil undo-tree helm helm-core async quelpa package-build spacemacs-theme volatile-highlights vi-tilde-fringe rainbow-delimiters powerline popwin popup pkg-info pcre2el packed lorem-ipsum linum-relative let-alist ido-vertical-mode highlight-parentheses highlight-numbers helm-swoop helm-mode-manager helm-flx goto-chg golden-ratio flx-ido fill-column-indicator fancy-battery evil-visualstar evil-tutor evil-numbers evil-lisp-state evil-indent-plus evil-escape evil-args evil-anzu eval-sexp-fu elisp-slime-nav diminish define-word clean-aindent-mode buffer-move bracketed-paste bind-key auto-highlight-symbol adaptive-wrap))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (lsp-ui dash-functional lsp-python lsp-mode ws-butler window-numbering which-key uuidgen use-package toc-org spaceline restart-emacs request persp-mode paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-indentation hide-comnt help-fns+ helm-themes helm-projectile helm-make projectile helm-descbinds helm-ag google-translate eyebrowse expand-region exec-path-from-shell evil-visual-mark-mode evil-unimpaired evil-surround evil-search-highlight-persist evil-nerd-commenter evil-mc evil-matchit evil-iedit-state iedit evil-exchange evil-ediff dumb-jump f s column-enforce-mode auto-compile aggressive-indent ace-window ace-link ace-jump-helm-line avy highlight anzu smartparens dash evil undo-tree helm helm-core async quelpa package-build spacemacs-theme volatile-highlights vi-tilde-fringe rainbow-delimiters powerline popwin popup pkg-info pcre2el packed lorem-ipsum linum-relative let-alist ido-vertical-mode highlight-parentheses highlight-numbers helm-swoop helm-mode-manager helm-flx goto-chg golden-ratio flx-ido fill-column-indicator fancy-battery evil-visualstar evil-tutor evil-numbers evil-lisp-state evil-indent-plus evil-escape evil-args evil-anzu eval-sexp-fu elisp-slime-nav diminish define-word clean-aindent-mode buffer-move bracketed-paste bind-key auto-highlight-symbol adaptive-wrap))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-)
