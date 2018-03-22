@@ -56,6 +56,9 @@
   (setq-default
    dotspacemacs-elpa-https t
    dotspacemacs-elpa-timeout 5
+   dotspacemacs-gc-cons '(100000000 0.1)
+   dotspacemacs-use-spacelpa nil
+   dotspacemacs-verify-spacelpa-archives nil
    dotspacemacs-check-for-update nil
    dotspacemacs-elpa-subdirectory 'emacs-version
    dotspacemacs-editing-style 'vim
@@ -107,6 +110,7 @@
    dotspacemacs-show-transient-state-title t
    dotspacemacs-show-transient-state-color-guide t
    dotspacemacs-mode-line-unicode-symbols t
+   dotspacemacs-mode-line-theme 'vim-powerline
    dotspacemacs-smooth-scrolling t
    dotspacemacs-line-numbers '(:relative nil
                                :disabled-for-modes dired-mode
@@ -135,6 +139,10 @@
   (setq solarized-use-more-italic t)
   (setq solarized-high-contrast-mode-line nil)
   (setq solarized-scale-org-headlines nil)
+  (setq c-c++-enable-rtags-support t)
+  (setq configuration-layer-elpa-archives '(("melpa" . "melpa.org/packages/")
+                                            ("org" . "orgmode.org/elpa/")
+                                            ("gnu" . "elpa.gnu.org/packages/")))
   )
 
 (defun dotspacemacs/user-config ()
@@ -154,9 +162,10 @@
   (define-key evil-motion-state-map (kbd "C-w C-l") 'evil-window-right)
   (define-key evil-motion-state-map (kbd "C-w C-j") 'evil-window-down)
   (define-key evil-motion-state-map (kbd "C-w C-k") 'evil-window-up)
-  (define-key evil-normal-state-map (kbd "C-l")
-    'spacemacs/evil-search-clear-highlight)
+  (define-key evil-normal-state-map (kbd "C-l") 'spacemacs/evil-search-clear-highlight)
   (define-key evil-normal-state-map (kbd "C-p") 'counsel-projectile-find-file)
+  (define-key evil-ex-completion-map (kbd "C-a") 'move-beginning-of-line)
+  (define-key evil-ex-completion-map (kbd "C-b") 'backward-char)
   (add-to-list 'auto-mode-alist '("\\.uml\\'" . plantuml-mode))
   (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
   )
@@ -177,7 +186,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (overseer nameless google-c-style counsel-gtags yapfify yaml-mode xterm-color ws-butler winum which-key wgrep web-mode volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package unfill toml-mode toc-org tagedit symon string-inflection spaceline solarized-theme smex smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs realgud rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el password-generator paradox org-plus-contrib org-bullets open-junk-file nlinum-relative neotree mwim multi-term move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode link-hint less-css-mode ivy-purpose ivy-hydra info+ indent-guide impatient-mode ibuffer-projectile hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md ggtags flycheck-rust flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav ein editorconfig dumb-jump disaster diminish diff-hl define-word dactyl-mode cython-mode counsel-projectile column-enforce-mode cmake-mode cmake-ide clean-aindent-mode clang-format cargo browse-at-remote auto-highlight-symbol auto-compile auctex-latexmk anaconda-mode aggressive-indent adaptive-wrap ace-window ace-link))))
+    (solarized-theme hl-todo gitignore-mode gitconfig-mode gitattributes-mode counsel-projectile auto-compile packed swiper flycheck helm helm-core projectile htmlize magit magit-popup ghub with-editor org-plus-contrib yapfify yaml-mode xterm-color ws-butler winum which-key wgrep web-mode volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package unfill toml-mode toc-org tagedit symon string-inflection sql-indent spaceline-all-the-icons smex smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs realgud rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox overseer org-bullets open-junk-file ob-ipython nlinum-relative neotree nameless mwim multi-term move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode link-hint less-css-mode ivy-xref ivy-rtags ivy-purpose ivy-hydra indent-guide importmagic impatient-mode ibuffer-projectile hy-mode hungry-delete highlight-parentheses highlight-numbers highlight-indentation helm-make groovy-mode groovy-imports google-translate google-c-style golden-ratio git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md ggtags font-lock+ flycheck-rust flycheck-rtags flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav ein editorconfig dumb-jump disaster diminish diff-hl define-word dactyl-mode cython-mode counsel-gtags counsel-css column-enforce-mode clean-aindent-mode clang-format centered-cursor-mode cargo browse-at-remote auto-highlight-symbol auctex-latexmk async anaconda-mode aggressive-indent adaptive-wrap ace-window ace-link))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
