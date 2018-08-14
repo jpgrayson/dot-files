@@ -16,7 +16,7 @@ pager=
 progress=
 bookmarks=
 ### reviewboard=~/project/mercurial-reviewboard
-### mqext=~/project/mqext
+### mqext=~/code/mqext
 
 [pager]
 pager = less -RFX
