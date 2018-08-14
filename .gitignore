@@ -2,3 +2,4 @@
 .vim/plugged/
 .vim/autoload/plug.vim.old
 .config/git/gitk
+.spacemacs.d/.spacemacs.env
