@@ -51,6 +51,9 @@ def install(home, here, excludes=()):
             else:
                 print('{}: differs, not messing'.format(home_x))
         elif not os.path.exists(home_x):
+            if os.path.islink(home_x):
+                print('repairing broken link {}'.format(home_x))
+                os.unlink(home_x)
             link(here_x, home_x)
         elif os.path.isdir(home_x):
             if ask('Replace {} with link? '.format(home_x)):
