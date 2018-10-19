@@ -26,6 +26,7 @@ else
 fi
 
 export PYTHONSTARTUP=~/.pythonstartup
+export PYTHONBREAKPOINT=pudb.set_trace
 export SCONSFLAGS="-Q"
 export HISTSIZE=1024
 export SAVEHIST=1020
