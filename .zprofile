@@ -4,8 +4,4 @@
 #
 # https://wiki.archlinux.org/index.php/Zsh#Configuration_files
 
-if [ "$(uname)" = "Darwin" ] ; then
-    PATH=/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
-fi
-export PATH="$HOME/opt/bin:$PATH"
-
+source ~/.zshenv

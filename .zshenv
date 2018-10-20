@@ -1,5 +1,7 @@
 # vi:set et sw=4 ts=4:
 
+typeset -U path
+
 if [ "$(uname)" = "Darwin" ] ; then
     path=(
       /usr/local/bin
