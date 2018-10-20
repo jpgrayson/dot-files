@@ -1,25 +1,26 @@
 #!/usr/bin/env python3
 
+from pathlib import Path
+import argparse
 import hashlib
 import os
 import shutil
-import sys
 
 
-root_excludes = [
-    os.path.basename(__file__),
-    '.config',
-    'README.md',
-    'LICENSE.md',
-    '.git',
-    '.gitmodules',
-    '.gitignore'
+HERE = Path(__file__).parent.absolute()
+
+EXCLUDE = [
+    HERE / 'install.py',
+    HERE / 'README.md',
+    HERE / 'LICENSE.md',
+    HERE / '.git',
+    HERE / '.gitmodules',
+    HERE / '.gitignore',
 ]
 
 
 def hash_digest(path):
-    with open(path) as f:
-        return hashlib.md5(f.read().encode()).hexdigest()
+    return hashlib.md5(path.read_bytes()).hexdigest()
 
 
 def identical(path0, path1):
@@ -27,58 +28,60 @@ def identical(path0, path1):
 
 
 def link(src, dst):
-    target = os.path.relpath(src, os.path.dirname(dst))
+    target = Path(os.path.relpath(src, os.path.dirname(dst)))
     os.symlink(target, dst)
-    print('linked {} {}'.format(target, dst))
+    print(f'{dst}: linked to {target}')
 
 
-def ask(prompt):
-    return input(prompt).strip().lower().startswith('y')
+def install(src_dir, dst_dir):
+    if not dst_dir.exists():
+        print(f'{dst_dir}: mkdir')
+        dst_dir.mkdir(parents=True)
+        make_links(src_dir, dst_dir)
+    elif dst_dir.is_symlink():
+        print(f'{dst_dir}: is symlink, skipping')
+    elif dst_dir.is_dir():
+        make_links(src_dir, dst_dir)
+    else:
+        print(f'{dst_dir}: exists but is not dir')
 
 
-def install(home, here, excludes=()):
-    for x in os.listdir(here):
-        if x in excludes:
+def make_links(src_dir, dst_dir):
+    for src in src_dir.iterdir():
+        if src in EXCLUDE:
             continue
-        home_x = os.path.join(home, x)
-        here_x = os.path.join(here, x)
-        if os.path.exists(home_x) and os.path.samefile(home_x, here_x):
-            print('{}: already linked'.format(home_x))
-        elif os.path.isfile(home_x):
-            if identical(home_x, here_x):
-                os.unlink(home_x)
-                link(here_x, home_x)
+
+        dst = dst_dir / src.relative_to(src_dir)
+
+        if src.is_dir():
+            install(src, dst)
+        elif not dst.exists():
+            link(src, dst)
+        elif dst.samefile(src):
+            print(f'{dst}: already linked')
+        elif dst.is_file():
+            if identical(dst, src):
+                dst.unlink()
+                link(src, dst)
             else:
-                print('{}: differs, not messing'.format(home_x))
-        elif not os.path.exists(home_x):
-            if os.path.islink(home_x):
-                print('repairing broken link {}'.format(home_x))
-                os.unlink(home_x)
-            link(here_x, home_x)
-        elif os.path.isdir(home_x):
-            if ask('Replace {} with link? '.format(home_x)):
-                backup = home_x + '.backup'
-                os.rename(home_x, backup)
-                try:
-                    link(here_x, home_x)
-                except Exception:
-                    os.rename(backup, home_x)
-                    raise
-                finally:
-                    shutil.rmtree(backup)
+                print(f'{dst}: differs, not messing')
+        else:
+            print(f'{dst}: exists but is not file')
 
 
-def main(argv):
-    home = os.environ['HOME']
-    here = os.path.dirname(os.path.join(os.path.curdir, __file__))
-    install(home, here, root_excludes)
-
-    home_config = os.path.join(home, '.config')
-    here_config = os.path.join(here, '.config')
-    if not os.path.exists(home_config):
-        os.mkdir(home_config)
-    install(home_config, here_config)
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        'dst',
+        metavar='DIR',
+        nargs='?',
+        default=Path.home(),
+        type=Path,
+        help='Installation destination. Default: %(default)s',
+    )
+    args = parser.parse_args()
+    install(HERE, args.dst)
 
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    main()
