@@ -17,6 +17,9 @@ export PROMPT="%F{$prompt_color}@%f%m:%B%4~%b %F{$prompt_color}%(?..%B)%#%(?..%b
 export EDITOR=nvim
 
 if [ "$(uname)" = "Darwin" ] ; then
+    if ( ls --color=auto /dev/null 2>&1 > /dev/null); then
+        alias ls='ls --color=auto'
+    fi
     export CLICOLOR=1
 elif [ "$(uname -o)" = "Cygwin" ] ; then
     export CYGWIN="winsymlinks:nativestrict"
