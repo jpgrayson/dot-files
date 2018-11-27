@@ -7,7 +7,7 @@
 	outgoing = log @{u}..
 [user]
 	name = Peter Grayson
-	email = jpgrayson@gmail.com
+	email = pete@jpgrayson.net
 [github]
 	user = jpgrayson
 [credential]
@@ -29,6 +29,8 @@
 	short = true
 [core]
 	editor = nvim
-	excludesfile = /home/pgrayson/.config/git/ignore
+	excludesfile = /home/jpgrayson/.config/git/ignore
 [pull]
 	ff = only
+[stgit]
+	diff-opts = --find-renames --find-copies --color-moved --color-moved-ws=allow-indentation-change
