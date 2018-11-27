@@ -1,0 +1,227 @@
+# Win key
+set $mod Mod4
+
+font pango:Iosevka SS01 Medium
+
+# Solarized Dark Colors
+set $yellow     #b58900
+set $orange     #cb4b16
+set $red        #dc322f
+set $magenta    #d33682
+set $violet     #6c71c4
+set $blue       #268bd2
+set $cyan       #2aa198
+set $green      #859900
+set $baseO3     #002b36
+set $baseO2     #073642
+set $baseO1     #586e75
+set $baseO0     #657b83
+set $base0      #839496
+set $base1      #93a1a1
+set $base2      #eee8d5
+set $base3      #fdf6e3
+
+set $sway_light #6ec9e0
+set $sway_dark  #488fb7
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec st -f "Iosevka SS01-16"
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+exec swayidle \
+    timeout 300  'swaylock -c 000000' \
+    timeout 600  'swaymsg "output * dpms off"' \
+    resume       'swaymsg "output * dpms on"' \
+    before-sleep 'swaylock -c 000000'
+
+# lock screen
+bindsym $mod+Control+Backspace exec swaylock
+
+# & systemctl suspend
+
+# start dmenu (a program launcher)
+bindsym $mod+d exec dmenu_run -p "%" -l 10
+bindsym $mod+Shift+d exec i3-dmenu-desktop
+bindsym $mod+grave exec dmenu | xargs swaymsg
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym $mod+g focus next
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+bindsym $mod+Control+h move container to workspace prev_on_output
+bindsym $mod+Control+l move container to workspace next_on_output
+
+# split in horizontal orientation
+bindsym $mod+semicolon split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+Shift+f fullscreen
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+bindsym $mod+c focus child
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+bindsym $mod+b border toggle
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart sway inplace (preserves your layout/session, can be used to upgrade sway)
+bindsym $mod+Shift+r restart
+# exit sway (logs you out of your X session)
+bindsym $mod+Shift+e exit
+
+bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%
+bindsym XF86AudioNext exec dmenu_run -p "next"
+bindsym XF86AudioPlay exec dmenu_run -p "play"
+bindsym XF86AudioPrev exec dmenu_run -p "prev"
+bindsym XF86Search exec dmenu_run -p "search"
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+bindsym print exec dmenu_run -p "print"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+  # These bindings trigger as soon as you enter the resize mode
+
+  # Pressing left will shrink the window’s width.
+  # Pressing right will grow the window’s width.
+  # Pressing up will shrink the window’s height.
+  # Pressing down will grow the window’s height.
+  bindsym h resize shrink width 10 px or 10 ppt
+  bindsym j resize grow height 10 px or 10 ppt
+  bindsym k resize shrink height 10 px or 10 ppt
+  bindsym l resize grow width 10 px or 10 ppt
+
+  # same bindings, but for the arrow keys
+  bindsym Left resize shrink width 10 px or 10 ppt
+  bindsym Down resize grow height 10 px or 10 ppt
+  bindsym Up resize shrink height 10 px or 10 ppt
+  bindsym Right resize grow width 10 px or 10 ppt
+
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym control+bracketleft mode "default"
+  bindsym q mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+input "1:1:AT_Translated_Set_2_keyboard" {
+  xkb_layout us
+  xkb_variant altgr-intl
+  xkb_options ctrl:nocaps
+}
+
+input "1241:8209:USB_Keyboard" {
+  xkb_layout us
+  xkb_variant altgr-intl
+  xkb_options ctrl:nocaps
+}
+
+bar {
+  status_command i3status
+  ### mode hide
+  pango_markup enabled
+  font pango:Iosevka SS01 Medium, Material Icons 16
+  modifier $mod
+  position top
+  workspace_buttons yes
+  # binding_mode_indicator yes
+  # separator_symbol "║"
+  separator_symbol "⎞"
+  # colors {
+  # }
+}
+
+gaps inner 5
+gaps outer 3
+hide_edge_borders smart_no_gaps
+smart_gaps on
+
+# class                 border     backgrnd   text      indicator  child_border
+# client.background                  $baseO2
+# client.focused          $base1     $baseO3    $orange   $green     $baseO3
+# client.focused_inactive $base1     $baseO3    $baseO1   $cyan      $baseO3
+# client.unfocused        $baseO1    $baseO3    $baseO1   $violet    $baseO3
+# client.urgent           $baseO3    $baseO2    $red      $blue      $baseO2
+# client.placeholder      $baseO2    $baseO3    #ffffff   #000000    $baseO3
+
+output eDP-1 {
+  scale 1.25
+  position 0,0
+  bg /usr/share/sddm/themes/solarized-sddm-theme/background.png stretch
+}
+
+output DP-1 {
+  scale 1.00
+  position 3200,0
+  bg /usr/share/sddm/themes/solarized-sddm-theme/background.png stretch
+}
+
+for_window [class="st-256color"] border none
+for_window [class="Emacs"] border none
+
+exec xrdb -load .Xresources
+#exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec st -f "Iosevka SS01-16" -e tmux attach -t default

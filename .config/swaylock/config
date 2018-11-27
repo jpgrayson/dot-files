@@ -1,0 +1,22 @@
+font="pango:Iosevka SS01 Medium 18"
+image=/usr/share/sddm/themes/solarized-sddm-theme/circles_background.png
+scaling=stretch
+indicator-radius=250
+indicator-thickness=50
+
+text-color=002b36
+separator-color=002b36cc
+line-color=002b3688
+
+key-hl-color=859900
+bs-hl-color=6c71c4
+
+inside-color=586e7588
+inside-clear-color=586e7588
+inside-ver-color=586e7588
+inside-wrong-color=586e7588
+
+ring-color=839496cc
+ring-clear-color=268bd2cc
+ring-ver-color=268bd2cc
+ring-wrong-color=dc322fcc
