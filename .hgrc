@@ -1,5 +1,5 @@
 [ui]
-username = Peter Grayson <jpgrayson@gmail.com>
+username = Peter Grayson <pete@jpgrayson.net>
 merge = kdiff3
 ignore = ~/.hgignore
 
@@ -8,11 +8,10 @@ ignore = ~/.hgignore
 color=
 convert=
 extdiff=
-graphlog=
+hgk=
 mq=
 purge=
 rebase=
-pager=
 progress=
 bookmarks=
 ### reviewboard=~/project/mercurial-reviewboard
