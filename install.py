@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Safely install dot-files to home directory."""
 
 from pathlib import Path
 import argparse
