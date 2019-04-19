@@ -194,7 +194,7 @@ It should only modify the values of Spacemacs settings."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
    dotspacemacs-startup-lists '((recents . 5)
-                                (projects . 7))
+                                (projects . 17))
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
@@ -230,8 +230,8 @@ It should only modify the values of Spacemacs settings."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font
-   '(("Iosevka SS01"    :size 18 :weight medium :width normal :powerline-scale 1.1)
-     ("Source Code Pro" :size 12 :weight normal :width normal :powerline-scale 1.1))
+   '(("Iosevka Term SS01" :size 12 :weight light  :width normal :powerline-scale 1.1)
+     ("Source Code Pro"   :size 12 :weight normal :width normal :powerline-scale 1.1))
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -325,7 +325,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX. (default nil)
-   dotspacemacs-fullscreen-use-non-native nil
+   dotspacemacs-fullscreen-use-non-native t
 
    ;; If non-nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
@@ -513,6 +513,8 @@ before packages are loaded."
   (define-key evil-motion-state-map (kbd "C-w C-k") 'evil-window-up)
   (define-key evil-normal-state-map (kbd "C-l") 'spacemacs/evil-search-clear-highlight)
   (define-key evil-normal-state-map (kbd "C-p") 'counsel-projectile-find-file)
+  ; (define-key evil-normal-state-map (kbd "C-]") 'spacemacs/jump-to-definition)
+  (define-key evil-normal-state-map (kbd "C-]") 'dumb-jump-go)
   (define-key evil-ex-completion-map (kbd "C-a") 'move-beginning-of-line)
   (define-key evil-ex-completion-map (kbd "C-b") 'backward-char)
   (unbind-key "M-1" winum-keymap)
@@ -527,6 +529,7 @@ before packages are loaded."
   (unbind-key "M-0" winum-keymap)
   (add-to-list 'auto-mode-alist '("\\.uml\\'" . plantuml-mode))
   (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
+  (setq spacemacs-default-jump-handlers (remove 'evil-got-definition spacemacs-default-jump-handlers))
   (setq profiler-report-cpu-line-format '((80 left) (24 right ((19 right) (5 right)))))
 
   ;; (with-eval-after-load 'auto-highlight-symbol
