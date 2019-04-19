@@ -17,7 +17,7 @@ export PROMPT="%F{$prompt_color}@%f%m:%B%4~%b %F{$prompt_color}%(?..%B)%#%(?..%b
 export EDITOR=nvim
 
 if [ "$(uname)" = "Darwin" ] ; then
-    if ( ls --color=auto /dev/null 2>&1 > /dev/null); then
+    if ( ls --color=auto /dev/null 2>/dev/null 1>/dev/null); then
         alias ls='ls --color=auto'
     fi
     export CLICOLOR=1
@@ -48,3 +48,5 @@ bindkey -e
 autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
+
+# source <(pip completion --zsh)
