@@ -29,7 +29,6 @@
 	short = true
 [core]
 	editor = nvim
-	excludesfile = /home/jpgrayson/.config/git/ignore
 [pull]
 	ff = only
 [stgit]
