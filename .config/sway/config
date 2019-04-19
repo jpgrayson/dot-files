@@ -28,16 +28,17 @@ set $sway_dark  #488fb7
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec st -f "Iosevka SS01-16"
+bindsym $mod+Return exec alacritty -e tmux attach -t default
+bindsym $mod+Shift+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 exec swayidle \
-    timeout 300  'swaylock -c 000000' \
-    timeout 600  'swaymsg "output * dpms off"' \
+    timeout 600  'swaylock' \
+    timeout 900  'swaymsg "output * dpms off"' \
     resume       'swaymsg "output * dpms on"' \
-    before-sleep 'swaylock -c 000000'
+    before-sleep 'swaylock'
 
 # lock screen
 bindsym $mod+Control+Backspace exec swaylock
@@ -62,8 +63,10 @@ bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
-bindsym $mod+Control+h move container to workspace prev_on_output
-bindsym $mod+Control+l move container to workspace next_on_output
+bindsym $mod+Control+h move workspace to output left
+bindsym $mod+Control+j move workspace to output down
+bindsym $mod+Control+k move workspace to output up
+bindsym $mod+Control+l move workspace to output right
 
 # split in horizontal orientation
 bindsym $mod+semicolon split h
@@ -81,7 +84,7 @@ bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
-bindsym $mod+space focus mode_toggle
+# bindsym $mod+space focus mode_toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -183,7 +186,7 @@ bar {
   status_command i3status
   ### mode hide
   pango_markup enabled
-  font pango:Iosevka SS01 Medium, Material Icons 16
+  font pango:Iosevka Term SS01 Medium, Material Icons 16
   modifier $mod
   position top
   workspace_buttons yes
@@ -209,19 +212,21 @@ smart_gaps on
 
 output eDP-1 {
   scale 1.25
-  position 0,0
-  bg /usr/share/sddm/themes/solarized-sddm-theme/background.png stretch
+  position 0 360
+  bg /usr/share/sddm/themes/solarized-sddm-theme/circles_background.png stretch
 }
 
 output DP-1 {
   scale 1.00
-  position 3200,0
-  bg /usr/share/sddm/themes/solarized-sddm-theme/background.png stretch
+  position 2560 0
+  bg /usr/share/sddm/themes/solarized-sddm-theme/circles_background.png stretch
 }
 
 for_window [class="st-256color"] border none
+for_window [app_id="Alacritty"] border none
 for_window [class="Emacs"] border none
 
 exec xrdb -load .Xresources
+exec mako
 #exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec st -f "Iosevka SS01-16" -e tmux attach -t default
+exec alacritty -e tmux attach -t default
