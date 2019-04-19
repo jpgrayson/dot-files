@@ -8,10 +8,28 @@
 (setq
   doom-font (font-spec :family "Iosevka Term SS01" :size 14)
   doom-big-font (font-spec :family "Iosevka Term SS01" :size 24)
-  doom-theme 'doom-sourcerer
-  flycheck-python-flake8-executable "python3"
+  doom-theme 'doom-one
   python-shell-interpreter "python3"
-  which-key-idle-delay 0.5
-  which-key-idle-secondary-delay 0.2
-  evilmi-always-simple-jump t
+  markdown-command "markdown_py"
   )
+
+(after! company
+  (setq
+   company-idle-delay 0.5
+   ))
+
+(after! which-key
+  (setq
+   which-key-idle-delay 0.3
+   which-key-idle-secondary-delay 0.1
+   ))
+
+(after! evilmi
+  (setq
+   evilmi-always-simple-jump t
+  ))
+
+(after! flycheck
+  (setq
+   flycheck-python-flake8-executable "python3"
+   ))
