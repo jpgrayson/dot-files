@@ -48,9 +48,7 @@ This function should only modify configuration layer settings."
               ibuffer-group-buffers-by 'projects)
      ;; lsp
      ;; org
-     (shell :variables
-            shell-default-height 30
-            shell-default-position 'bottom)
+     ;; (shell :variables shell-default-height 30 shell-default-position 'bottom)
      ;; spell-checking
      syntax-checking
      version-control
@@ -64,7 +62,7 @@ This function should only modify configuration layer settings."
      html
      ;; ipython-notebook
      ;; javascript
-     latex
+     ;; latex
      ;; lua
      markdown
      plantuml
@@ -76,7 +74,7 @@ This function should only modify configuration layer settings."
              python-sort-imports-on-save t
              )
      restructuredtext
-     rust
+     ;; rust
      shell-scripts
      yaml
      )
@@ -94,7 +92,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(evil-escape evil-tutor importmagic org)
+   dotspacemacs-excluded-packages '(evil-escape evil-tutor importmagic org yapfify)
 
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
