@@ -44,13 +44,16 @@ endif
 syntax on
 filetype plugin indent on
 
-set t_8f=[38;2;%lu;%lu;%lum
-set t_8b=[48;2;%lu;%lu;%lum
-
+" 24-bit color support
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
+
 set background=dark
 colorscheme NeoSolarized
-"colorscheme solarized8_dark
+
+"let g:solarized_use16 = 1
+"colorscheme solarized8
 
 set nobackup
 set nowritebackup
