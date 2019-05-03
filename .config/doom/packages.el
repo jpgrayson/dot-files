@@ -10,3 +10,11 @@
 
 ;;(package! emacs-doom-themes
 ;;  :recipe (:fetcher file :path "~/code/emacs-doom-themes"))
+
+(package! stgit
+  :recipe (:fetcher file :path "~/code/stgit/contrib/stgit.el"))
+
+(package! python-black
+  :recipe (:fetcher github :repo "wbolster/emacs-python-black"))
+
+;;; packages.el ends here

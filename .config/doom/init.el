@@ -8,13 +8,18 @@
 ;; More information about these modules (and what flags they support) can be
 ;; found in modules/README.org.
 
-(doom! :completion
+(doom! :input
+       ;;chinese
+       ;;japanese
+
+       :completion
        (company          ; the ultimate code completion backend
         +childframe)
-       ;;helm             ; the *other* search engine for love and life
-       ;;ido              ; the other *other* search engine...
+       ;;helm              ; the *other* search engine for love and life
+       ;;ido               ; the other *other* search engine...
        (ivy              ; a search engine for love and life
-        +childframe)
+        +childframe
+        +icons)
 
        :ui
        ;;deft              ; notational velocity for Emacs
@@ -119,13 +124,14 @@
        ;;nim               ; python + lisp at the speed of c
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
-       ;;(org              ; organize your plain life in plain text
-       ;; +attach          ; custom attachment system
-       ;; +babel           ; running code in org
-       ;; +capture         ; org-capture in and outside of Emacs
-       ;; +export          ; Exporting org to whatever you want
-       ;; +present         ; Emacs for presentations
-       ;; +protocol)       ; Support for org-protocol:// links
+       (org              ; organize your plain life in plain text
+        +attach          ; custom attachment system
+        +babel           ; running code in org
+        +capture         ; org-capture in and outside of Emacs
+        +export          ; Exporting org to whatever you want
+        +habit           ; Keep track of your habits
+        +present         ; Emacs for presentations
+        +protocol)       ; Support for org-protocol:// links
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
@@ -147,13 +153,18 @@
        ;;web               ; the tubes
        ;;vala              ; GObjective-C
 
+       :email
+       ;;(mu4e +gmail)       ; WIP
+       ;;notmuch             ; WIP
+       ;;(wanderlust +gmail) ; WIP
+
        ;; Applications are complex and opinionated modules that transform Emacs
        ;; toward a specific purpose. They may have additional dependencies and
        ;; should be loaded late.
        :app
-       ;;(email +gmail)    ; emacs as an email client
-       ;;irc               ; how neckbeards socialize
-       ;;(rss +org)        ; emacs as an RSS reader
+       ;;calendar
+       ;;irc              ; how neckbeards socialize
+       ;;rss +org        ; emacs as an RSS reader
        ;;twitter           ; twitter client https://twitter.com/vnought
        ;;(write            ; emacs as a word processor (latex + org + markdown)
        ;; +wordnut         ; wordnet (wn) search
