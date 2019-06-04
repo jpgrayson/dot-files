@@ -31,7 +31,8 @@
 
 (after! flycheck
   (setq
-   flycheck-python-flake8-executable "python3"
+   flycheck-python-flake8-executable "flake8"
+   flycheck-python-pycompile-executable "python3"
    ))
 
 (map!
