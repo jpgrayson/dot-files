@@ -32,4 +32,4 @@
 [pull]
 	ff = only
 [stgit]
-	diff-opts = --find-renames --find-copies --color-moved --color-moved-ws=allow-indentation-change
+	#diff-opts = --find-renames --find-copies --color-moved --color-moved-ws=allow-indentation-change
