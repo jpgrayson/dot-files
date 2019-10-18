@@ -9,12 +9,12 @@
 (package! exec-path-from-shell)
 
 ;;(package! emacs-doom-themes
-;;  :recipe (:fetcher file :path "~/code/emacs-doom-themes"))
+;;  :recipe (:host file :path "~/code/emacs-doom-themes"))
 
-(package! stgit
-  :recipe (:fetcher file :path "~/code/stgit/contrib/stgit.el"))
+;; (package! stgit
+;;   :recipe (:host file :path "~/code/stgit/contrib/stgit.el"))
 
 (package! python-black
-  :recipe (:fetcher github :repo "wbolster/emacs-python-black"))
+  :recipe (:host github :repo "wbolster/emacs-python-black"))
 
 ;;; packages.el ends here

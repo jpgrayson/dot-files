@@ -81,4 +81,16 @@
    )
  )
 
+(map!
+ :map ein:notebook-mode-map
+ :localleader
+ "," #'+ein-hydra/body
+ )
+
+(map!
+ :leader
+ (:prefix-map ("t" . "toggle")
+   :desc "Auto-revert mode" "r" #'global-auto-revert-mode
+   )
+ )
 ;;; config.el ends here
