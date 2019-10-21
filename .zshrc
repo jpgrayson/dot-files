@@ -5,14 +5,12 @@ fpath=("$HOME/.zsh.d" $fpath)
 autoload -Uz compinit
 compinit
 
-if [ $SSH_CLIENT ]
-then
-    prompt_color=red
-else
-    prompt_color=cyan
+PROMPT=""
+if [ -n "${SSH_CLIENT:-}" ]; then
+    PROMPT="%F{red}@%f%m:"
 fi
-
-export PROMPT="%F{$prompt_color}@%f%m:%B%4~%b %F{$prompt_color}%(?..%B)%#%(?..%b)%f "
+PROMPT+="%B%4~%b %F{cyan}%(?.%#.%B%#%b)%f "
+export PROMPT
 
 export EDITOR=nvim
 
