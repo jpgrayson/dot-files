@@ -2,9 +2,6 @@
 
 ;; Place your private configuration here
 
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
-
 (setq
   doom-font (font-spec :family "Iosevka Term SS01" :size 14)
   doom-big-font (font-spec :family "Iosevka Term SS01" :size 24)
@@ -13,6 +10,13 @@
   markdown-command "markdown_py"
   )
 
+(after! projectile
+  (setq
+   projectile-project-root-files-functions '(projectile-root-local
+                                             projectile-root-top-down
+                                             )
+    ))
+
 (after! company
   (setq
    company-idle-delay 0.5
@@ -20,8 +24,8 @@
 
 (after! which-key
   (setq
-   which-key-idle-delay 0.3
-   which-key-idle-secondary-delay 0.1
+   which-key-idle-delay 0.5
+   which-key-idle-secondary-delay 0.3
    ))
 
 (after! evil-matchit

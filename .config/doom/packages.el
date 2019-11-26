@@ -6,11 +6,6 @@
 ;; (package! another-package :recipe (:fetcher github :repo "username/repo"))
 ;; (package! builtin-package :disable t)
 
-(package! exec-path-from-shell)
-
-;;(package! emacs-doom-themes
-;;  :recipe (:host file :path "~/code/emacs-doom-themes"))
-
 ;; (package! stgit
 ;;   :recipe (:host file :path "~/code/stgit/contrib/stgit.el"))
 
