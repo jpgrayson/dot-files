@@ -31,7 +31,7 @@
 (after! evil-matchit
   (setq
    evilmi-always-simple-jump t
-  ))
+   ))
 
 (after! flycheck
   (setq
