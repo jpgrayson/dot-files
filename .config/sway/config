@@ -46,7 +46,21 @@ bindsym $mod+Control+Backspace exec swaylock
 # & systemctl suspend
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run -p "%" -l 10
+#bindsym $mod+d exec dmenu_run -p "%" -l 10
+bindsym $mod+d exec bemenu-run \
+    --prompt="==>" \
+    --no-overlap \
+    --list=5 \
+    --fn "Iosevka SS01 Medium 18" \
+    --tb="#eee8d5" \
+    --tf="#d33682" \
+    --fb="#fdf6e3" \
+    --ff="#586e75" \
+    --nb="#eee8d5" \
+    --nf="#93a1a1" \
+    --hb="#eee8d5" \
+    --hf="#268bd2"
+
 bindsym $mod+Shift+d exec i3-dmenu-desktop
 bindsym $mod+grave exec dmenu | xargs swaymsg
 
@@ -217,15 +231,21 @@ smart_gaps on
 output eDP-1 {
   scale 1.25
   position 0 360
-  bg /usr/share/sddm/themes/solarized-sddm-theme/circles_background.png stretch
+  bg "#073642" solid_color
 }
 
 output DP-1 {
   scale 1.00
   position 2560 0
-  bg /usr/share/sddm/themes/solarized-sddm-theme/circles_background.png stretch
+  bg "#073642" solid_color
 }
 
+for_window [app_id="ipython"] {
+  floating enable
+  border normal
+  move window to scratchpad
+  scratchpad show
+}
 for_window [class="st-256color"] border none
 for_window [app_id="Alacritty"] border none
 for_window [class="Emacs"] border none
