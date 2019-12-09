@@ -1,0 +1,132 @@
+/*
+   SOLARIZED HEX      RGB
+   --------- -------  -----------
+   base03    #002b36    0  43  54
+   base02    #073642    7  54  66
+   base01    #586e75   88 110 117
+   base00    #657b83  101 123 131
+   base0     #839496  131 148 150
+   base1     #93a1a1  147 161 161
+   base2     #eee8d5  238 232 213
+   base3     #fdf6e3  253 246 227
+   yellow    #b58900  181 137   0
+   orange    #cb4b16  203  75  22
+   red       #dc322f  220  50  47
+   magenta   #d33682  211  54 130
+   violet    #6c71c4  108 113 196
+   blue      #268bd2   38 139 210
+   cyan      #2aa198   42 161 152
+   green     #859900  133 153   0
+*/
+
+* {
+    border: none;
+    border-radius: 2px;
+    font-family: "Iosevka Term SS01";
+    font-size: 16px;
+    min-height: 0;
+    color: #586e75; /* base01 */
+}
+
+#mode, #clock, #battery, #cpu, #backlight, #network, #pulseaudio, #workspaces {
+    background: rgba(238, 232, 213, 0.75); /* base2 */
+}
+
+#mode, #clock, #battery, #cpu, #backlight, #network, #pulseaudio {
+    border-bottom: 3px solid rgba(42, 161, 152, 0.75); /* cyan */
+    padding: 0 10px;
+    margin: 0 1px;
+}
+
+#clock, #battery, #cpu, #backlight, #network, #pulseaudio {
+    min-width: 60px;
+}
+
+window#waybar {
+    background: rgba(238, 232, 213, 0.5); /* base2 */
+}
+
+#window {
+    color: #073642; /* base02 */
+    font-weight: bold;
+    font-style: italic;
+}
+
+#workspaces button {
+    padding: 0 5px;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+}
+
+#workspaces button:hover {
+    background: rgba(238, 232, 213, 0.75); /* base2 */
+    border-color: rgba(253, 246, 227, 0.75); /* base3 */
+}
+
+#workspaces button.focused {
+    background: #fdf6e3; /* base3 */
+    border-bottom-color: rgba(42, 161, 152, 0.75); /* cyan */
+}
+
+#workspaces button.focused:hover {
+    background: inherit;
+    border-color: rgba(42, 161, 152, 0.75); /* cyan */
+}
+
+#workspaces button.urgent {
+    border-color: rgba(211, 54, 130, 0.75); /* magenta */
+}
+
+#workspaces button.urgent:hover {
+    background: inherit;
+    border-color: rgba(211, 54, 130, 0.75); /* magenta */
+}
+
+#mode {
+    border-color: #859900; /* green */
+}
+
+#battery.charging {
+    color: #268bd2; /* blue */
+}
+
+#battery.warning:not(.charging) {
+    color: #b58900; /* yellow */
+    animation-name: blink;
+    animation-duration: 5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#battery.critical:not(.charging) {
+    color: #dc322f; /* red */
+    animation-name: blink;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes blink {
+    to {
+        color: #586e75; /* base01 */
+    }
+}
+
+#cpu.p25 {
+    border-color: rgba(181, 137, 0, 0.75); /* yellow */
+}
+
+#cpu.p50 {
+    border-color: rgba(203, 75, 22, 0.75); /* orange */
+}
+
+#cpu.p75 {
+    border-color: rgba(220, 50, 74, 0.75); /* red */
+}
+
+#network.disconnected {
+    text-decoration: line-through;
+    border-color: rgba(220, 50, 74, 0.75); /* red */
+}

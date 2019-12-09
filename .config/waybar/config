@@ -1,0 +1,85 @@
+{
+    "layer": "bottom",
+    "modules-left": [
+        "sway/workspaces",
+        "sway/mode"
+    ],
+    "modules-center": [
+        "sway/window"
+    ],
+    "modules-right": [
+        "pulseaudio",
+        "backlight",
+        "cpu",
+        "battery",
+        "network",
+        "clock"
+    ],
+    "sway/workspaces": {
+        "disable-scroll-wraparound": true,
+        "disable-bar-scroll": true
+    },
+    "sway/window": {
+        "max-length": 50
+    },
+    "battery": {
+        "interval": 60,
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% <span foreground=\"#2aa198\">{icon}</span>",
+        "format-warning": "{capacity}% <span foreground=\"#b58900\">{icon}</span>",
+        "format-critical": "{capacity}% <span foreground=\"#dc322f\">{icon}</span>",
+        "format-icons": ["", "", "", "", ""],
+        "tooltip": false
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{percent}% <span foreground=\"#2aa198\">{icon}</span>",
+        "format-icons": ["", ""],
+        "on-scroll-up": "xbacklight -inc 10",
+        "on-scroll-down": "xbacklight -dec 10"
+    },
+    "cpu": {
+        "interval": 5,
+        "format": "{usage}% <span foreground=\"#2aa198\"></span>",
+        "states": {
+            "p25": 25,
+            "p50": 50,
+            "p75": 75
+        }
+    },
+    "network": {
+        "format-wifi": "{essid} {signalStrength}% <span foreground=\"#2aa198\"></span>",
+        "format-ethernet": "{ipaddr} <span foreground=\"#2aa198\"> </span>",
+        "format-linked": "... <span foreground=\"#b58900\"></span>",
+        "format-disconnected": "<span foreground=\"#93a1a1\"></span>",
+        "tooltip-format-ethernet": "{ifname} {ipaddr}\n{bandwidthUpBits}   {bandwidthDownBits} ",
+        "tooltip-format-wifi": "{essid} {signalStrength} {frequency}\n{ifname} {ipaddr}\n{bandwidthUpBits}   {bandwidthDownBits} ",
+        "tooltip-disconnected": "disconnected",
+        "interval": 10
+    },
+    "pulseaudio": {
+        "format": "{volume}% <span foreground=\"#2aa198\">{icon}</span>",
+        "format-bluetooth": "{volume}% <span foreground=\"#2aa198\">{icon}</span>",
+        "format-muted": "<span foreground=\"#93a1a1\" strikethrough=\"true\">{volume}%</span> <span foreground=\"#93a1a1\">{icon}</span>",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", ""]
+        },
+        "scroll-step": 1,
+        "on-click": "pavucontrol-qt",
+        "on-click-right": "pactl set-sink-mute 0 toggle",
+        "tooltip": false
+    },
+    "clock": {
+        "format": "{:%a, %b %d %I:%M %P} <span foreground=\"#2aa198\"></span>",
+        "tooltip": false
+    }
+}

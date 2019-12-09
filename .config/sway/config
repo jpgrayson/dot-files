@@ -182,19 +182,23 @@ input "1241:8209:USB_Keyboard" {
   xkb_options ctrl:nocaps
 }
 
+# bar {
+#   status_command i3status
+#   ### mode hide
+#   pango_markup enabled
+#   font pango:Iosevka Term SS01 Medium, Material Icons 16
+#   modifier $mod
+#   position top
+#   workspace_buttons yes
+#   # binding_mode_indicator yes
+#   # separator_symbol "║"
+#   separator_symbol "⎞"
+#   # colors {
+#   # }
+# }
+
 bar {
-  status_command i3status
-  ### mode hide
-  pango_markup enabled
-  font pango:Iosevka Term SS01 Medium, Material Icons 16
-  modifier $mod
-  position top
-  workspace_buttons yes
-  # binding_mode_indicator yes
-  # separator_symbol "║"
-  separator_symbol "⎞"
-  # colors {
-  # }
+  swaybar_command waybar
 }
 
 gaps inner 5
@@ -225,6 +229,8 @@ output DP-1 {
 for_window [class="st-256color"] border none
 for_window [app_id="Alacritty"] border none
 for_window [class="Emacs"] border none
+for_window [app_id="pavucontrol-qt"] floating enable
+for_window [class="Firefox"] border none
 
 exec xrdb -load .Xresources
 exec mako
