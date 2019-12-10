@@ -10,12 +10,12 @@
   markdown-command "markdown_py"
   )
 
-(after! projectile
-  (setq
-   projectile-project-root-files-functions '(projectile-root-local
-                                             projectile-root-top-down
-                                             )
-    ))
+;; (after! projectile
+;;   (setq
+;;    projectile-project-root-files-functions '(projectile-root-local
+;;                                              projectile-root-top-down
+;;                                              )
+;;     ))
 
 (after! company
   (setq
@@ -71,7 +71,7 @@
  )
 
 (define-key! :keymaps +default-minibuffer-maps
-  "C-b"    #'backward-char
+  "C-b" #'backward-char
 )
 
 (map!
@@ -94,8 +94,15 @@
 
 (map!
  :leader
- (:prefix-map ("t" . "toggle")
+ (:prefix "t"
    :desc "Auto-revert mode" "r" #'global-auto-revert-mode
+   )
+ )
+
+(map!
+ :leader
+ (:prefix "p"
+   :desc "Display project info" "I" #'projectile-project-info
    )
  )
 ;;; config.el ends here
