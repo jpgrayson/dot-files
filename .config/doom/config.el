@@ -10,16 +10,9 @@
   markdown-command "markdown_py"
   )
 
-;; (after! projectile
-;;   (setq
-;;    projectile-project-root-files-functions '(projectile-root-local
-;;                                              projectile-root-top-down
-;;                                              )
-;;     ))
-
 (after! company
   (setq
-   company-idle-delay 0.5
+   company-idle-delay nil
    ))
 
 (after! which-key
@@ -60,8 +53,6 @@
  :after evil
  :map evil-insert-state-map
  "C-w" #'evil-delete-backward-word
- ;; "C-b" #'evil-backward-word-begin
- ;; "C-f" #'evil-forward-word-end
  )
 
 (map!
@@ -86,18 +77,12 @@
    )
  )
 
-(map!
- :map ein:notebook-mode-map
- :localleader
- "," #'+ein-hydra/body
- )
-
-(map!
- :leader
- (:prefix "t"
-   :desc "Auto-revert mode" "r" #'global-auto-revert-mode
-   )
- )
+;; (map!
+;;  :leader
+;;  (:prefix "t"
+;;    :desc "Auto-revert mode" "r" #'global-auto-revert-mode
+;;    )
+;;  )
 
 (map!
  :leader
