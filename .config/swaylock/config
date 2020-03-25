@@ -1,6 +1,4 @@
 font="pango:Iosevka SS01 Medium 18"
-image=/usr/share/sddm/themes/solarized-sddm-theme/circles_background.png
-scaling=stretch
 color=#000000fa
 indicator-radius=250
 indicator-thickness=50
