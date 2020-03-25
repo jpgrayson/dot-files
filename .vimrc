@@ -4,6 +4,7 @@ Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 
+Plug 'joshdick/onedark.vim'
 Plug 'iCyMind/NeoSolarized'
 "Plug 'lifepillar/vim-solarized8'
 "Plug 'altercation/vim-colors-solarized'
@@ -51,7 +52,8 @@ let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
 
 set background=dark
-colorscheme NeoSolarized
+"colorscheme NeoSolarized
+colorscheme onedark
 
 "let g:solarized_use16 = 1
 "colorscheme solarized8
