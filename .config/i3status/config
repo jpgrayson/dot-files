@@ -8,10 +8,10 @@
 
 general {
         colors = true
-        color_good = "#859900"
-        color_degraded = "#b58900"
-        color_bad = "#dc322f"
-        color_separator = "#6c71c4"
+        color_good = "#859900"      # $green
+        color_degraded = "#b58900"  # $yellow
+        color_bad = "#dc322f"       # $red
+        color_separator = "#6c71c4" # $violet
         interval = 5
 }
 
@@ -27,26 +27,26 @@ order += "battery 0"
 order += "tztime local"
 
 volume master {
-	format = "  %volume"
-	format_muted = "  %volume"
+	format = "%volume"
+	format_muted = " %volume"
         device = "default"
 }
 
 wireless _first_ {
-        format_up = "  %quality %essid"
+        format_up = "%quality %essid"
         # format_down = "W:---"
         format_down = ""
 }
 
 ethernet _first_ {
         # if you use %speed, i3status requires root privileges
-        format_up = "  %ip (%speed)"
+        format_up = " %ip (%speed)"
         # format_down = "E:---"
         format_down = ""
 }
 
 battery 0 {
-        format = "%status  %percentage %remaining"
+        format = "%status%percentage %remaining"
         format_down = "No battery"
         status_chr = ""
         status_bat = ""
@@ -67,13 +67,13 @@ run_watch VPN {
 }
 
 tztime local {
-        format = "  %Y-%m-%d %_I:%M:%S "
+        format = " %Y-%m-%d %_I:%M:%S "
 }
 
 cpu_usage {
-        format = "  %usage"
+        format = " %usage"
 }
 
 disk "/" {
-        format = "  %avail"
-}
+        format = " %avail"
+
