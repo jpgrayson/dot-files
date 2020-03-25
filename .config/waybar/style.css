@@ -28,11 +28,28 @@
     color: #586e75; /* base01 */
 }
 
-#mode, #clock, #battery, #cpu, #backlight, #network, #pulseaudio, #workspaces {
+#mode,
+#clock,
+#battery,
+#cpu,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#idle_inhibitor,
+#workspaces {
     background: rgba(238, 232, 213, 0.75); /* base2 */
 }
 
-#mode, #clock, #battery, #cpu, #backlight, #network, #pulseaudio {
+#mode,
+#clock,
+#battery,
+#cpu,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#idle_inhibitor {
     border-bottom: 3px solid rgba(42, 161, 152, 0.75); /* cyan */
     padding: 0 10px;
     margin: 0 1px;
