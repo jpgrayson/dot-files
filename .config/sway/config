@@ -21,9 +21,6 @@ set $base1      #93a1a1
 set $base2      #eee8d5
 set $base3      #fdf6e3
 
-set $sway_light #6ec9e0
-set $sway_dark  #488fb7
-
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -52,14 +49,14 @@ bindsym $mod+d exec bemenu-run \
     --no-overlap \
     --list=5 \
     --fn "Iosevka SS01 Medium 18" \
-    --tb="#eee8d5" \
-    --tf="#d33682" \
-    --fb="#fdf6e3" \
-    --ff="#586e75" \
-    --nb="#eee8d5" \
-    --nf="#93a1a1" \
-    --hb="#eee8d5" \
-    --hf="#268bd2"
+    --tb=$base2 \
+    --tf=$blue \
+    --fb=$base3 \
+    --ff=$baseO1 \
+    --nb=$base2 \
+    --nf=$base1 \
+    --hb=$base2 \
+    --hf=$blue
 
 bindsym $mod+Shift+d exec i3-dmenu-desktop
 bindsym $mod+grave exec dmenu | xargs swaymsg
@@ -196,6 +193,18 @@ input "1241:8209:USB_Keyboard" {
   xkb_options ctrl:nocaps
 }
 
+input "51984:4694:Keebio_Iris_Keyboard" {
+  repeat_delay 400
+  repeat_rate   50
+  xkb_layout us
+  # xkb_variant altgr-intl
+}
+
+input "65261:24672:ZSA_Planck_EZ_Keyboard" {
+  xkb_layout us
+  # xkb_variant altgr-intl
+}
+
 # bar {
 #   status_command i3status
 #   ### mode hide
@@ -207,8 +216,21 @@ input "1241:8209:USB_Keyboard" {
 #   # binding_mode_indicator yes
 #   # separator_symbol "║"
 #   separator_symbol "⎞"
-#   # colors {
-#   # }
+#   colors {
+#     statusline         $base1
+#     background         $baseO3
+#     focused_background $baseO2
+#     separator          $baseO1
+#     focused_separator  $baseO0
+
+#     # ==============>  border  bg      text
+#     focused_workspace  $blue   $baseO3 $base2
+#     active_workspace   $base0  $baseO3 $base2
+#     inactive_workspace $baseO1 $baseO3 $base1
+#     urgent_workspace   $baseO1 $baseO3 $magenta
+#     binding_mode       $base3  $base2  $cyan
+
+#   }
 # }
 
 bar {
@@ -217,27 +239,27 @@ bar {
 
 gaps inner 5
 gaps outer 3
-hide_edge_borders smart_no_gaps
 smart_gaps on
+smart_borders no_gaps
 
-# class                 border     backgrnd   text      indicator  child_border
-# client.background                  $baseO2
-# client.focused          $base1     $baseO3    $orange   $green     $baseO3
-# client.focused_inactive $base1     $baseO3    $baseO1   $cyan      $baseO3
-# client.unfocused        $baseO1    $baseO3    $baseO1   $violet    $baseO3
-# client.urgent           $baseO3    $baseO2    $red      $blue      $baseO2
-# client.placeholder      $baseO2    $baseO3    #ffffff   #000000    $baseO3
+# class                 border     backgrnd   text
+client.focused          $blue      $base3     $baseO1
+client.focused_inactive $base1     $base3     $baseO1
+client.unfocused        $base2     $base2     $baseO0
+client.urgent           $magenta   $base2     $baseO0
+
+titlebar_border_thickness 2
 
 output eDP-1 {
   scale 1.25
   position 0 360
-  bg "#073642" solid_color
+  bg $baseO2 solid_color
 }
 
 output DP-1 {
   scale 1.00
   position 2560 0
-  bg "#073642" solid_color
+  bg $baseO2 solid_color
 }
 
 for_window [app_id="ipython"] {
@@ -248,9 +270,10 @@ for_window [app_id="ipython"] {
 }
 for_window [class="st-256color"] border none
 for_window [app_id="Alacritty"] border none
+for_window [app_id="kitty"] border none
 for_window [class="Emacs"] border none
 for_window [app_id="pavucontrol-qt"] floating enable
-for_window [class="Firefox"] border none
+# for_window [class="Firefox"] border none
 
 exec xrdb -load .Xresources
 exec mako
