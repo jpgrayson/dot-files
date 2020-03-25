@@ -1,4 +1,6 @@
+.dir-locals.el
 .dumbjump
+.project
 .projectile
 .projectroot
 *.pyc
