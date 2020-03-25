@@ -79,7 +79,7 @@
 
 ;; (map!
 ;;  :leader
-;;  (:prefix "t"
+;;  (:prefix-map ("t" . "toggle")
 ;;    :desc "Auto-revert mode" "r" #'global-auto-revert-mode
 ;;    )
 ;;  )
