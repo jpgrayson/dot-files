@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -e
+
+if test "$(git rev-parse --is-inside-work-tree)" = "false"
+then
+     if test "$(git rev-parse --is-bare-repository)" = "true"
+     then
+          printf "Cannot be run from a bare repo\n"
+          exit 1
+     fi
+
+     cd "$(git rev-parse --git-dir)"/..
+fi
+
+cdup="$(git rev-parse --show-cdup)"
+
+if test -n "$cdup"
+then
+     cd "$cdup"
+fi
+
+watch_git_base="watchexec --clear --no-default-ignore"
+watch_git_refs="${watch_git_base} --watch=.git/refs"
+watch_git_changes="${watch_git_base} --ignore='*/.git/*/*' --ignore='*.lock'"
+
+watch_stg_show="${watch_git_refs} --restart -- stg show"
+watch_stg_seri="${watch_git_refs} -- stg series -e"
+watch_stg_stat="${watch_git_changes} -- stg status -uno"
+
+tmux split-window -v "$watch_stg_show" \; \
+     split-window -p 35 -h -b "$watch_stg_seri" \; \
+     split-window -p 60 -v "$watch_stg_stat" \; \
+     select-pane -U \; \
+     select-pane -U
