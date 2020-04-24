@@ -1,0 +1,4 @@
+#!/bin/sh
+
+exec emacsclient --create-frame --no-wait "$@"
+
