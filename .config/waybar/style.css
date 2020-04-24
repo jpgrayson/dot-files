@@ -1,23 +1,21 @@
-/*
-   SOLARIZED HEX      RGB
-   --------- -------  -----------
-   base03    #002b36    0  43  54
-   base02    #073642    7  54  66
-   base01    #586e75   88 110 117
-   base00    #657b83  101 123 131
-   base0     #839496  131 148 150
-   base1     #93a1a1  147 161 161
-   base2     #eee8d5  238 232 213
-   base3     #fdf6e3  253 246 227
-   yellow    #b58900  181 137   0
-   orange    #cb4b16  203  75  22
-   red       #dc322f  220  50  47
-   magenta   #d33682  211  54 130
-   violet    #6c71c4  108 113 196
-   blue      #268bd2   38 139 210
-   cyan      #2aa198   42 161 152
-   green     #859900  133 153   0
-*/
+/* One Dark */
+@define-color bgr #282c34;
+@define-color blk #5c6370;
+@define-color red #e06c75;
+@define-color grn #98c379;
+@define-color ylw #e5c07b;
+@define-color blu #61afef;
+@define-color mag #c678dd;
+@define-color cyn #56b6c2;
+@define-color wht #abb2bf;
+@define-color br_blk #4b5263;
+@define-color br_red #be5046;
+@define-color br_grn #98c379;
+@define-color br_ylw #d19a66;
+@define-color br_blu #61afef;
+@define-color br_mag #c678dd;
+@define-color br_cyn #56b6c2;
+@define-color br_wht #3e4452;
 
 * {
     border: none;
@@ -25,7 +23,7 @@
     font-family: "Iosevka Term SS01";
     font-size: 16px;
     min-height: 0;
-    color: #586e75; /* base01 */
+    color: @wht;
 }
 
 #mode,
@@ -37,8 +35,9 @@
 #network,
 #pulseaudio,
 #idle_inhibitor,
-#workspaces {
-    background: rgba(238, 232, 213, 0.75); /* base2 */
+#window {
+    border-bottom: 2px solid transparent;
+    background: @br_blk;
 }
 
 #mode,
@@ -49,8 +48,8 @@
 #backlight,
 #network,
 #pulseaudio,
+#window,
 #idle_inhibitor {
-    border-bottom: 3px solid rgba(42, 161, 152, 0.75); /* cyan */
     padding: 0 10px;
     margin: 0 1px;
 }
@@ -60,56 +59,79 @@
 }
 
 window#waybar {
-    background: rgba(238, 232, 213, 0.5); /* base2 */
+    background: @bgr;
+    border-bottom: 2px solid @br_wht;
+}
+
+window#waybar.empty #window {
+    padding: 0 0;
+    margin: 0 0;
+    border-bottom-color: transparent;
+    background: transparent;
 }
 
 #window {
-    color: #073642; /* base02 */
+    color: @wht;
+    border-bottom-color: @cyn;
     font-weight: bold;
+    font-style: italic;
+}
+
+#mode {
     font-style: italic;
 }
 
 #workspaces button {
     padding: 0 5px;
-    border-top: 3px solid transparent;
-    border-bottom: 3px solid transparent;
+    border-bottom: 2px solid transparent;
 }
 
 #workspaces button:hover {
-    background: rgba(238, 232, 213, 0.75); /* base2 */
-    border-color: rgba(253, 246, 227, 0.75); /* base3 */
+    box-shadow: inherit;
+    text-shadow: inherit;
+    background: @br_wht;
 }
 
 #workspaces button.focused {
-    background: #fdf6e3; /* base3 */
-    border-bottom-color: rgba(42, 161, 152, 0.75); /* cyan */
+    background: @br_wht;
+    border-bottom-color: @wht;
 }
 
 #workspaces button.focused:hover {
-    background: inherit;
-    border-color: rgba(42, 161, 152, 0.75); /* cyan */
+    background: @blk;
+    border-bottom-color: @wht;
 }
 
 #workspaces button.urgent {
-    border-color: rgba(211, 54, 130, 0.75); /* magenta */
-}
-
-#workspaces button.urgent:hover {
-    background: inherit;
-    border-color: rgba(211, 54, 130, 0.75); /* magenta */
+    border-bottom-color: @mag;
 }
 
 #mode {
-    border-color: #859900; /* green */
+    border-bottom-color: @grn;
+}
+
+#battery.full {
+    border-bottom-color: @grn;
+}
+
+@keyframes bottomthrob {
+    to {
+        border-bottom-color: @br_blk;
+    }
 }
 
 #battery.charging {
-    color: #268bd2; /* blue */
+    border-bottom-color: @blu;
+    animation-name: bottomthrob;
+    animation-duration: 5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
 
 #battery.warning:not(.charging) {
-    color: #b58900; /* yellow */
-    animation-name: blink;
+    color: @ylw;
+    animation-name: bottomthrob;
     animation-duration: 5s;
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
@@ -117,8 +139,8 @@ window#waybar {
 }
 
 #battery.critical:not(.charging) {
-    color: #dc322f; /* red */
-    animation-name: blink;
+    color: @red;
+    animation-name: bottomthrob;
     animation-duration: 2s;
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
@@ -127,23 +149,46 @@ window#waybar {
 
 @keyframes blink {
     to {
-        color: #586e75; /* base01 */
+        color: @blk;
     }
 }
 
+#cpu.p10 {
+    border-bottom-color: @grn;
+}
+
 #cpu.p25 {
-    border-color: rgba(181, 137, 0, 0.75); /* yellow */
+    border-bottom-color: @ylw;
 }
 
 #cpu.p50 {
-    border-color: rgba(203, 75, 22, 0.75); /* orange */
+    border-bottom-color: @br_ylw;
 }
 
 #cpu.p75 {
-    border-color: rgba(220, 50, 74, 0.75); /* red */
+    border-bottom-color: @red;
 }
 
 #network.disconnected {
+    border-bottom-color: @red;
+}
+#network.linked {
+    border-bottom-color: @br_ylw;
+}
+
+/* #temperature { */
+/*     border-bottom-color: @grn; */
+/* } */
+
+#temperature.critical {
+    border-bottom-color: @red;
+}
+
+#idle_inhibitor.activated {
+    border-bottom-color: @blu;
+}
+
+#pulseaudio.muted {
+    border-bottom-color: @br_ylw;
     text-decoration: line-through;
-    border-color: rgba(220, 50, 74, 0.75); /* red */
 }
