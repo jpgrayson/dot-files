@@ -4,22 +4,41 @@ set $mod Mod4
 font pango:Iosevka SS01 Medium
 
 # Solarized Dark Colors
-set $yellow     #b58900
-set $orange     #cb4b16
-set $red        #dc322f
-set $magenta    #d33682
-set $violet     #6c71c4
-set $blue       #268bd2
-set $cyan       #2aa198
-set $green      #859900
-set $baseO3     #002b36
-set $baseO2     #073642
-set $baseO1     #586e75
-set $baseO0     #657b83
-set $base0      #839496
-set $base1      #93a1a1
-set $base2      #eee8d5
-set $base3      #fdf6e3
+#set $yellow     #b58900
+#set $orange     #cb4b16
+#set $red        #dc322f
+#set $magenta    #d33682
+#set $violet     #6c71c4
+#set $blue       #268bd2
+#set $cyan       #2aa198
+#set $green      #859900
+#set $baseO3     #002b36
+#set $baseO2     #073642
+#set $baseO1     #586e75
+#set $baseO0     #657b83
+#set $base0      #839496
+#set $base1      #93a1a1
+#set $base2      #eee8d5
+#set $base3      #fdf6e3
+
+# One Dark
+set $bgr #282c34
+set $blk #5c6370
+set $red #e06c75
+set $grn #98c379
+set $ylw #e5c07b
+set $blu #61afef
+set $mag #c678dd
+set $cyn #56b6c2
+set $wht #abb2bf
+set $br_blk #4b5263
+set $br_red #be5046
+set $br_grn #98c379
+set $br_ylw #d19a66
+set $br_blu #61afef
+set $br_mag #c678dd
+set $br_cyn #56b6c2
+set $br_wht #3e4452
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -49,14 +68,14 @@ bindsym $mod+d exec bemenu-run \
     --no-overlap \
     --list=5 \
     --fn "Iosevka SS01 Medium 18" \
-    --tb=$base2 \
-    --tf=$blue \
-    --fb=$base3 \
-    --ff=$baseO1 \
-    --nb=$base2 \
-    --nf=$base1 \
-    --hb=$base2 \
-    --hf=$blue
+    --tb=$blk \
+    --tf=$blu \
+    --fb=$br_blk \
+    --ff=$wht \
+    --nb=$blk \
+    --nf=$br_wht \
+    --hb=$blk \
+    --hf=$blu
 
 bindsym $mod+Shift+d exec i3-dmenu-desktop
 bindsym $mod+grave exec dmenu | xargs swaymsg
@@ -217,18 +236,18 @@ input "65261:24672:ZSA_Planck_EZ_Keyboard" {
 #   # separator_symbol "║"
 #   separator_symbol "⎞"
 #   colors {
-#     statusline         $base1
-#     background         $baseO3
-#     focused_background $baseO2
-#     separator          $baseO1
-#     focused_separator  $baseO0
+#     statusline         $br_wht
+#     background         $bgr
+#     focused_background $blk
+#     separator          $wht
+#     focused_separator  $br_wht
 
 #     # ==============>  border  bg      text
-#     focused_workspace  $blue   $baseO3 $base2
-#     active_workspace   $base0  $baseO3 $base2
-#     inactive_workspace $baseO1 $baseO3 $base1
-#     urgent_workspace   $baseO1 $baseO3 $magenta
-#     binding_mode       $base3  $base2  $cyan
+#     focused_workspace  $blu    $bgr    $blk
+#     active_workspace   $br_blk $bgr    $blk
+#     inactive_workspace $wht    $bgr    $br_wht
+#     urgent_workspace   $wht    $bgr    $mag
+#     binding_mode       $br_blk  $blk  $cyn
 
 #   }
 # }
@@ -242,24 +261,24 @@ gaps outer 3
 smart_gaps on
 smart_borders no_gaps
 
-# class                 border     backgrnd   text
-client.focused          $blue      $base3     $baseO1
-client.focused_inactive $base1     $base3     $baseO1
-client.unfocused        $base2     $base2     $baseO0
-client.urgent           $magenta   $base2     $baseO0
+# class                 border  backgrnd text    indic child_border
+client.focused          $wht    $br_wht  $wht    $cyn  $wht
+client.focused_inactive $br_wht $br_wht  $wht    $cyn  $br_wht
+client.unfocused        $br_blk $br_wht  $br_blk $cyn  $br_blk
+client.urgent           $mag    $br_wht  $br_wht $cyn  $mag
 
-titlebar_border_thickness 2
+titlebar_border_thickness 1
 
 output eDP-1 {
   scale 1.25
   position 0 360
-  bg $baseO2 solid_color
+  bg $bgr solid_color
 }
 
 output DP-1 {
   scale 1.00
   position 2560 0
-  bg $baseO2 solid_color
+  bg $bgr solid_color
 }
 
 for_window [app_id="ipython"] {
@@ -268,10 +287,10 @@ for_window [app_id="ipython"] {
   move window to scratchpad
   scratchpad show
 }
-for_window [class="st-256color"] border none
-for_window [app_id="Alacritty"] border none
-for_window [app_id="kitty"] border none
-for_window [class="Emacs"] border none
+for_window [class="st-256color"] border pixel 1
+for_window [app_id="Alacritty"] border pixel 1
+for_window [app_id="kitty"] border pixel 1
+for_window [class="Emacs"] border pixel 1
 for_window [app_id="pavucontrol-qt"] floating enable
 # for_window [class="Firefox"] border none
 
