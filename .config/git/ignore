@@ -1,6 +1,8 @@
+.DS_Store
 .dir-locals.el
 .dumbjump
 .project
 .projectile
 .projectroot
+.python-version
 *.pyc
