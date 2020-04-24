@@ -3,19 +3,19 @@ color=#000000fa
 indicator-radius=250
 indicator-thickness=50
 
-text-color=002b36
-separator-color=002b36cc
-line-color=002b3688
+text-color=abb2bf
+separator-color=abb2bfcc
+line-color=abb2bf88
 
-key-hl-color=859900
-bs-hl-color=6c71c4
+key-hl-color=98c379
+bs-hl-color=c678dd
 
-inside-color=586e7588
-inside-clear-color=586e7588
-inside-ver-color=586e7588
-inside-wrong-color=586e7588
+inside-color=5c637088
+inside-clear-color=5c637088
+inside-ver-color=5c637088
+inside-wrong-color=5c637088
 
-ring-color=839496cc
-ring-clear-color=268bd2cc
-ring-ver-color=268bd2cc
-ring-wrong-color=dc322fcc
+ring-color=3e4452cc
+ring-clear-color=61afefcc
+ring-ver-color=61afefcc
+ring-wrong-color=e06c75cc
