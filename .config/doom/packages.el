@@ -7,7 +7,8 @@
 ;; (package! builtin-package :disable t)
 
 ;; (package! stgit
-;;   :recipe (:host file :path "~/code/stgit/contrib/stgit.el"))
+;;   :recipe (:local-repo "~/code/stgit"
+;;            :files ("/contrib/stgit.el")))
 
 (package! python-black
   :recipe (:host github :repo "wbolster/emacs-python-black"))

@@ -3,7 +3,7 @@
 ;; Place your private configuration here
 
 (setq
-  doom-font (font-spec :family "Iosevka Term SS01" :size 14)
+  doom-font (font-spec :family "Iosevka Term SS01 Semibold" :size 14)
   doom-big-font (font-spec :family "Iosevka Term SS01" :size 24)
   doom-theme 'doom-one
   python-shell-interpreter "python3"
