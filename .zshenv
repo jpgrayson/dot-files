@@ -1,6 +1,6 @@
 # vi:set et sw=4 ts=4:
 
-typeset -U path
+typeset -gU path
 
 if [ "$(uname)" = "Darwin" ] ; then
     path=(
@@ -17,5 +17,4 @@ if [ "$(uname)" = "Darwin" ] ; then
 fi
 
 path[1,0]="$HOME/.cargo/bin"
-path[1,0]="$(python -m site --user-base)/bin"
 path[1,0]="$HOME/.local/bin"

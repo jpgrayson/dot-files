@@ -1,50 +1,52 @@
 # vi:set et sw=4 ts=4:
 
+typeset -gU cdpath fpath mailpath path
+
 fpath=("$HOME/.zsh.d" $fpath)
 
-autoload -Uz compinit
-compinit
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]
+then
+    source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 
-PROMPT=""
-if [ -n "${SSH_CLIENT:-}" ]; then
-    PROMPT="%F{red}@%f%m:"
-fi
-PROMPT+="%B%4~%b %F{cyan}%(?.%#.%B%#%b)%f "
-export PROMPT
+    # Do not user prezto's partial-word and substring completions
+    zstyle -d ':completion:*' matcher-list
 
-export EDITOR=nvim
+    # Do not use approximations/corrections
+    zstyle -d ':completion:*:approximate:*'
+    zstyle ':completion:*' completer _complete _match
 
-if [ "$(uname)" = "Darwin" ] ; then
-    if ( ls --color=auto /dev/null 2>/dev/null 1>/dev/null); then
-        alias ls='ls --color=auto'
-    fi
-    export CLICOLOR=1
-elif [ "$(uname -o)" = "Cygwin" ] ; then
-    export CYGWIN="winsymlinks:nativestrict"
-    alias ls='ls --color=auto'
+    prompt sorin
 else
-    alias ls='ls --color=auto'
+    autoload -Uz compinit
+    compinit
+
+    PROMPT=""
+    if [ -n "${SSH_CLIENT:-}" ]; then
+        PROMPT="%F{red}@%f%m:"
+    fi
+    PROMPT+="%B%4~%b %F{cyan}%(?.%#.%B%#%b)%f "
+    export PROMPT
+
+    setopt completeinword
+    setopt extendedglob
+    setopt histfindnodups
+
+    export HISTSIZE=1024
+    export SAVEHIST=1020
+    export WORDCHARS=${WORDCHARS//\//}
+    export ZLE_SPACE_SUFFIX_CHARS=$'&|'
+
+    bindkey -e
+
+    autoload -Uz edit-command-line
+    zle -N edit-command-line
+    bindkey "^X^E" edit-command-line
 fi
 
-export PYTHONSTARTUP=~/.pythonstartup
-export PYTHONBREAKPOINT=pudb.set_trace
-export SCONSFLAGS="-Q"
-export HISTSIZE=1024
-export SAVEHIST=1020
-export HIST_EXPIRE_DUPS_FIRST=1
-export HIST_FIND_NO_DUPS=1
-export ZLE_SPACE_SUFFIX_CHARS=$'&|'
-export WORDCHARS=${WORDCHARS//\//}
-
-setopt extendedglob
-setopt histfindnodups
-setopt completeinword
 setopt numericglobsort
 
-bindkey -e
-
-autoload -Uz edit-command-line
-zle -N edit-command-line
-bindkey "^X^E" edit-command-line
+export EDITOR=nvim
+export PYTHONBREAKPOINT=pudb.set_trace
+export PYTHONSTARTUP=~/.pythonstartup
 
 # source <(pip completion --zsh)
