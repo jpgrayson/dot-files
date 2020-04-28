@@ -34,3 +34,7 @@
 	ff = only
 [stgit]
 	#diff-opts = --find-renames --find-copies --color-moved --color-moved-ws=allow-indentation-change
+[stgit "color"]
+	applied = none
+	unapplied = dim
+	current = bright
