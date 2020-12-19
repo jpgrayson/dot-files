@@ -7,11 +7,11 @@
 # If the above line is not correctly displayed, fix your editor first!
 
 general {
-        colors = true
-        color_good = "#859900"      # $green
-        color_degraded = "#b58900"  # $yellow
-        color_bad = "#dc322f"       # $red
-        color_separator = "#6c71c4" # $violet
+        colors = false
+        color_good = "#98c379"      # $green
+        color_degraded = "#e5c07b"  # $yellow
+        color_bad = "#e06c75"       # $red
+        color_separator = "#c678dd" # $violet
         interval = 5
 }
 
@@ -67,7 +67,7 @@ run_watch VPN {
 }
 
 tztime local {
-        format = " %Y-%m-%d %_I:%M:%S "
+        format = " %Y-%m-%d %_I:%M"
 }
 
 cpu_usage {

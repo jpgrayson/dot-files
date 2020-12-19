@@ -1,6 +1,13 @@
 # Win key
 set $mod Mod4
 
+set $left h
+set $down j
+set $up k
+set $right l
+
+set $menu dmenu_path | dmenu | xargs swaymsg exec --
+
 font pango:Iosevka SS01 Medium
 
 # Solarized Dark Colors
@@ -44,17 +51,17 @@ set $br_wht #3e4452
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec alacritty -e tmux attach -t default
 bindsym $mod+Shift+Return exec alacritty
+bindsym $mod+Return exec kitty
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
-exec swayidle \
-    timeout 600  'swaylock' \
+exec swayidle -w \
+    timeout 600  'swaylock -f' \
     timeout 900  'swaymsg "output * dpms off"' \
     resume       'swaymsg "output * dpms on"' \
-    before-sleep 'swaylock'
+    before-sleep 'swaylock -f'
 
 # lock screen
 bindsym $mod+Control+Backspace exec swaylock
@@ -62,6 +69,7 @@ bindsym $mod+Control+Backspace exec swaylock
 # & systemctl suspend
 
 # start dmenu (a program launcher)
+#bindsym $mod+d exec $menu
 #bindsym $mod+d exec dmenu_run -p "%" -l 10
 bindsym $mod+d exec bemenu-run \
     --prompt="==>" \
@@ -80,12 +88,24 @@ bindsym $mod+d exec bemenu-run \
 bindsym $mod+Shift+d exec i3-dmenu-desktop
 bindsym $mod+grave exec dmenu | xargs swaymsg
 
+bindsym $mod+Alt+4 exec slurp | grim -g-
+
+# bindsym $mod+apostrophe exec bash -c "dmenu -p calc | xargs -r qalc -t | tee >(wl-copy) >(xargs -I{} notify-send 'calc result' '{}')"
+# bindsym $mod+equal exec bash -c "dmenu -p calc | xargs -r qalc -t"
+
+focus_wrapping no
+
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
-bindsym $mod+g focus next
+
+# change focus between containers
+bindsym $mod+Shift+p focus parent
+bindsym $mod+Shift+n focus child
+bindsym $mod+n focus next
+bindsym $mod+p focus prev
 
 # move focused window
 bindsym $mod+Shift+h move left
@@ -114,16 +134,9 @@ bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
-# bindsym $mod+space focus mode_toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
-
-# focus the parent container
-bindsym $mod+a focus parent
-
-# focus the child container
-bindsym $mod+c focus child
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -149,8 +162,8 @@ bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
-bindsym $mod+Shift+minus move scratchpad
-bindsym $mod+minus scratchpad show
+bindsym $mod+Shift+apostrophe move scratchpad
+bindsym $mod+apostrophe scratchpad show
 
 bindsym $mod+b border toggle
 
@@ -176,14 +189,15 @@ bindsym print exec dmenu_run -p "print"
 mode "resize" {
   # These bindings trigger as soon as you enter the resize mode
 
-  # Pressing left will shrink the window’s width.
-  # Pressing right will grow the window’s width.
-  # Pressing up will shrink the window’s height.
-  # Pressing down will grow the window’s height.
-  bindsym h resize shrink width 10 px or 10 ppt
-  bindsym j resize grow height 10 px or 10 ppt
+  bindsym h resize shrink width  10 px or 10 ppt
+  bindsym j resize grow   height 10 px or 10 ppt
   bindsym k resize shrink height 10 px or 10 ppt
-  bindsym l resize grow width 10 px or 10 ppt
+  bindsym l resize grow   width  10 px or 10 ppt
+
+  bindsym $mod+h focus left
+  bindsym $mod+j focus down
+  bindsym $mod+k focus up
+  bindsym $mod+l focus right
 
   # same bindings, but for the arrow keys
   bindsym Left resize shrink width 10 px or 10 ppt
@@ -196,6 +210,7 @@ mode "resize" {
   bindsym Escape mode "default"
   bindsym control+bracketleft mode "default"
   bindsym q mode "default"
+  bindsym $mod+r mode "default"
 }
 
 bindsym $mod+r mode "resize"
@@ -212,11 +227,11 @@ input "1241:8209:USB_Keyboard" {
   xkb_options ctrl:nocaps
 }
 
-input "51984:4694:Keebio_Iris_Keyboard" {
+input "51984:16982:Keebio_Keebio_Iris_Rev._4" {
   repeat_delay 400
   repeat_rate   50
   xkb_layout us
-  # xkb_variant altgr-intl
+  xkb_variant altgr-intl
 }
 
 input "65261:24672:ZSA_Planck_EZ_Keyboard" {
@@ -224,37 +239,39 @@ input "65261:24672:ZSA_Planck_EZ_Keyboard" {
   # xkb_variant altgr-intl
 }
 
-# bar {
-#   status_command i3status
-#   ### mode hide
-#   pango_markup enabled
-#   font pango:Iosevka Term SS01 Medium, Material Icons 16
-#   modifier $mod
-#   position top
-#   workspace_buttons yes
-#   # binding_mode_indicator yes
-#   # separator_symbol "║"
-#   separator_symbol "⎞"
-#   colors {
-#     statusline         $br_wht
-#     background         $bgr
-#     focused_background $blk
-#     separator          $wht
-#     focused_separator  $br_wht
-
-#     # ==============>  border  bg      text
-#     focused_workspace  $blu    $bgr    $blk
-#     active_workspace   $br_blk $bgr    $blk
-#     inactive_workspace $wht    $bgr    $br_wht
-#     urgent_workspace   $wht    $bgr    $mag
-#     binding_mode       $br_blk  $blk  $cyn
-
-#   }
-# }
-
 bar {
-  swaybar_command waybar
+  mode dock
+  position top
+  modifier $mod
+  status_command i3status
+  pango_markup enabled
+  font pango:Iosevka Term SS01 Medium, Material Icons 16
+  workspace_buttons yes
+  binding_mode_indicator yes
+  # separator_symbol "║"
+  separator_symbol "⎞"
+  # gaps 2 10
+  colors {
+    focused_background $br_wht
+    # focused_statusline $wht
+    focused_separator  $br_blk
+
+    background         $bgr
+    statusline         $wht
+    separator          $br_wht
+
+    # ==============>  border  bg      text
+    focused_workspace  $wht    $br_wht $wht
+    active_workspace   $wht    $bgr    $wht
+    inactive_workspace $bgr    $bgr    $wht
+    urgent_workspace   $mag    $bgr    $mag
+    binding_mode       $cyn    $bgr    $cyn
+  }
 }
+
+# bar {
+#   swaybar_command waybar
+# }
 
 gaps inner 5
 gaps outer 3
@@ -269,16 +286,32 @@ client.urgent           $mag    $br_wht  $br_wht $cyn  $mag
 
 titlebar_border_thickness 1
 
+# output eDP-1 {
+#   scale 1.25
+#   position 0 360
+#   bg $bgr solid_color
+# }
+# output DP-1 {
+#   scale 1.00
+#   position 2560 0
+#   bg $bgr solid_color
+# }
+
 output eDP-1 {
-  scale 1.25
-  position 0 360
   bg $bgr solid_color
+  scale 1.00
+  position 0 360
+}
+output DP-1 {
+  bg $bgr solid_color
+  scale 1.00
+  position 3200 0
 }
 
-output DP-1 {
-  scale 1.00
-  position 2560 0
-  bg $bgr solid_color
+for_window [app_id="qalculate-gtk"] {
+  floating enable
+  border pixel 1
+  move window to scratchpad
 }
 
 for_window [app_id="ipython"] {
@@ -287,6 +320,7 @@ for_window [app_id="ipython"] {
   move window to scratchpad
   scratchpad show
 }
+
 for_window [class="st-256color"] border pixel 1
 for_window [app_id="Alacritty"] border pixel 1
 for_window [app_id="kitty"] border pixel 1
@@ -294,7 +328,9 @@ for_window [class="Emacs"] border pixel 1
 for_window [app_id="pavucontrol-qt"] floating enable
 # for_window [class="Firefox"] border none
 
-exec xrdb -load .Xresources
-exec mako
 #exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec alacritty -e tmux attach -t default
+
+exec xrdb -load ~/.Xresources
+exec mako
+exec qalculate-gtk
+exec kitty

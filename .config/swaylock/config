@@ -1,21 +1,21 @@
-font="pango:Iosevka SS01 Medium 18"
-color=#000000fa
+font="pango:Iosevka SS08 Medium 18"
+color=#282c34fa
 indicator-radius=250
 indicator-thickness=50
 
 text-color=abb2bf
-separator-color=abb2bfcc
-line-color=abb2bf88
+separator-color=abb2bf
+line-color=abb2bf
 
 key-hl-color=98c379
 bs-hl-color=c678dd
 
 inside-color=5c637088
-inside-clear-color=5c637088
-inside-ver-color=5c637088
-inside-wrong-color=5c637088
+inside-clear-color=5c6370
+inside-ver-color=5c6370
+inside-wrong-color=5c6370
 
-ring-color=3e4452cc
-ring-clear-color=61afefcc
-ring-ver-color=61afefcc
-ring-wrong-color=e06c75cc
+ring-color=3e4452
+ring-clear-color=61afef
+ring-ver-color=61afef
+ring-wrong-color=e06c75
