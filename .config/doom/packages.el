@@ -13,4 +13,6 @@
 (package! python-black
   :recipe (:host github :repo "wbolster/emacs-python-black"))
 
+(package! cython-mode)
+
 ;;; packages.el ends here

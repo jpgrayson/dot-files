@@ -3,10 +3,12 @@
 ;; Place your private configuration here
 
 (setq
-  doom-font (font-spec :family "Iosevka Term SS01 Semibold" :size 14)
-  doom-big-font (font-spec :family "Iosevka Term SS01" :size 24)
+  doom-font (font-spec :family "Iosevka Fixed SS01 Semibold" :size 14)
+  doom-big-font (font-spec :family "Iosevka Fixed SS01" :size 24)
   doom-theme 'doom-one
+  org-directory "~/code/org"
   python-shell-interpreter "python3"
+  rustic-lsp-server 'rust-analyzer
   markdown-command "markdown_py"
   )
 
