@@ -15,6 +15,8 @@ then
     zstyle -d ':completion:*:approximate:*'
     zstyle ':completion:*' completer _complete _match
 
+    export VIRTUAL_ENV_DISABLE_PROMPT=1
+
     prompt sorin
 else
     autoload -Uz compinit

@@ -37,6 +37,8 @@ my_modules=(
   'directory'
   'spectrum'
   'utility'
+  'git'
+  'python'
   'completion'
   'prompt'
 )
