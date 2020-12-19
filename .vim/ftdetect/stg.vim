@@ -32,12 +32,12 @@ if has("autocmd")
 
 
   " Set parameters on 'stg new' files to be consistent with the modeline
-  autocmd FileType           stgnew               setlocal textwidth=75
+  autocmd FileType           stgnew               setlocal textwidth=72
   autocmd FileType           stgnew               setlocal nobackup
 
   " For other stg files set textwidth the same as 'stg new'
-  autocmd FileType           stgedit              setlocal textwidth=75
-  autocmd FileType           stgmail              setlocal textwidth=75
-  autocmd FileType           stgsquash            setlocal textwidth=75
+  autocmd FileType           stgedit              setlocal textwidth=72
+  autocmd FileType           stgmail              setlocal textwidth=72
+  autocmd FileType           stgsquash            setlocal textwidth=72
 
 endif " has("autocmd")
