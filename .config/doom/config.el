@@ -3,14 +3,19 @@
 ;; Place your private configuration here
 
 (setq
-  doom-font (font-spec :family "Iosevka Fixed SS01 Semibold" :size 14)
-  doom-big-font (font-spec :family "Iosevka Fixed SS01" :size 24)
+  doom-font (font-spec :family "Iosevka Fixed SS08" :size 14)
+  doom-big-font (font-spec :family "Iosevka Fixed SS08" :size 24)
   doom-theme 'doom-one
   org-directory "~/code/org"
   python-shell-interpreter "python3"
   rustic-lsp-server 'rust-analyzer
   markdown-command "markdown_py"
+  projectile-enable-caching (not (executable-find doom-projectile-fd-binary))
   )
+
+(setq-default
+  display-fill-column-indicator-character 9482
+ )
 
 (after! company
   (setq
@@ -28,11 +33,19 @@
    evilmi-always-simple-jump t
    ))
 
+(after! evil-snipe
+  (setq
+   evil-snipe-skip-leading-whitespace nil
+   ))
+
 (after! flycheck
   (setq
    flycheck-python-flake8-executable "flake8"
    flycheck-python-pycompile-executable "python3"
    ))
+
+; (after! lsp-python-ms
+;   (set-lsp-priority! 'mspyls 1))
 
 (map!
  :after evil

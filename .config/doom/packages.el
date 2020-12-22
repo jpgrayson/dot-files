@@ -10,6 +10,14 @@
 ;;   :recipe (:local-repo "~/code/stgit"
 ;;            :files ("/contrib/stgit.el")))
 
+(disable-packages!
+  anaconda-mode
+  nose
+  pipenv
+  conda
+  poetry
+  )
+
 (package! python-black
   :recipe (:host github :repo "wbolster/emacs-python-black"))
 
