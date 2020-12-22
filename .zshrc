@@ -50,5 +50,27 @@ setopt numericglobsort
 export EDITOR=nvim
 export PYTHONBREAKPOINT=pudb.set_trace
 export PYTHONSTARTUP=~/.pythonstartup
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # source <(pip completion --zsh)
+
+if command -v pyenv 1>/dev/null 2>&1; then
+    export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+
+    eval "$(pyenv init -)"
+
+    if command -v pyenv-virtualenv-init 1>/dev/null 2>&1; then
+        eval "$(pyenv-virtualenv-init -)"
+    fi
+
+    if ! [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]
+    then
+        get-pyenv-version-name() {
+            psvar[9]="$(pyenv version-name)"
+        }
+
+        add-zsh-hook precmd get-pyenv-version-name
+
+        export PROMPT="(%9v) $PROMPT"
+    fi
+fi

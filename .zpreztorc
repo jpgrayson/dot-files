@@ -142,6 +142,8 @@ zstyle ':prezto:module:prompt' theme 'sorin'
 # Automatically initialize virtualenvwrapper if pre-requisites are met.
 # zstyle ':prezto:module:python:virtualenv' initialize 'yes'
 
+zstyle ':prezto:module:python' skip-virtualenvwrapper-init 'on'
+
 #
 # Ruby
 #
