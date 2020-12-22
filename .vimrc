@@ -34,6 +34,8 @@ Plug 'vim-syntastic/syntastic'
 Plug 'mhinz/vim-signify'
 "Plug 'majutsushi/tagbar'
 
+let g:polyglot_disabled = []
+
 Plug 'sheerun/vim-polyglot'
 Plug 'editorconfig/editorconfig-vim'
 "Plug 'junkblocker/patchreview-vim'
@@ -67,7 +69,7 @@ if has("gui_running")
   if has("gui_win32")
     set guifont=Consolas:h9:cANSI
   else
-    set guifont="Iosevka Medium 10"
+    set guifont=Iosevka-Term-SS08:h14"
   endif
   set guioptions=agi
 endif
@@ -166,8 +168,6 @@ let g:neosolarized_italic = 1
 
 "let g:indentLine_color_term = 0
 let g:indentLine_char = '┆'
-
-let g:polyglot_disabled = []
 
 let g:python_indent_multiline_statement = 1
 
