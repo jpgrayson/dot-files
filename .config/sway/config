@@ -299,13 +299,13 @@ titlebar_border_thickness 1
 
 output eDP-1 {
   bg $bgr solid_color
-  scale 1.00
+  scale 2.00
   position 0 360
 }
 output DP-1 {
   bg $bgr solid_color
   scale 1.00
-  position 3200 0
+  position 1600 0
 }
 
 for_window [app_id="qalculate-gtk"] {
