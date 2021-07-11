@@ -6,7 +6,7 @@ set $down j
 set $up k
 set $right l
 
-set $menu dmenu_path | dmenu | xargs swaymsg exec --
+#set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
 font pango:Iosevka SS01 Medium
 
@@ -85,13 +85,13 @@ bindsym $mod+d exec bemenu-run \
     --hb=$blk \
     --hf=$blu
 
-bindsym $mod+Shift+d exec i3-dmenu-desktop
-bindsym $mod+grave exec dmenu | xargs swaymsg
+#bindsym $mod+Shift+d exec i3-dmenu-desktop
+#bindsym $mod+grave exec dmenu | xargs swaymsg
 
 bindsym $mod+Alt+4 exec slurp | grim -g-
 
-# bindsym $mod+apostrophe exec bash -c "dmenu -p calc | xargs -r qalc -t | tee >(wl-copy) >(xargs -I{} notify-send 'calc result' '{}')"
-# bindsym $mod+equal exec bash -c "dmenu -p calc | xargs -r qalc -t"
+bindsym $mod+space exec 'rofi -modi run,drun,calc,keys -show run -no-sort'
+bindsym $mod+equal exec 'rofi -modi calc -show calc -no-show-match -no-sort'
 
 focus_wrapping no
 
@@ -133,10 +133,10 @@ bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+backslash floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym $mod+backslash focus mode_toggle
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -308,11 +308,11 @@ output DP-1 {
   position 1600 0
 }
 
-for_window [app_id="qalculate-gtk"] {
-  floating enable
-  border pixel 1
-  move window to scratchpad
-}
+# for_window [app_id="qalculate-gtk"] {
+#   floating enable
+#   border pixel 1
+#   move window to scratchpad
+# }
 
 for_window [app_id="ipython"] {
   floating enable
@@ -325,6 +325,7 @@ for_window [class="st-256color"] border pixel 1
 for_window [app_id="Alacritty"] border pixel 1
 for_window [app_id="kitty"] border pixel 1
 for_window [class="Emacs"] border pixel 1
+for_window [app_id="emacs"] border pixel 1
 for_window [app_id="pavucontrol-qt"] floating enable
 # for_window [class="Firefox"] border none
 
@@ -332,5 +333,5 @@ for_window [app_id="pavucontrol-qt"] floating enable
 
 exec xrdb -load ~/.Xresources
 exec mako
-exec qalculate-gtk
+#exec qalculate-gtk
 exec kitty
