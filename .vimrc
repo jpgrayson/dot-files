@@ -28,7 +28,6 @@ Plug 'tpope/vim-tbone'
 
 Plug 'itchyny/lightline.vim'
 
-Plug 'bfredl/nvim-ipy'
 "Plug 'yggdroot/indentline'
 Plug 'vim-syntastic/syntastic'
 Plug 'mhinz/vim-signify'
