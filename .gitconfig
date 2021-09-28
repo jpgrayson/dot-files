@@ -19,6 +19,8 @@
 	branch = auto
 	interactive = auto
 	grep = auto
+[checkout]
+	workers = 0
 [push]
 	default = simple
 [diff]
@@ -32,6 +34,7 @@
 	excludesFile = ~/.config/git/ignore
 [pull]
 	ff = only
+	twohead = ort
 [stgit]
 	#diff-opts = --find-renames --find-copies --color-moved --color-moved-ws=allow-indentation-change
 [stgit "color"]
