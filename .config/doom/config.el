@@ -11,16 +11,22 @@
   rustic-lsp-server 'rust-analyzer
   markdown-command "markdown_py"
   projectile-enable-caching (not (executable-find doom-projectile-fd-binary))
+  read-process-output-max 8192
+  case-replace nil
+  case-fold-search nil
   )
 
 (setq-default
   display-fill-column-indicator-character 9482
  )
 
+(add-to-list 'auto-mode-alist '("\\.uml\\'" . plantuml-mode))
+
 (after! company
-  (setq
-   company-idle-delay nil
-   ))
+  (setq company-idle-delay nil))
+
+(after! dabbrev
+  (setq dabbrev-case-fold-search nil))
 
 (after! which-key
   (setq

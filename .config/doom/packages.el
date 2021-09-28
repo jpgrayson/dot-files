@@ -23,4 +23,7 @@
 
 (package! cython-mode)
 
+(package! meson-mode
+          :recipe (:host github :repo "wentasah/meson-mode"))
+
 ;;; packages.el ends here
