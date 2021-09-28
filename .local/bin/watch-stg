@@ -26,7 +26,7 @@ watch_git_changes="${watch_git_base} --ignore='*/.git/*/*' --ignore='*.lock'"
 
 watch_stg_show="${watch_git_refs} --restart -- stg show"
 watch_stg_seri="${watch_git_refs} -- stg series -e"
-watch_stg_stat="${watch_git_changes} -- stg status -uno"
+watch_stg_stat="${watch_git_changes} --debounce 1500 -- stg status -uno"
 
 tmux split-window -v "$watch_stg_show" \; \
      split-window -p 35 -h -b "$watch_stg_seri" \; \
