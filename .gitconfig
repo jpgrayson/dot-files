@@ -1,17 +1,12 @@
 [advice]
 	statusHints = false
+
 [alias]
 	st = status
 	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 	incoming = "!git remote update -p; git log ..@{u}"
 	outgoing = log @{u}..
-[user]
-	name = Peter Grayson
-	email = pete@jpgrayson.net
-[github]
-	user = jpgrayson
-[credential]
-	helper = cache
+
 [color]
 	ui = auto
 	diff = auto
@@ -19,24 +14,61 @@
 	branch = auto
 	interactive = auto
 	grep = auto
+
 [checkout]
 	workers = 0
-[push]
-	default = simple
-[diff]
-	algorithm = histogram
-	submodule = log
-	compactionheuristic = true
-[status]
-	short = true
+
+[commit]
+	gpgsign = on
+
 [core]
 	editor = nvim
 	excludesFile = ~/.config/git/ignore
+	#pager = delta
+
+[credential]
+	helper = cache
+
+[diff]
+	algorithm = histogram
+	colorMoved = default
+	compactionheuristic = true
+	submodule = log
+
+[interactive]
+	#diffFilter = delta --color-only
+
 [pull]
 	ff = only
 	twohead = ort
+
+[push]
+	default = simple
+
+[status]
+	short = true
+
+[tag]
+	gpgSign = true
+
+[user]
+	name = Peter Grayson
+	email = pete@jpgrayson.net
+
+###
+
+[delta]
+	navigate = true
+	# side-by-side = true
+	syntax-theme = 1337
+	plus-style = "syntax #007000"
+
+[github]
+	user = jpgrayson
+
 [stgit]
 	#diff-opts = --find-renames --find-copies --color-moved --color-moved-ws=allow-indentation-change
+
 [stgit "color"]
 	applied = none
 	unapplied = dim
