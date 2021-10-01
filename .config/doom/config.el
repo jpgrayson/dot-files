@@ -3,8 +3,10 @@
 ;; Place your private configuration here
 
 (setq
-  doom-font (font-spec :family "Iosevka Fixed SS08" :size 14)
-  doom-big-font (font-spec :family "Iosevka Fixed SS08" :size 24)
+  ;; doom-font (font-spec :family "Iosevka Fixed SS08" :size 14)
+  ;; doom-big-font (font-spec :family "Iosevka Fixed SS08" :size 24)
+  doom-font (font-spec :family "Iosevka Term" :size 14)
+  doom-big-font (font-spec :family "Iosevka Term" :size 24)
   doom-theme 'doom-one
   org-directory "~/code/org"
   python-shell-interpreter "python3"
@@ -49,6 +51,9 @@
    flycheck-python-flake8-executable "flake8"
    flycheck-python-pycompile-executable "python3"
    ))
+
+; (after! vterm
+;   (advice-add #'vterm-redraw :after (lambda (&rest args) (evil-refresh-cursor evil-state))))
 
 ; (after! lsp-python-ms
 ;   (set-lsp-priority! 'mspyls 1))
