@@ -326,6 +326,7 @@ for_window [app_id="Alacritty"] border pixel 1
 for_window [app_id="kitty"] border pixel 1
 for_window [class="Emacs"] border pixel 1
 for_window [app_id="emacs"] border pixel 1
+for_window [class="firefox"] border pixel 1
 for_window [app_id="pavucontrol-qt"] floating enable
 # for_window [class="Firefox"] border none
 
