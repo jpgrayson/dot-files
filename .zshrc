@@ -2,7 +2,7 @@
 
 typeset -gU cdpath fpath mailpath path
 
-fpath=("$HOME/.zsh.d" $fpath)
+fpath=("$HOME/.zsh.d" "$HOME/.local/share/zsh/site-functions" $fpath)
 
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]
 then
