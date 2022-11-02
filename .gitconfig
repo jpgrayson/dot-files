@@ -1,5 +1,6 @@
 [advice]
 	statusHints = false
+	detachedHead = false
 
 [alias]
 	st = status
@@ -70,9 +71,10 @@
 	user = jpgrayson
 
 [stgit]
+	gpgsign = false
 	#diff-opts = --find-renames --find-copies --color-moved --color-moved-ws=allow-indentation-change
 
 [stgit "color"]
-	applied = none
-	unapplied = dim
-	current = bright
+	applied = "blue white reverse no-reverse "
+[stgit "alias"]
+	st = !git status -s
