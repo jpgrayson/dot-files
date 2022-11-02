@@ -1,0 +1,8 @@
+configuration {
+	modi: "run,drun,calc,keys";
+	sort: false;
+}
+@theme "Arc-Dark"
+window {
+	width: 20%;
+}
