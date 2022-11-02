@@ -8,14 +8,17 @@
   doom-font (font-spec :family "Iosevka Term" :size 14)
   doom-big-font (font-spec :family "Iosevka Term" :size 24)
   doom-theme 'doom-one
+  ;enable-local-variables t
   org-directory "~/code/org"
   python-shell-interpreter "python3"
   rustic-lsp-server 'rust-analyzer
   markdown-command "markdown_py"
   projectile-enable-caching (not (executable-find doom-projectile-fd-binary))
+  projectile-project-search-path '("~/code")
   read-process-output-max 8192
   case-replace nil
   case-fold-search nil
+  ;; delete-window-choose-selected 'pos ;; default is 'mru
   )
 
 (setq-default
@@ -57,6 +60,12 @@
 
 ; (after! lsp-python-ms
 ;   (set-lsp-priority! 'mspyls 1))
+
+(after! lsp-ui
+  (setq
+   lsp-ui-doc-enable nil
+   lsp-enable-snippet nil
+   ))
 
 (map!
  :after evil
@@ -113,7 +122,16 @@
 (map!
  :leader
  (:prefix "p"
-   :desc "Display project info" "I" #'projectile-project-info
-   )
- )
+  :desc "Display project info" "I" #'projectile-project-info))
+
+(map!
+ :leader
+ (:prefix "g"
+  :desc "StGit dispatch" "_" #'magit-stgit-dispatch))
+
+(use-package! magit-stgit)
+
+;; (after! (:and magit magit-stgit)
+;;   (transient-append-suffix 'magit-dispatch "Z"
+;;     '("/" "StGit" magit-stgit)))
 ;;; config.el ends here

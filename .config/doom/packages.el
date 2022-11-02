@@ -21,9 +21,21 @@
 (package! python-black
   :recipe (:host github :repo "wbolster/emacs-python-black"))
 
-(package! cython-mode)
+; (package! cython-mode)
 
 (package! meson-mode
-          :recipe (:host github :repo "wentasah/meson-mode"))
+  :recipe (:host github :repo "wentasah/meson-mode"))
+
+;; (package! magit-stgit
+;;   ;:recipe (:host github :repo "stacked-git/magit-stgit")
+;;   :recipe (:local-repo "~/code/magit-stgit"
+;;            :build (:not compile)))
+
+(add-load-path! "~/code/magit-stgit")
+
+; (use-package! magit-stgit
+;   :after magit
+;                                         ; :defer-incrementally t
+;   )
 
 ;;; packages.el ends here
