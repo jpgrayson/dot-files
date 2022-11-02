@@ -8,7 +8,7 @@ set $right l
 
 #set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
-font pango:Iosevka SS01 Medium
+font pango:Iosevka SS01 Medium 14
 
 # Solarized Dark Colors
 #set $yellow     #b58900
@@ -52,16 +52,20 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Shift+Return exec alacritty
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec foot
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 exec swayidle -w \
-    timeout 600  'swaylock -f' \
     timeout 900  'swaymsg "output * dpms off"' \
-    resume       'swaymsg "output * dpms on"' \
-    before-sleep 'swaylock -f'
+    resume       'swaymsg "output * dpms on"'
+
+# exec swayidle -w \
+#     timeout 600  'swaylock -e -f' \
+#     timeout 900  'swaymsg "output * dpms off"' \
+#     resume       'swaymsg "output * dpms on"' \
+#     before-sleep 'swaylock -e -f'
 
 # lock screen
 bindsym $mod+Control+Backspace exec swaylock
@@ -71,27 +75,27 @@ bindsym $mod+Control+Backspace exec swaylock
 # start dmenu (a program launcher)
 #bindsym $mod+d exec $menu
 #bindsym $mod+d exec dmenu_run -p "%" -l 10
-bindsym $mod+d exec bemenu-run \
-    --prompt="==>" \
-    --no-overlap \
-    --list=5 \
-    --fn "Iosevka SS01 Medium 18" \
-    --tb=$blk \
-    --tf=$blu \
-    --fb=$br_blk \
-    --ff=$wht \
-    --nb=$blk \
-    --nf=$br_wht \
-    --hb=$blk \
-    --hf=$blu
+#bindsym $mod+d exec bemenu-run \
+#    --prompt="==>" \
+#    --no-overlap \
+#    --list=5 \
+#    --fn "Iosevka SS01 Medium 18" \
+#    --tb=$blk \
+#    --tf=$blu \
+#    --fb=$br_blk \
+#    --ff=$wht \
+#    --nb=$blk \
+#    --nf=$br_wht \
+#    --hb=$blk \
+#    --hf=$blu
 
 #bindsym $mod+Shift+d exec i3-dmenu-desktop
 #bindsym $mod+grave exec dmenu | xargs swaymsg
 
 bindsym $mod+Alt+4 exec slurp | grim -g-
 
-bindsym $mod+space exec 'rofi -modi run,drun,calc,keys -show run -no-sort'
-bindsym $mod+equal exec 'rofi -modi calc -show calc -no-show-match -no-sort'
+bindsym $mod+space exec 'rofi -show run'
+bindsym $mod+equal exec 'rofi -show calc -no-show-match'
 
 focus_wrapping no
 
@@ -324,10 +328,15 @@ for_window [app_id="ipython"] {
 for_window [class="st-256color"] border pixel 1
 for_window [app_id="Alacritty"] border pixel 1
 for_window [app_id="kitty"] border pixel 1
+for_window [app_id="foot"] border pixel 1
 for_window [class="Emacs"] border pixel 1
 for_window [app_id="emacs"] border pixel 1
 for_window [class="firefox"] border pixel 1
 for_window [app_id="pavucontrol-qt"] floating enable
+for_window [app_id="pinentry-qt"] {
+  floating enable
+  resize set width 1024 px
+}
 # for_window [class="Firefox"] border none
 
 #exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -335,4 +344,4 @@ for_window [app_id="pavucontrol-qt"] floating enable
 exec xrdb -load ~/.Xresources
 exec mako
 #exec qalculate-gtk
-exec kitty
+exec foot
