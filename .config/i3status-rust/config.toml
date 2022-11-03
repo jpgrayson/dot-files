@@ -1,0 +1,51 @@
+icons_format = "{icon}"
+
+[theme]
+theme = "native"
+
+[icons]
+icons = "awesome"
+
+[[block]]
+block = "focused_window"
+[block.format]
+full = " $marks $title.str(0,35) |"
+short = " $title.str(0,10) |"
+
+[[block]]
+block = "cpu"
+format = " $icon $utilization "
+format_alt = " $icon $frequency "
+
+[[block]]
+block = "temperature"
+
+[[block]]
+block = "disk_space"
+path = "/"
+info_type = "available"
+interval = 20
+warning = 20.0
+alert = 10.0
+format = " $icon $available.eng(2) "
+[[block.click]]
+button = "right"
+update = true
+
+[[block]]
+block = "memory"
+format = " $icon $mem_total_used_percents.eng(2) "
+format_alt = " $icon_swap $swap_used_percents.eng(2) "
+
+[[block]]
+block = "sound"
+headphones_indicator = true
+[[block.click]]
+button = "left"
+cmd = "pavucontrol"
+
+[[block]]
+block = "time"
+interval = 5
+format = " %F %I:%M "
+

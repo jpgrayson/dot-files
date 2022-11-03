@@ -247,7 +247,7 @@ bar {
   mode dock
   position top
   modifier $mod
-  status_command i3status
+  status_command i3status-rs
   pango_markup enabled
   font pango:Iosevka Term SS01 Medium, Material Icons 16
   workspace_buttons yes
