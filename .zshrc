@@ -51,7 +51,8 @@ export EDITOR=nvim
 export PYTHONBREAKPOINT=pudb.set_trace
 export PYTHONSTARTUP=~/.pythonstartup
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+#export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
 
 # source <(pip completion --zsh)
 
