@@ -19,6 +19,27 @@ format_alt = " $icon $frequency "
 
 [[block]]
 block = "temperature"
+format = "CPU $average|"
+chip = "k10temp-*"
+inputs = ["Tccd1"]
+scale = "celsius"
+interval = 5
+
+[[block]]
+block = "temperature"
+format = "GPU $average|"
+chip = "amdgpu-*"
+inputs = ["edge"]
+scale = "celsius"
+interval = 5
+
+[[block]]
+block = "temperature"
+format = "NVMe $average|"
+chip = "nvme-*"
+inputs = ["Composite"]
+scale = "celsius"
+interval = 5
 
 [[block]]
 block = "disk_space"
