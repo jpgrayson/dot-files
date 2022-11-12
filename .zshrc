@@ -3,6 +3,10 @@
 typeset -gU cdpath fpath mailpath path
 
 fpath=("$HOME/.zsh.d" "$HOME/.local/share/zsh/site-functions" $fpath)
+fpath=("$HOME/code/zsh/Functions/VCS_Info"
+       "$HOME/code/zsh/Functions/VCS_Info/Backends"
+       $fpath)
+
 
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]
 then
@@ -17,7 +21,11 @@ then
 
     export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-    prompt sorin
+    prompt jpgrayson
+
+    zstyle ':vcs_info:*' enable git hg
+    zstyle ':vcs_info:*' check-for-changes true
+    zstyle ':vcs_info:*' get-unapplied true
 else
     autoload -Uz compinit
     compinit
