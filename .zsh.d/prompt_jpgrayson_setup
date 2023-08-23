@@ -28,10 +28,12 @@ function prompt_jpgrayson_setup {
   zstyle ':vcs_info:*' formats "%S" "%F{black}%b%f%u%c%m"
   zstyle ':vcs_info:git:*' nopatch-format ' %F{white}%n/%a%f'
   zstyle ':vcs_info:git:*' patch-format ' %F{white}%n/%a%f %F{blue}%p%f'
+  zstyle ':vcs_info:*+gen-applied-string:*' hooks gen-applied-string
 
   _prompt_jpgrayson_pwd=''
 
   PROMPT='${SSH_TTY:+"%F{red}%n%f%F{cyan}@%m%f "}'
+  PROMPT='${CONTAINER_ID:+"(%F{magenta}${CONTAINER_ID}%f) "}'
   PROMPT+='%F{blue}${_prompt_jpgrayson_pwd}%f'
   PROMPT+='%(!. %B%F{1}#%f%b.)'
   PROMPT+='${editor_info[keymap]} '
@@ -39,6 +41,30 @@ function prompt_jpgrayson_setup {
   RPROMPT="%(?:: %F{red}✘ %?%f )"
   RPROMPT+='%30>⋯>${vcs_info_msg_1_}%f'
 
+}
+
+function +vi-gen-applied-string() {
+  # Separate the patch id from the patch log message.
+  if [[ $1 == *\ * ]]; then
+    local patch_name_or_filename="${1%% *}"
+    local patch_description="${1#* }"
+  else
+    local patch_name_or_filename="$1"
+    local patch_description=""
+  fi
+
+  # Apply escaping; see `Oddities' in the manual.
+  patch_name_or_filename=${patch_name_or_filename//'%'/%%}
+  patch_description=${patch_description//'%'/%%}
+
+  # Apply different colouring to the patch description.
+  if [[ -n ${patch_description} ]]; then
+    patch_description="%F{yellow}${patch_description}%f"
+  fi
+
+  # Re-assemble $1, escaped and coloured.
+  hook_com[applied-string]="${patch_name_or_filename} ${patch_description}"
+  ret=1
 }
 
 prompt_jpgrayson_setup "$@"
