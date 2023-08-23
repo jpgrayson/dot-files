@@ -85,3 +85,6 @@
 	st = !git status -s
 	stack = series -rOP --commit-id=7
 	staged = diff -O--staged
+
+[log]
+	initialDecorationSet = all
