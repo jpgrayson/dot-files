@@ -32,8 +32,9 @@ function prompt_jpgrayson_setup {
 
   _prompt_jpgrayson_pwd=''
 
-  PROMPT='${SSH_TTY:+"%F{red}%n%f%F{cyan}@%m%f "}'
-  PROMPT='${CONTAINER_ID:+"(%F{magenta}${CONTAINER_ID}%f) "}'
+  PROMPT=''
+  PROMPT+='${SSH_TTY:+"%F{red}%n%f%F{cyan}@%m%f "}'
+  PROMPT+='${CONTAINER_ID:+"(%F{magenta}${CONTAINER_ID}%f) "}'
   PROMPT+='%F{blue}${_prompt_jpgrayson_pwd}%f'
   PROMPT+='%(!. %B%F{1}#%f%b.)'
   PROMPT+='${editor_info[keymap]} '
