@@ -7,6 +7,7 @@
 	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 	incoming = "!git remote update -p; git log ..@{u}"
 	outgoing = log @{u}..
+	staged = diff --staged
 
 [color]
 	ui = auto
@@ -76,5 +77,10 @@
 
 [stgit "color"]
 	applied = "blue white reverse no-reverse "
+
 [stgit "alias"]
+	k = series -rOPd
+	outgoing = !git log --show-signature @{u}..
 	st = !git status -s
+	stack = series -rOP --commit-id=7
+	staged = diff -O--staged
