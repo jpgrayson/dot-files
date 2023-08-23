@@ -94,7 +94,7 @@ bindsym $mod+Control+Backspace exec swaylock
 
 bindsym $mod+Alt+4 exec slurp | grim -g-
 
-bindsym $mod+space exec 'rofi -show run'
+bindsym $mod+space exec 'rofi -show drun'
 bindsym $mod+equal exec 'rofi -show calc -no-show-match'
 
 focus_wrapping no
