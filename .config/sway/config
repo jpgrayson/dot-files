@@ -8,7 +8,7 @@ set $right l
 
 #set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
-font pango:Iosevka SS01 Medium 14
+font pango:IosevkaTerm Nerd Font Medium 14
 
 # Solarized Dark Colors
 #set $yellow     #b58900
@@ -249,7 +249,7 @@ bar {
   modifier $mod
   status_command i3status-rs
   pango_markup enabled
-  font pango:Iosevka Term SS01 Medium, Material Icons 16
+  font pango:IosevkaTerm Nerd Font Medium 14
   workspace_buttons yes
   binding_mode_indicator yes
   # separator_symbol "║"
