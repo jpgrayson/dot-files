@@ -1,0 +1,23 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = '$directory$character'
+right_format = '$custom$all'
+add_newline = false
+
+[directory]
+style = "italic blue"
+truncation_symbol = '…'
+repo_root_style = "underline italic blue"
+fish_style_pwd_dir_length = 1
+
+[custom.stgit-counts]
+command = ''' echo "$(stg series -A --count)/$(stg series -AU --count)" '''
+when = true
+require_repo = true
+style = ''
+
+[custom.stgit]
+command = "stg top"
+when = true
+require_repo = true
+style = 'bold blue'
