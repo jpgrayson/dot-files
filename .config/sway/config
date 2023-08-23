@@ -225,28 +225,12 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-input "1:1:AT_Translated_Set_2_keyboard" {
-  xkb_layout us
-  xkb_variant altgr-intl
-  xkb_options ctrl:nocaps
-}
-
-input "1241:8209:USB_Keyboard" {
-  xkb_layout us
-  xkb_variant altgr-intl
-  xkb_options ctrl:nocaps
-}
-
-input "51984:16982:Keebio_Keebio_Iris_Rev._4" {
+input "type:keyboard" {
   repeat_delay 400
-  repeat_rate   50
-  xkb_layout us
+  repeat_rate 40
+  xkb_options ctrl:nocaps
   xkb_variant altgr-intl
-}
-
-input "65261:24672:ZSA_Planck_EZ_Keyboard" {
   xkb_layout us
-  # xkb_variant altgr-intl
 }
 
 bar {
