@@ -302,31 +302,36 @@ output DP-1 {
   position 1600 0
 }
 
-# for_window [app_id="qalculate-gtk"] {
-#   floating enable
-#   border pixel 1
-#   move window to scratchpad
-# }
-
 for_window [app_id="ipython"] {
   floating enable
   border normal
   move window to scratchpad
   scratchpad show
 }
-
-for_window [class="st-256color"] border pixel 1
-for_window [app_id="Alacritty"] border pixel 1
-for_window [app_id="kitty"] border pixel 1
-for_window [app_id="foot"] border pixel 1
-for_window [class="Emacs"] border pixel 1
-for_window [app_id="emacs"] border pixel 1
-# for_window [class="firefox"] border pixel 1
-# for_window [app_id="firefox"] border pixel 1
-for_window [app_id="pavucontrol-qt"] floating enable
+for_window [app_id="(foot|kitty|Alacritty)"] {
+  border pixel 1
+  resize set width 25ppt
+}
+for_window [app_id="emacs"] {
+  border pixel 1
+  resize set width 75ppt
+}
+for_window [app_id="pavucontrol"] floating enable
 for_window [app_id="pinentry-qt"] {
   floating enable
   resize set width 1024 px
+}
+for_window [app_id="Cider"] {
+  floating enable
+  resize set width 60 ppt height 80 ppt
+  border none
+  move window to workspace 7
+}
+for_window [class="Cider"] {
+  floating enable
+  resize set width 60 ppt height 80 ppt
+  border none
+  move window to workspace 7
 }
 
 include /etc/sway/config.d/*
