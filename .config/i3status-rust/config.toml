@@ -4,7 +4,7 @@ icons_format = "{icon}"
 theme = "native"
 
 [icons]
-icons = "awesome4"
+icons = "awesome6"
 
 [[block]]
 block = "focused_window"
