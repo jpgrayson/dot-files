@@ -5,8 +5,8 @@
 (setq
   ;; doom-font (font-spec :family "Iosevka Fixed SS08" :size 14)
   ;; doom-big-font (font-spec :family "Iosevka Fixed SS08" :size 24)
-  doom-font (font-spec :family "Iosevka Term" :size 14)
-  doom-big-font (font-spec :family "Iosevka Term" :size 24)
+  doom-font (font-spec :family "Iosevka Term Nerd Font" :size 14)
+  doom-big-font (font-spec :family "Iosevka Term Nerd Font" :size 24)
   doom-theme 'doom-one
   ;enable-local-variables t
   org-directory "~/code/org"
