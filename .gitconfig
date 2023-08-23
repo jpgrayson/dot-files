@@ -73,6 +73,7 @@
 
 [stgit]
 	gpgsign = false
+	namelength = 50
 	#diff-opts = --find-renames --find-copies --color-moved --color-moved-ws=allow-indentation-change
 
 [stgit "color"]
