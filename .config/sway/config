@@ -51,7 +51,7 @@ set $br_wht #3e4452
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Shift+Return exec alacritty
+bindsym $mod+Shift+Return exec kitty
 bindsym $mod+Return exec foot
 
 # kill focused window
