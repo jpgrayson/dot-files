@@ -44,6 +44,8 @@ require('packer').startup(function (use)
   }
 end)
 
+vim.g.mapleader = ' '
+
 vim.o.backup = false
 vim.o.writebackup = false
 vim.o.swapfile = false
