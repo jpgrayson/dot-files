@@ -33,6 +33,15 @@ require('packer').startup(function (use)
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-compe'
   use 'qpkorr/vim-bufkill'
+
+  use {
+    'folke/which-key.nvim',
+    config = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+      require("which-key").setup {}
+    end
+  }
 end)
 
 vim.o.backup = false
