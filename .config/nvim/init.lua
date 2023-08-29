@@ -25,6 +25,9 @@ require('packer').startup(function (use)
       {'nvim-lua/plenary.nvim'}
     }
   }
+
+  use 'nvim-treesitter/nvim-treesitter'
+
   use 'joshdick/onedark.vim'
   use 'itchyny/lightline.vim'
   use 'neovim/nvim-lspconfig'
@@ -92,3 +95,37 @@ vim.g.lightline = {
 vim.o.completeopt = 'menuone,noinsert'
 
 require('compe').setup {}
+
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = {
+    "bash",
+    "c",
+    "cmake",
+    "cpp",
+    "diff",
+    "dockerfile",
+    "git_config",
+    "git_rebase",
+    "gitattributes",
+    "gitcommit",
+    "gitignore",
+    "json",
+    "lua",
+    "make",
+    "markdown_inline",
+    "python",
+    "rust",
+    "sql",
+    "swift",
+    "typescript",
+    "vim",
+    "vimdoc",
+    "yaml",
+    "zig",
+  },
+  auto_install = true,
+  highlight = {
+    enable = true,
+  },
+  additional_vim_regex_highlighting = false,
+}
