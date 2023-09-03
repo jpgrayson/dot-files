@@ -5,7 +5,6 @@ from pathlib import Path
 import argparse
 import hashlib
 import os
-import shutil
 
 
 HERE = Path(__file__).parent.absolute()
