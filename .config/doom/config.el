@@ -9,7 +9,8 @@
   doom-big-font (font-spec :family "Iosevka Term Nerd Font" :size 24)
   doom-theme 'doom-one
   ;enable-local-variables t
-  org-directory "~/code/org"
+  org-directory "~/org"
+  org-journal-file-type 'weekly
   python-shell-interpreter "python3"
   rustic-lsp-server 'rust-analyzer
   markdown-command "markdown_py"
