@@ -3,6 +3,9 @@ return {
   {
     "LazyVim/LazyVim",
     version = false,
-    opts = { colorscheme = "onedark" },
+    opts = {
+      -- colorscheme = "onedark"
+      colorscheme = "catppuccin",
+    },
   },
 }

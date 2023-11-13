@@ -1,4 +1,1 @@
-return {
-  "tpope/vim-rsi",
-  opt = {},
-}
+return { "tpope/vim-rsi" }

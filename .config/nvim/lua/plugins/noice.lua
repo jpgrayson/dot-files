@@ -5,6 +5,12 @@ return {
       cmdline = {
         view = "cmdline",
       },
+      last = {
+        view = "cmdline",
+      },
+      messages = {
+        view = "cmdline",
+      },
     },
   },
 }
