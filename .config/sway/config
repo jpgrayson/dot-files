@@ -1,5 +1,7 @@
 # Win key
 set $mod Mod4
+set $cag Control+Mod1+Mod4
+set $meh Shift+Control+Mod1
 
 set $left h
 set $down j
@@ -53,6 +55,7 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+Shift+Return exec kitty
 bindsym $mod+Return exec foot
+bindsym $cag+Return exec kitty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -94,6 +97,8 @@ bindsym $mod+Control+Backspace exec swaylock
 
 bindsym $mod+Alt+4 exec slurp | grim -g-
 
+bindsym $cag+space exec 'rofi -show drun'
+bindsym $cag+equal exec 'rofi -show calc -no-show-match'
 bindsym $mod+space exec 'rofi -show drun'
 bindsym $mod+equal exec 'rofi -show calc -no-show-match'
 
@@ -105,11 +110,21 @@ bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 
+bindsym $cag+h focus left
+bindsym $cag+j focus down
+bindsym $cag+k focus up
+bindsym $cag+l focus right
+
 # change focus between containers
 bindsym $mod+Shift+p focus parent
 bindsym $mod+Shift+n focus child
 bindsym $mod+n focus next
 bindsym $mod+p focus prev
+
+bindsym $cag+Shift+p focus parent
+bindsym $cag+Shift+n focus child
+bindsym $cag+n focus next
+bindsym $cag+p focus prev
 
 # move focused window
 bindsym $mod+Shift+h move left
@@ -117,29 +132,42 @@ bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
+bindsym $cag+Shift+h move left
+bindsym $cag+Shift+j move down
+bindsym $cag+Shift+k move up
+bindsym $cag+Shift+l move right
+
 bindsym $mod+Control+h move workspace to output left
 bindsym $mod+Control+j move workspace to output down
 bindsym $mod+Control+k move workspace to output up
 bindsym $mod+Control+l move workspace to output right
 
 # split in horizontal orientation
+bindsym $cag+semicolon split h
 bindsym $mod+semicolon split h
 
 # split in vertical orientation
+bindsym $cag+v split v
 bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
+bindsym $cag+Shift+f fullscreen
 bindsym $mod+Shift+f fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
+bindsym $cag+s layout stacking
+bindsym $cag+w layout tabbed
+bindsym $cag+e layout toggle split
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
+bindsym $cag+Shift+backslash floating toggle
 bindsym $mod+Shift+backslash floating toggle
 
 # change focus between tiling / floating windows
+bindsym $cag+backslash focus mode_toggle
 bindsym $mod+backslash focus mode_toggle
 
 # switch to workspace
@@ -154,6 +182,17 @@ bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 
+bindsym $cag+1 workspace 1
+bindsym $cag+2 workspace 2
+bindsym $cag+3 workspace 3
+bindsym $cag+4 workspace 4
+bindsym $cag+5 workspace 5
+bindsym $cag+6 workspace 6
+bindsym $cag+7 workspace 7
+bindsym $cag+8 workspace 8
+bindsym $cag+9 workspace 9
+bindsym $cag+0 workspace 10
+
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1
 bindsym $mod+Shift+2 move container to workspace 2
@@ -166,16 +205,31 @@ bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
+bindsym $cag+Shift+1 move container to workspace 1
+bindsym $cag+Shift+2 move container to workspace 2
+bindsym $cag+Shift+3 move container to workspace 3
+bindsym $cag+Shift+4 move container to workspace 4
+bindsym $cag+Shift+5 move container to workspace 5
+bindsym $cag+Shift+6 move container to workspace 6
+bindsym $cag+Shift+7 move container to workspace 7
+bindsym $cag+Shift+8 move container to workspace 8
+bindsym $cag+Shift+9 move container to workspace 9
+bindsym $cag+Shift+0 move container to workspace 10
+
 bindsym $mod+Shift+apostrophe move scratchpad
 bindsym $mod+apostrophe scratchpad show
 
+bindsym $cag+b border toggle
 bindsym $mod+b border toggle
 
 # reload the configuration file
+bindsym $cag+Shift+c reload
 bindsym $mod+Shift+c reload
 # restart sway inplace (preserves your layout/session, can be used to upgrade sway)
+bindsym $cag+Shift+r restart
 bindsym $mod+Shift+r restart
 # exit sway (logs you out of your X session)
+bindsym $cag+Shift+e exit
 bindsym $mod+Shift+e exit
 
 bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
@@ -220,9 +274,11 @@ mode "resize" {
   bindsym Escape mode "default"
   bindsym control+bracketleft mode "default"
   bindsym q mode "default"
+  bindsym $cag+r mode "default"
   bindsym $mod+r mode "default"
 }
 
+bindsym $cag+r mode "resize"
 bindsym $mod+r mode "resize"
 
 input "type:keyboard" {
