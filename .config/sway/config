@@ -299,7 +299,7 @@ bar {
   workspace_buttons yes
   binding_mode_indicator yes
   # separator_symbol "║"
-  separator_symbol "⎞"
+  separator_symbol "⎞ "
   # gaps 2 10
   colors {
     focused_background $br_wht
@@ -396,4 +396,4 @@ include /etc/sway/config.d/*
 
 exec xrdb -load ~/.Xresources
 exec mako
-exec foot
+exec kitty
