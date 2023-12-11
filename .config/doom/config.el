@@ -68,6 +68,13 @@
    lsp-enable-snippet nil
    ))
 
+(after! swift-mode
+  (setq
+   swift-mode:parenthesized-expression-offset 4
+   swift-mode:multiline-statement-offset 4
+   swift-mode:switch-case-offset 4
+   ))
+
 (map!
  :after evil
  :gi "C-u" #'doom/backward-kill-to-bol-and-indent
