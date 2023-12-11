@@ -25,7 +25,7 @@ function prompt_jpgrayson_setup {
   zstyle ':vcs_info:*' unstagedstr '%F{yellow}●%f'
   zstyle ':vcs_info:*' stagedstr '%F{green}●%f'
   zstyle ':vcs_info:*' actionformats "%S" "%F{black}%r/%s/%b %u%c (%a) %m"
-  zstyle ':vcs_info:*' formats "%S" "%F{black}%b%f%u%c%m"
+  zstyle ':vcs_info:*' formats "%S" "%F{magenta}%b%f%u%c%m"
   zstyle ':vcs_info:git:*' nopatch-format ' %F{white}%n/%a%f'
   zstyle ':vcs_info:git:*' patch-format ' %F{white}%n/%a%f %F{blue}%p%f'
   zstyle ':vcs_info:*+gen-applied-string:*' hooks gen-applied-string
