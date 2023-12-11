@@ -80,7 +80,8 @@
 	applied = "blue white reverse no-reverse "
 
 [stgit "alias"]
-	k = series -rOPd
+	k = series -rOd
+	kk = series -rId
 	outgoing = !git log --show-signature @{u}..
 	st = !git status -s
 	stack = series -rOP --commit-id=7
