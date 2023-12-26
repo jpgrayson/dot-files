@@ -43,6 +43,6 @@ yabai -m config \
 # yabai -m rule --add app=".*" manage=off
 # yabai -m rule --add app="^(Emacs|kitty|zoom.us|Mail|Daylite|Firefox|Music)$" manage=on
 
-yabai -m rule --add app="^(System Settings|Activity Monitor|Stats|Finder|Box UI|Zoom Meeting|Music|Preview)$" manage=off
+yabai -m rule --add app="^(System Settings|Activity Monitor|Stats|Finder|Box UI|Zoom Meeting|Music|Preview|Raycast)$" manage=off
 
 echo "yabai configuration loaded.."
