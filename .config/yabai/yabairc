@@ -46,3 +46,5 @@ yabai -m config \
 yabai -m rule --add app="^(System Settings|Activity Monitor|Stats|Finder|Box UI|Zoom Meeting|Music|Preview|Raycast)$" manage=off
 
 echo "yabai configuration loaded.."
+
+borders &
