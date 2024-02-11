@@ -55,7 +55,11 @@ fi
 
 setopt numericglobsort
 
-export EDITOR=nvim
+if [ -n "$INSIDE_EMACS" ]; then
+    export EDITOR=emacsclient
+else
+    export EDITOR=nvim
+fi
 export PYTHONBREAKPOINT=pudb.set_trace
 export PYTHONSTARTUP=~/.pythonstartup
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -64,6 +68,17 @@ export RIPGREP_CONFIG_PATH=~/.config/ripgrep/ripgreprc
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
 
 # source <(pip completion --zsh)
+
+if command -v bat 1>/dev/null; then
+    export MANPAGER="sh -c 'col -bx | bat --language=man --style=plain --paging=always'"
+    unset LESS_TERMCAP_mb
+    unset LESS_TERMCAP_md
+    unset LESS_TERMCAP_me
+    unset LESS_TERMCAP_se
+    unset LESS_TERMCAP_so
+    unset LESS_TERMCAP_ue
+    unset LESS_TERMCAP_us
+fi
 
 if command -v pyenv 1>/dev/null 2>&1; then
     export PYENV_VIRTUALENV_DISABLE_PROMPT=1
