@@ -24,7 +24,6 @@
 	gpgsign = on
 
 [core]
-	editor = nvim
 	excludesFile = ~/.config/git/ignore
 	#pager = delta
 
