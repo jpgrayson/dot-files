@@ -244,6 +244,9 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 10
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 bindsym print exec dmenu_run -p "print"
 
+bindsym $cag+less    resize shrink width 10 px or 10 ppt
+bindsym $cag+greater resize grow   width 10 px or 10 ppt
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
   # These bindings trigger as soon as you enter the resize mode
