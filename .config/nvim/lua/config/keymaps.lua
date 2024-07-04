@@ -7,7 +7,7 @@ local Util = require("lazyvim.util")
 wk.register({
   ["<leader>fs"] = { "<cmd>write<cr>", "Save File" },
   ["<leader>*"] = {
-    Util.telescope("grep_string", { word_match = "-w" }),
+    Util.pick("grep_string", { word_match = "-w" }),
     "Search Word",
   },
 })
