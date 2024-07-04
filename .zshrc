@@ -71,7 +71,7 @@ export GPG_TTY=$(tty)
 # source <(pip completion --zsh)
 
 if command -v bat 1>/dev/null; then
-    export MANPAGER="sh -c 'col -bx | bat --language=man --style=plain --paging=always'"
+    # export MANPAGER="sh -c 'col -bx | bat --language=man --style=plain --paging=always'"
     unset LESS_TERMCAP_mb
     unset LESS_TERMCAP_md
     unset LESS_TERMCAP_me
