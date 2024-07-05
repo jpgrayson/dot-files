@@ -67,6 +67,9 @@
 	syntax-theme = 1337
 	plus-style = "syntax #007000"
 
+[fetch]
+	prune = true
+
 [github]
 	user = jpgrayson
 
@@ -85,6 +88,7 @@
 	st = !git status -s
 	stack = series -rOP --commit-id=7
 	staged = diff -O--staged
+	bottom = series --no-prefix 0
 
 [log]
 	initialDecorationSet = all
