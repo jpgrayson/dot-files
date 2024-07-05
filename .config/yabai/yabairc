@@ -45,6 +45,14 @@ yabai -m config \
 
 yabai -m rule --add app="^(System Settings|Activity Monitor|Stats|Finder|Box UI|Zoom Meeting|Music|Preview|Raycast)$" manage=off
 
+# disable focus_follows_mouse when a Zoom window is focused
+yabai -m signal --add event=window_focused app=^zoom.us$ action="yabai -m config focus_follows_mouse off"
+
+# renable focus_follows_mouse autofocus after Zoom meeting is finished
+for event in application_front_switched application_terminated application_hidden window_destroyed window_minimized; do
+	yabai -m signal --add event="$event" app="^zoom.us$" action="yabai -m config focus_follows_mouse autofocus"
+done
+
 echo "yabai configuration loaded.."
 
 borders &
