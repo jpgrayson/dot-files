@@ -28,6 +28,10 @@
 
 (add-to-list 'auto-mode-alist '("\\.uml\\'" . plantuml-mode))
 
+(after! corfu
+  (setq corfu-auto nil
+        corfu-preselect 'valid))
+
 (after! company
   (setq company-idle-delay nil))
 

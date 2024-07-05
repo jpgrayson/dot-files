@@ -21,11 +21,11 @@
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       (company +childframe) ; the ultimate code completion backend
+       ;;(company +childframe) ; the ultimate code completion backend
+       (corfu +icons +orderless)  ; complete with cap(f), cape and a flying feather!
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life
-       ;;(ivy +childframe +icons)
        (vertico +childframe) ; the search engine of the future
 
        :ui
@@ -95,7 +95,6 @@
        editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
-       ;;gist              ; interacting with github gists
        (lookup +dictionary) ; navigate your code and its documentation
        lsp               ; M-x vscode
        (magit +forge)     ; a git porcelain for Emacs
@@ -111,7 +110,7 @@
        ;;upload            ; map local to remote projects via ssh/ftp
 
        :os
-       (:if IS-MAC macos)  ; improve compatibility with macOS
+       (:if (featurep :system 'macos) macos)  ; improve compatibility with macOS
        ;;tty               ; improve the terminal Emacs experience
 
        :lang
@@ -177,7 +176,7 @@
        (swift +lsp +treesitter) ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
        ;;web               ; the tubes
-       yaml              ; JSON, but readable
+       (yaml +treesitter)  ; JSON, but readable
        ;;(zig +lsp)        ; C, but simpler
 
        :email
