@@ -1,32 +1,36 @@
 {
     "layer": "bottom",
     "modules-left": [
-        "sway/workspaces",
-        "sway/mode",
-        "sway/window"
+        "hyprland/workspaces"
     ],
     "modules-center": [
+        "hyprland/window"
     ],
     "modules-right": [
-	"idle_inhibitor",
-        "pulseaudio",
-        "backlight",
+        "idle_inhibitor",
+        "wireplumber",
         "cpu",
-	"temperature",
-        "battery",
+        "temperature",
         "network",
-	"tray",
+        "tray",
         "clock"
     ],
-    "sway/workspaces": {
-        "disable-scroll-wraparound": true,
-        "disable-bar-scroll": true
+    "hyprland/workspaces": {
+        "persistent-workspaces": {
+            "*": 5,
+        }
     },
-    "sway/window": {
+    "hyprland/window": {
     },
-    "sway/mode": {
-        "format": "{}"
-    },
+    // "sway/workspaces": {
+    //     "disable-scroll-wraparound": true,
+    //     "disable-bar-scroll": true
+    // },
+    // "sway/window": {
+    // },
+    // "sway/mode": {
+    //     "format": "{}"
+    // },
     "idle_inhibitor": {
         "format": "{icon}",
         "format-icons": {
@@ -47,7 +51,7 @@
         "interval": 5,
         "format": "{usage}% ",
         "states": {
-	    "p10": 10,
+            "p10": 10,
             "p25": 25,
             "p50": 50,
             "p75": 75
@@ -58,7 +62,7 @@
     },
     "temperature": {
         // "thermal-zone": 2,
-        "hwmon-path": "/sys/class/hwmon/hwmon6/temp1_input",
+        "hwmon-path": "/sys/class/hwmon/hwmon4/temp1_input",
         "critical-threshold": 80,
         "format-critical": "{temperatureC}°C {icon}",
         "format": "{temperatureC}°C {icon}",
@@ -95,6 +99,25 @@
         "tooltip-format-wifi": "{essid} {signalStrength} {frequency}\n{ifname} {ipaddr}/{cidr}\n{bandwidthUpBits}   {bandwidthDownBits} ",
         "tooltip-disconnected": "disconnected",
         "interval": 10
+    },
+    "wireplumber": {
+        "format": "{volume}% {icon}",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": "{volume}% {icon}",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol-qt",
+        "on-click-right": "pactl set-sink-mute 0 toggle"
     },
     "pulseaudio": {
         "scroll-step": 1,

@@ -20,7 +20,7 @@
 * {
     border: none;
     border-radius: 2px;
-    font-family: "Iosevka Term SS01";
+    font-family: "IosevkaTerm Nerd Font";
     font-size: 16px;
     min-height: 0;
     color: @wht;
@@ -34,6 +34,7 @@
 #backlight,
 #network,
 #pulseaudio,
+#wireplumber,
 #idle_inhibitor,
 #window {
     border-bottom: 2px solid transparent;
@@ -48,13 +49,14 @@
 #backlight,
 #network,
 #pulseaudio,
+#wireplumber,
 #window,
 #idle_inhibitor {
     padding: 0 10px;
     margin: 0 1px;
 }
 
-#clock, #battery, #cpu, #backlight, #network, #pulseaudio {
+#clock, #battery, #cpu, #backlight, #network, #pulseaudio, #wireplumber {
     min-width: 60px;
 }
 
@@ -72,7 +74,7 @@ window#waybar.empty #window {
 
 #window {
     color: @wht;
-    border-bottom-color: @cyn;
+    /* border-bottom-color: @cyn; */
     font-weight: bold;
     font-style: italic;
 }
@@ -90,6 +92,11 @@ window#waybar.empty #window {
     box-shadow: inherit;
     text-shadow: inherit;
     background: @br_wht;
+}
+
+#workspaces button.active {
+    background: @br_wht;
+    border-bottom-color: @wht;
 }
 
 #workspaces button.focused {
@@ -189,6 +196,11 @@ window#waybar.empty #window {
 }
 
 #pulseaudio.muted {
+    border-bottom-color: @br_ylw;
+    text-decoration: line-through;
+}
+
+#wireplumber.muted {
     border-bottom-color: @br_ylw;
     text-decoration: line-through;
 }
