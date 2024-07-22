@@ -1,3 +1,14 @@
+[template-aliases]
+# Highlight unique prefix and show at least 5 characters
+'format_short_id(id)' = 'id.shortest(5)'
+
+# Just the shortest possible unique prefix
+#'format_short_id(id)' = 'id.shortest()'
+
+[ui]
+default-command = ["log", "-T", "builtin_log_oneline"]
+editor = "emacsclient"
+
 [user]
 name = "Peter Grayson"
 email = "pete@jpgrayson.net"
