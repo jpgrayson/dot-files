@@ -4,10 +4,11 @@
 local wk = require("which-key")
 local Util = require("lazyvim.util")
 
-wk.register({
-  ["<leader>fs"] = { "<cmd>write<cr>", "Save File" },
-  ["<leader>*"] = {
-    Util.pick("grep_string", { word_match = "-w" }),
-    "Search Word",
+wk.add({
+  {
+    "<leader>*",
+    function() Util.pick("grep_string", { word_match = "-w" }) end,
+    desc = "Search Word"
   },
+  { "<leader>fs", "<cmd>write<cr>", desc = "Save File" },
 })
