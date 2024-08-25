@@ -1,3 +1,6 @@
+[git]
+private-commits = "description(glob:'wip:*')"
+
 [template-aliases]
 # Highlight unique prefix and show at least 5 characters
 'format_short_id(id)' = 'id.shortest(5)'
