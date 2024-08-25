@@ -25,6 +25,7 @@
 
 [core]
 	excludesFile = ~/.config/git/ignore
+	abbrev = 7
 	#pager = delta
 
 [credential]
