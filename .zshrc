@@ -57,6 +57,7 @@ setopt numericglobsort
 
 if [ -n "$INSIDE_EMACS" ]; then
     export EDITOR=emacsclient
+    export JJ_EDITOR=emacsclient
 else
     export EDITOR=nvim
 fi
