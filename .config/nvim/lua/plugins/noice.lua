@@ -8,9 +8,6 @@ return {
       last = {
         view = "cmdline",
       },
-      messages = {
-        view = "cmdline",
-      },
     },
   },
 }
