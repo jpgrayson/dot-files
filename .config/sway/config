@@ -367,7 +367,7 @@ for_window [app_id="ipython"] {
   move window to scratchpad
   scratchpad show
 }
-for_window [app_id="(foot|kitty|Alacritty)"] {
+for_window [app_id="(foot|kitty|Alacritty|org.wezfurlong.wezterm)"] {
   border pixel 1
   resize set width 25ppt
 }
