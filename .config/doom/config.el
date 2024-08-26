@@ -28,6 +28,9 @@
 
 (add-to-list 'auto-mode-alist '("\\.uml\\'" . plantuml-mode))
 
+(add-hook 'diff-mode-hook (lambda() (set-fill-column 72)))
+(add-hook 'swift-mode-hook (lambda() (set-fill-column 100)))
+
 (after! corfu
   (setq corfu-auto nil
         corfu-preselect 'valid))
