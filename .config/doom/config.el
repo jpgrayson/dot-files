@@ -69,8 +69,9 @@
 (after! lsp-ui
   (setq
    lsp-ui-doc-enable nil
-   lsp-enable-snippet nil
-   ))
+   lsp-enable-snippet nil)
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.jj\\'")
+  )
 
 (after! swift-mode
   (setq
