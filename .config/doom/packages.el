@@ -26,6 +26,8 @@
 (package! meson-mode
   :recipe (:host github :repo "wentasah/meson-mode"))
 
+(package! systemd)
+
 ;; (package! magit-stgit
 ;;   ;:recipe (:host github :repo "stacked-git/magit-stgit")
 ;;   :recipe (:local-repo "~/code/magit-stgit"
