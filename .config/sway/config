@@ -8,6 +8,8 @@ set $down j
 set $up k
 set $right l
 
+set $terminal wezterm
+
 #set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
 font pango:IosevkaTerm Nerd Font Medium 14
@@ -55,7 +57,7 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+Shift+Return exec kitty
 bindsym $mod+Return exec foot
-bindsym $cag+Return exec kitty
+bindsym $cag+Return exec $terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -399,4 +401,4 @@ include /etc/sway/config.d/*
 
 exec xrdb -load ~/.Xresources
 exec mako
-exec kitty
+exec $terminal
