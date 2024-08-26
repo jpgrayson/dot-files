@@ -7,7 +7,7 @@
 
 [ui]
 default-command = ["log", "-T", "builtin_log_oneline"]
-editor = "emacsclient"
+editor = "nvim"
 
 [user]
 name = "Peter Grayson"
