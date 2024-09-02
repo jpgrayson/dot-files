@@ -83,6 +83,16 @@
    swift-mode:switch-case-offset 4
    ))
 
+(defconst my-with-editor-regexp "\\(\.jjdescription\\|\.stgit-edit\\(\.txt\\|\.patch\\)\\)$")
+
+(defun my-with-editor-check-buffer ()
+  (when (and buffer-file-name
+             (string-match-p my-with-editor-regexp buffer-file-name))
+    (unless with-editor-mode
+      (with-editor-mode 1))))
+
+(add-hook 'find-file-hook #'my-with-editor-check-buffer)
+
 (map!
  :after evil
  :gi "C-u" #'doom/backward-kill-to-bol-and-indent
