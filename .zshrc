@@ -2,11 +2,27 @@
 
 typeset -gU cdpath fpath mailpath path
 
-fpath=("$HOME/.zsh.d" "$HOME/.local/share/zsh/site-functions" $fpath)
-fpath=("$HOME/code/zsh/Functions/VCS_Info"
-       "$HOME/code/zsh/Functions/VCS_Info/Backends"
-       $fpath)
+if [ -n "$HOMEBREW_PREFIX" ] && [ -d "$HOMEBREW_PREFIX/share/zsh" ]; then
+    fpath=(
+        "$HOMEBREW_PREFIX/share/zsh/site-functions"
+        "$HOMEBREW_PREFIX/share/zsh/functions"
+        $fpath
+    )
+fi
 
+if [ -d "$HOME/code/zsh" ]; then
+    fpath=(
+        "$HOME/code/zsh/Functions/VCS_Info"
+        "$HOME/code/zsh/Functions/VCS_Info/Backends"
+        $fpath
+    )
+fi
+
+fpath=(
+    "$HOME/.zsh.d"
+    "$HOME/.local/share/zsh/site-functions"
+    $fpath
+)
 
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]
 then
