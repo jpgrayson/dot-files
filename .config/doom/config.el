@@ -88,8 +88,10 @@
 (defun my-with-editor-check-buffer ()
   (when (and buffer-file-name
              (string-match-p my-with-editor-regexp buffer-file-name))
-    (unless with-editor-mode
-      (with-editor-mode 1))))
+    (progn
+      (setq! fill-column 72)
+      (unless with-editor-mode
+        (with-editor-mode 1)))))
 
 (add-hook 'find-file-hook #'my-with-editor-check-buffer)
 
