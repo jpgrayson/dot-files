@@ -14,24 +14,6 @@ set $terminal wezterm
 
 font pango:IosevkaTerm Nerd Font Medium 14
 
-# Solarized Dark Colors
-#set $yellow     #b58900
-#set $orange     #cb4b16
-#set $red        #dc322f
-#set $magenta    #d33682
-#set $violet     #6c71c4
-#set $blue       #268bd2
-#set $cyan       #2aa198
-#set $green      #859900
-#set $baseO3     #002b36
-#set $baseO2     #073642
-#set $baseO1     #586e75
-#set $baseO0     #657b83
-#set $base0      #839496
-#set $base1      #93a1a1
-#set $base2      #eee8d5
-#set $base3      #fdf6e3
-
 # One Dark
 set $bgr #282c34
 set $blk #5c6370
@@ -303,8 +285,8 @@ bar {
   font pango:IosevkaTerm Nerd Font Medium 14
   workspace_buttons yes
   binding_mode_indicator yes
-  # separator_symbol "║"
-  separator_symbol "⎞ "
+  separator_symbol "║ "
+  # separator_symbol "⎞ "
   # gaps 2 10
   colors {
     focused_background $br_wht
