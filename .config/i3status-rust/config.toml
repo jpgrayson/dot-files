@@ -14,12 +14,16 @@ short = " $title.str(max_w:10) |"
 
 [[block]]
 block = "cpu"
-format = "$icon $utilization"
+format = "$icon  $utilization"
 format_alt = "$icon $frequency"
 
 [[block]]
+block = "amd_gpu"
+format = "\uf6cf  $utilization"
+
+[[block]]
 block = "temperature"
-format = "CPU $average|"
+format = "$icon \uf2db  $average|"
 chip = "k10temp-*"
 inputs = ["Tccd1"]
 scale = "celsius"
@@ -27,15 +31,15 @@ interval = 5
 
 [[block]]
 block = "temperature"
-format = "GPU $average|"
 chip = "amdgpu-*"
+format = "$icon \uf6cf  $average|"
 inputs = ["edge"]
 scale = "celsius"
 interval = 5
 
 [[block]]
 block = "temperature"
-format = "NVMe $average|"
+format = "$icon \uf0a0  $average|"
 chip = "nvme-*"
 inputs = ["Composite"]
 scale = "celsius"
@@ -48,20 +52,20 @@ info_type = "available"
 interval = 20
 warning = 20.0
 alert = 10.0
-format = "$icon $available.eng(w:2) "
+format = "$icon  $available.eng(w:2) "
 [[block.click]]
 button = "right"
 update = true
 
 [[block]]
 block = "memory"
-format = "$icon $mem_total_used_percents.eng(w:2) "
-format_alt = "$icon_swap $swap_used_percents.eng(w:2) "
+format = "$icon  $mem_total_used_percents.eng(w:2) "
+format_alt = "$icon_swap  $swap_used_percents.eng(w:2) "
 
 [[block]]
 block = "sound"
 headphones_indicator = true
-format = "$icon {$volume.eng(w:2) |}"
+format = "$icon  {$volume.eng(w:2) |}"
 [[block.click]]
 button = "left"
 cmd = "pavucontrol"
@@ -69,5 +73,5 @@ cmd = "pavucontrol"
 [[block]]
 block = "time"
 interval = 5
-format = "$icon $timestamp.datetime(f:'%F %I:%M') "
+format = "$icon  $timestamp.datetime(f:'%F %I:%M') "
 
