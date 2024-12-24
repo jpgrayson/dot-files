@@ -296,7 +296,7 @@ smart_borders no_gaps
 client.focused          $wht    $br_wht  $wht    $cyn  $wht
 client.focused_inactive $br_wht $br_wht  $wht    $cyn  $br_wht
 client.unfocused        $br_blk $br_wht  $br_blk $cyn  $br_blk
-client.urgent           $mag    $br_wht  $br_wht $cyn  $mag
+client.urgent           #9257a4 $br_wht  $br_blk $cyn  $br_blk
 
 titlebar_border_thickness 1
 
