@@ -300,34 +300,6 @@ client.urgent           #9257a4 $br_wht  $br_blk $cyn  $br_blk
 
 titlebar_border_thickness 1
 
-# output eDP-1 {
-#   scale 1.25
-#   position 0 360
-#   bg $bgr solid_color
-# }
-# output DP-1 {
-#   scale 1.00
-#   position 2560 0
-#   bg $bgr solid_color
-# }
-
-output eDP-1 {
-  bg $bgr solid_color
-  scale 2.00
-  position 0 360
-}
-output DP-1 {
-  bg $bgr solid_color
-  scale 1.00
-  position 1600 0
-}
-
-for_window [app_id="ipython"] {
-  floating enable
-  border normal
-  move window to scratchpad
-  scratchpad show
-}
 for_window [app_id="(foot|kitty|Alacritty|org.wezfurlong.wezterm)"] {
   border pixel 1
   resize set width 25ppt
