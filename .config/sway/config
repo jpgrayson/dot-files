@@ -300,7 +300,7 @@ client.urgent           #9257a4 $br_wht  $br_blk $cyn  $br_blk
 
 titlebar_border_thickness 1
 
-for_window [app_id="(foot|kitty|Alacritty|org.wezfurlong.wezterm)"] {
+for_window [app_id="(foot|kitty|Alacritty|org.wezfurlong.wezterm|com.mitchellh.ghostty)"] {
   border pixel 1
   resize set width 25ppt
 }
