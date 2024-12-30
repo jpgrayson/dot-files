@@ -15,6 +15,8 @@ config.color_scheme = "Ef-Elea-Dark"
 config.use_fancy_tab_bar = true
 config.hide_tab_bar_if_only_one_tab = true
 
+config.scrollback_lines = 5000
+
 config.window_frame = {
 	font = wezterm.font("IosevkaTerm Nerd Font Mono"),
 	font_size = 16.0,
@@ -46,6 +48,22 @@ config.colors = {
 			fg_color = '#e0e0e0',
 		},
 	},
+}
+
+config.keys = {
+	{ key = 'UpArrow', mods = 'SUPER', action = wezterm.action.ScrollByLine(-1) },
+	{ key = 'DownArrow', mods = 'SUPER', action = wezterm.action.ScrollByLine(1) },
+	{ key = 'UpArrow', mods = 'SUPER|SHIFT', action = wezterm.action.ScrollByPage(-0.5) },
+	{ key = 'DownArrow', mods = 'SUPER|SHIFT', action = wezterm.action.ScrollByPage(0.5) },
+	{ key = 'j', mods = 'SUPER', action = wezterm.action.ScrollByLine(1) },
+	{ key = 'k', mods = 'SUPER', action = wezterm.action.ScrollByLine(-1) },
+	{ key = 'j', mods = 'SUPER|SHIFT', action = wezterm.action.ScrollByPage(0.5) },
+	{ key = 'k', mods = 'SUPER|SHIFT', action = wezterm.action.ScrollByPage(-0.5) },
+	{ key = 'h', mods = 'SUPER', action = wezterm.action.ScrollToPrompt(-1) },
+	{ key = 'l', mods = 'SUPER', action = wezterm.action.ScrollToPrompt(1) },
+	{ key = 'h', mods = 'SUPER|SHIFT', action = wezterm.action.ScrollToTop },
+	{ key = 'l', mods = 'SUPER|SHIFT', action = wezterm.action.ScrollToBottom },
+	{ key = 'x', mods = 'SUPER', action = wezterm.action.ActivateCopyMode },
 }
 
 return config
