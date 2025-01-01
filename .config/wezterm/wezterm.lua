@@ -6,14 +6,10 @@ if wezterm.config_builder then
 end
 
 config.font = wezterm.font("IosevkaTerm Nerd Font Mono")
-config.font_size = 16.0
-config.color_scheme = "One Dark (Gogh)"
-config.color_scheme = "Catppuccin Mocha (Gogh)"
-config.color_scheme = "Frontend Galaxy (Gogh)"
-config.color_scheme = "Hybrid"
-config.color_scheme = "N0Tch2K (Gogh)"
-config.color_scheme = "Nightfly (Gogh)"
-config.color_scheme = "Ef-Dark"
+
+config.font_size = 14.0
+-- config.color_scheme = "Catppuccin Mocha (Gogh)"
+-- config.color_scheme = "Frontend Galaxy (Gogh)"
 config.color_scheme = "Ef-Elea-Dark"
 
 config.use_fancy_tab_bar = true
