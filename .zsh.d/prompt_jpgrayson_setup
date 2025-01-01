@@ -1,6 +1,11 @@
 function prompt_jpgrayson_precmd {
   _prompt_jpgrayson_pwd=$(prompt-pwd)
-  vcs_info
+  if [ -d .git ] && [ ! -d .jj ]; then
+    vcs_info
+  else
+    vcs_info_msg_0_=''
+    vcs_info_msg_1_=''
+  fi
 }
 
 function prompt_jpgrayson_setup {
