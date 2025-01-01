@@ -43,7 +43,7 @@ yabai -m config \
 # yabai -m rule --add app=".*" manage=off
 # yabai -m rule --add app="^(Emacs|kitty|zoom.us|Mail|Daylite|Firefox|Music)$" manage=on
 
-yabai -m rule --add app="^(System Settings|Activity Monitor|Stats|Finder|Box UI|Zoom Meeting|Music|Preview|Raycast|Keynote|Numbers|Pages)$" manage=off
+yabai -m rule --add app="^(System Settings|Activity Monitor|Stats|Finder|Box UI|Zoom Meeting|Music|Preview|Raycast|Keynote|Numbers|Pages|Maps)$" manage=off
 
 # disable focus_follows_mouse when a Zoom window is focused
 yabai -m signal --add event=window_focused app=^zoom.us$ action="yabai -m config focus_follows_mouse off"
