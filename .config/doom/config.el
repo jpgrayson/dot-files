@@ -56,6 +56,14 @@
 ; (after! vterm
 ;   (advice-add #'vterm-redraw :after (lambda (&rest args) (evil-refresh-cursor evil-state))))
 
+(after! magit
+  (let ((width 150))
+    (set-popup-rules!
+      `(("^ ?\\*jj"
+         :slot 2 :vslot 1 :width ,width :height '+popup-shrink-to-fit :autosave t :quit t :ttl nil :side right)
+        ("^\\*doom:\\(?:v?term\\|e?shell\\)-popup"
+         :slot 3 :vslot 1 :width ,width :select t :modeline nil :quit nil :ttl nil :side right)))))
+
 ; (after! lsp-python-ms
 ;   (set-lsp-priority! 'mspyls 1))
 
@@ -69,6 +77,29 @@
         swift-mode:multiline-statement-offset 4
         swift-mode:switch-case-offset 4))
 
+(defvar jj-mode-fontlock-keywords '(
+    ("^JJ: " (0 'font-lock-comment-delimiter-face)
+             ("    \\(M\\) .*" nil nil (1 'font-lock-variable-name-face))
+             ("    \\(A\\) .*" nil nil (1 'font-lock-string-face))
+             ("    \\(D\\) .*" nil nil (1 'font-lock-warning-face))
+             (".*"       nil nil (0 'font-lock-comment-face)))
+    ;; ("^\\(feat\\|fix\\|build\\|chore\\|ci\\|docs\\|style\\|refactor\\|perf\\|test\\)\\(([[:word:]]+)\\)?\\(!\\)?:\\(.*\\)" . 'font-lock-variable-name-face)
+    ("^\\(feat\\|fix\\|build\\|chore\\|ci\\|docs\\|style\\|refactor\\|perf\\|test\\)\\(([[:word:]]+)\\)?\\(!\\)?:" .
+     '((1 'font-lock-keyword-face nil t)
+       (2 'font-lock-constant-face nil t)
+       (3 'font-lock-warning-face nil t)))
+    ("^\\(wip\\)\\(([[:word:]]+)\\)?\\(!\\)?:" .
+     '((1 'font-lock-warning-face nil t)
+       (2 'font-lock-constant-face nil t)
+       (3 'font-lock-warning-face nil t)))
+))
+
+(define-derived-mode jj-mode
+  text-mode
+  "jj"
+  (setq-local font-lock-defaults '(jj-mode-fontlock-keywords))
+  "Major mode for editing jj descriptions.")
+
 (defconst my-with-editor-regexp "\\(\.jjdescription\\|\.stgit-edit\\(\.txt\\|\.patch\\)\\)$")
 
 (defun my-with-editor-check-buffer ()
@@ -77,7 +108,8 @@
     (progn
       (setq! fill-column 72)
       (unless with-editor-mode
-        (with-editor-mode 1)))))
+        (with-editor-mode 1))
+      (jj-mode))))
 
 (add-hook 'find-file-hook #'my-with-editor-check-buffer)
 
