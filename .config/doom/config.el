@@ -22,9 +22,7 @@
   ;; delete-window-choose-selected 'pos ;; default is 'mru
   )
 
-(setq-default
-  display-fill-column-indicator-character 9482
- )
+(setq-default display-fill-column-indicator-character 9482)
 
 (add-to-list 'auto-mode-alist '("\\.uml\\'" . plantuml-mode))
 
@@ -42,26 +40,18 @@
   (setq dabbrev-case-fold-search nil))
 
 (after! which-key
-  (setq
-   which-key-idle-delay 0.5
-   which-key-idle-secondary-delay 0.3
-   ))
+  (setq which-key-idle-delay 0.5
+        which-key-idle-secondary-delay 0.3))
 
 (after! evil-matchit
-  (setq
-   evilmi-always-simple-jump t
-   ))
+  (setq evilmi-always-simple-jump t))
 
 (after! evil-snipe
-  (setq
-   evil-snipe-skip-leading-whitespace nil
-   ))
+  (setq evil-snipe-skip-leading-whitespace nil))
 
 (after! flycheck
-  (setq
-   flycheck-python-flake8-executable "flake8"
-   flycheck-python-pycompile-executable "python3"
-   ))
+  (setq flycheck-python-flake8-executable "flake8"
+        flycheck-python-pycompile-executable "python3"))
 
 ; (after! vterm
 ;   (advice-add #'vterm-redraw :after (lambda (&rest args) (evil-refresh-cursor evil-state))))
@@ -70,18 +60,14 @@
 ;   (set-lsp-priority! 'mspyls 1))
 
 (after! lsp-ui
-  (setq
-   lsp-ui-doc-enable nil
-   lsp-enable-snippet nil)
-  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.jj\\'")
-  )
+  (setq lsp-ui-doc-enable nil
+        lsp-enable-snippet nil)
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.jj\\'"))
 
 (after! swift-mode
-  (setq
-   swift-mode:parenthesized-expression-offset 4
-   swift-mode:multiline-statement-offset 4
-   swift-mode:switch-case-offset 4
-   ))
+  (setq swift-mode:parenthesized-expression-offset 4
+        swift-mode:multiline-statement-offset 4
+        swift-mode:switch-case-offset 4))
 
 (defconst my-with-editor-regexp "\\(\.jjdescription\\|\.stgit-edit\\(\.txt\\|\.patch\\)\\)$")
 
@@ -100,8 +86,7 @@
  :gi "C-u" #'doom/backward-kill-to-bol-and-indent
  :gi "C-w" #'evil-delete-backward-word
  :gi "C-b" #'evil-backward-char
- :gi "C-f" #'evil-forward-char
- )
+ :gi "C-f" #'evil-forward-char)
 
 (map!
  :after evil
@@ -109,24 +94,20 @@
  "C-b" #'backward-char
  "C-f" #'forward-char
  "C-d" #'delete-char
- "C-h" #'delete-backward-char
- )
+ "C-h" #'delete-backward-char)
 
 (map!
  :after evil
  :map evil-insert-state-map
- "C-w" #'evil-delete-backward-word
- )
+ "C-w" #'evil-delete-backward-word)
 
 (map!
  :after evil
  :map evil-motion-state-map
- "C-l" #'evil-ex-nohighlight
- )
+ "C-l" #'evil-ex-nohighlight)
 
 (define-key! :keymaps +default-minibuffer-maps
-  "C-b" #'backward-char
-)
+  "C-b" #'backward-char)
 
 (map!
  :after python
@@ -136,9 +117,7 @@
    "b" #'python-black-buffer
    "r" #'python-black-region
    "s" #'python-black-statement
-   "S" #'python-black-on-save-mode
-   )
- )
+   "S" #'python-black-on-save-mode))
 
 ;; (map!
 ;;  :leader
