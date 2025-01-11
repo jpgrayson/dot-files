@@ -1,6 +1,5 @@
 configuration {
-	// modi: "drun,run,calc,keys";
-	modi: "drun,run,keys";
+	modi: "drun,run,calc,keys";
 	sort: false;
 }
 @theme "Arc-Dark"
