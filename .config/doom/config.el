@@ -60,8 +60,12 @@
   (let ((width 150))
     (set-popup-rules!
       `(("^ ?\\*jj"
-         :slot 2 :vslot 1 :width ,width :height '+popup-shrink-to-fit :autosave t :quit t :ttl nil :side right)
-        ("^\\*doom:\\(?:v?term\\|e?shell\\)-popup"
+         :slot 2 :vslot 1 :width ,width :height '+popup-shrink-to-fit :autosave t :quit t :ttl nil :side right)))))
+
+(after! vterm
+  (let ((width 150))
+    (set-popup-rules!
+      `(("^\\*doom:\\(?:v?term\\|e?shell\\)-popup"
          :slot 3 :vslot 1 :width ,width :select t :modeline nil :quit nil :ttl nil :side right)))))
 
 ; (after! lsp-python-ms
