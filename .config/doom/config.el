@@ -68,6 +68,14 @@
       `(("^\\*doom:\\(?:v?term\\|e?shell\\)-popup"
          :slot 3 :vslot 1 :width ,width :select t :modeline nil :quit nil :ttl nil :side right)))))
 
+(defun +spell-fu-disable () (spell-fu-mode 0))
+
+(after! yaml-mode
+  (add-to-list 'yaml-mode-hook '+spell-fu-disable))
+
+(after! yaml-ts-mode
+  (add-to-list 'yaml-ts-mode-hook '+spell-fu-disable))
+
 ; (after! lsp-python-ms
 ;   (set-lsp-priority! 'mspyls 1))
 
