@@ -177,4 +177,4 @@ hyper - t : yabai -m window --toggle sticky --toggle topmost --toggle pip
 ctrl + alt + cmd - b : yabai -m window --toggle border
 ctrl + alt + cmd - z : yabai -m window --toggle zoom-fullscreen
 
-ctrl + alt + cmd - return : /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d ~
+ctrl + alt + cmd - return : /Applications/WezTerm.app/Contents/MacOS/wezterm start
