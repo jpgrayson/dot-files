@@ -19,12 +19,16 @@
   )
 
 (package! python-black
-  :recipe (:host github :repo "wbolster/emacs-python-black"))
+          :recipe (:host github :repo "wbolster/emacs-python-black"))
 
 ; (package! cython-mode)
 
+(package! scad-mode)
+(package! scad-dbus
+          :recipe (:host github :repo "Lenbok/scad-dbus"))
+
 (package! meson-mode
-  :recipe (:host github :repo "wentasah/meson-mode"))
+          :recipe (:host github :repo "wentasah/meson-mode"))
 
 (package! systemd)
 
