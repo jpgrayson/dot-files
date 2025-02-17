@@ -302,7 +302,7 @@ titlebar_border_thickness 1
 
 for_window [app_id="(foot|kitty|Alacritty|org.wezfurlong.wezterm|com.mitchellh.ghostty)"] {
   border pixel 1
-  resize set width 25ppt
+  resize set width 33ppt
 }
 for_window [app_id="emacs"] {
   border pixel 1
