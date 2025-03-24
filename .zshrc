@@ -60,7 +60,6 @@ else
     export HISTSIZE=1024
     export SAVEHIST=1020
     export WORDCHARS=${WORDCHARS//\//}
-    export ZLE_SPACE_SUFFIX_CHARS=$'&|'
 
     bindkey -e
 
@@ -68,6 +67,8 @@ else
     zle -N edit-command-line
     bindkey "^X^E" edit-command-line
 fi
+
+export ZLE_SPACE_SUFFIX_CHARS=$'&|'
 
 setopt numericglobsort
 
