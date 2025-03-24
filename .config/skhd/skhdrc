@@ -71,26 +71,26 @@
 #               an EOL character signifies the end of the bind.
 
 # focus window
-ctrl + alt + cmd - h : yabai -m window --focus west || yabai -m display --focus 2
-ctrl + alt + cmd - j : yabai -m window --focus south
-ctrl + alt + cmd - k : yabai -m window --focus north
-ctrl + alt + cmd - l : yabai -m window --focus east || yabai -m display --focus 1
+alt + cmd - h : yabai -m window --focus west || yabai -m display --focus 2
+alt + cmd - j : yabai -m window --focus south
+alt + cmd - k : yabai -m window --focus north
+alt + cmd - l : yabai -m window --focus east || yabai -m display --focus 1
 
-ctrl + alt + cmd - x : yabai -m space --mirror x-axis
-ctrl + alt + cmd - y : yabai -m space --mirror y-axis
-ctrl + alt + cmd - r : yabai -m space --rotate 90
+alt + cmd - x : yabai -m space --mirror x-axis
+alt + cmd - y : yabai -m space --mirror y-axis
+alt + cmd - r : yabai -m space --rotate 90
 
 # move window to other spaces
-hyper - 1 : yabai -m window --space 1
-hyper - 2 : yabai -m window --space 2
-hyper - 3 : yabai -m window --space 3
-hyper - 4 : yabai -m window --space 4
-hyper - 5 : yabai -m window --space 5
-hyper - 6 : yabai -m window --space 6
-hyper - 7 : yabai -m window --space 7
-hyper - 8 : yabai -m window --space 8
-hyper - 9 : yabai -m window --space 9
-hyper - 0 : yabai -m window --space 10
+alt + shift + cmd - 1 : yabai -m window --space 1
+alt + shift + cmd - 2 : yabai -m window --space 2
+alt + shift + cmd - 3 : yabai -m window --space 3
+alt + shift + cmd - 4 : yabai -m window --space 4
+alt + shift + cmd - 5 : yabai -m window --space 5
+alt + shift + cmd - 6 : yabai -m window --space 6
+alt + shift + cmd - 7 : yabai -m window --space 7
+alt + shift + cmd - 8 : yabai -m window --space 8
+alt + shift + cmd - 9 : yabai -m window --space 9
+alt + shift + cmd - 0 : yabai -m window --space 10
 
 # switch to display
 ctrl + alt + cmd - 1 -> : yabai -m display --focus 1
@@ -108,10 +108,10 @@ ctrl + alt + cmd - 0 -> : yabai -m display --focus 2
 # shift + alt - h : yabai -m window --swap north
 
 # move managed window
-hyper - h : yabai -m window --swap west || yabai -m window --display 2
-hyper - j : yabai -m window --swap south
-hyper - k : yabai -m window --swap north
-hyper - l : yabai -m window --swap east || yabai -m window --display 1
+alt + shift + cmd - h : yabai -m window --swap west || yabai -m window --display 2
+alt + shift + cmd - j : yabai -m window --swap south
+alt + shift + cmd - k : yabai -m window --swap north
+alt + shift + cmd - l : yabai -m window --swap east || yabai -m window --display 1
 
 # balance size of windows
 # shift + alt - 0 : yabai -m space --balance
@@ -137,14 +137,14 @@ hyper - l : yabai -m window --swap east || yabai -m window --display 1
 # shift + cmd - 2 : yabai -m window --space  2; yabai -m space --focus 2
 
 # focus monitor
-ctrl + alt + cmd - q : yabai -m display --focus 2
-ctrl + alt + cmd - w : yabai -m display --focus 1
+alt + cmd - q : yabai -m display --focus 2
+alt + cmd - w : yabai -m display --focus 1
 # ctrl + alt - z  : yabai -m display --focus prev
 # ctrl + alt - 3  : yabai -m display --focus 3
 
 # send window to monitor and follow focus
-hyper - q : yabai -m window --display 1; yabai -m display --focus 1
-hyper - w : yabai -m window --display 2; yabai -m display --focus 2
+alt + shift + cmd - q : yabai -m window --display 1; yabai -m display --focus 1
+alt + shift + cmd - w : yabai -m window --display 2; yabai -m display --focus 2
 # ctrl + cmd - c  : yabai -m window --display next; yabai -m display --focus next
 # ctrl + cmd - 1  : yabai -m window --display 1; yabai -m display --focus 1
 
@@ -153,8 +153,8 @@ hyper - w : yabai -m window --display 2; yabai -m display --focus 2
 # shift + ctrl - s : yabai -m window --move rel:0:20
 
 # increase/decrease window split ratio
-ctrl + alt + cmd - a : yabai -m window --ratio rel:-0.05
-ctrl + alt + cmd - s : yabai -m window --ratio rel:0.05
+alt + cmd - a : yabai -m window --ratio rel:-0.05
+alt + cmd - s : yabai -m window --ratio rel:0.05
 # ctrl + alt + cmd - w : yabai -m window --resize top:0:-20
 # ctrl + alt + cmd - q : yabai -m window --resize top:0:20
 
@@ -169,12 +169,12 @@ ctrl + alt + cmd - s : yabai -m window --ratio rel:0.05
 # alt - e : yabai -m window --toggle split
 
 # float / unfloat window and center on screen
-ctrl + alt + cmd - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
+alt + cmd - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
 
 # toggle sticky(+float), topmost, picture-in-picture
-hyper - t : yabai -m window --toggle sticky --toggle topmost --toggle pip
+alt + shift + cmd - t : yabai -m window --toggle sticky --toggle topmost --toggle pip
 
-ctrl + alt + cmd - b : yabai -m window --toggle border
-ctrl + alt + cmd - z : yabai -m window --toggle zoom-fullscreen
+alt + cmd - b : yabai -m window --toggle border
+alt + cmd - z : yabai -m window --toggle zoom-fullscreen
 
-ctrl + alt + cmd - return : /Applications/WezTerm.app/Contents/MacOS/wezterm start
+alt + cmd - return : /Applications/WezTerm.app/Contents/MacOS/wezterm start
