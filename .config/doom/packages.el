@@ -28,6 +28,8 @@
 
 (package! systemd)
 
+(package! kdl-ts-mode :recipe (:host github :repo "merrickluo/kdl-ts-mode"))
+
 ;; (package! magit-stgit
 ;;   ;:recipe (:host github :repo "stacked-git/magit-stgit")
 ;;   :recipe (:local-repo "~/code/magit-stgit"
