@@ -14,6 +14,7 @@ return {
       "gitcommit",
       "gitignore",
       "json",
+      "kdl",
       "lua",
       "make",
       "markdown",
