@@ -50,6 +50,8 @@ if(root,
 )
 '''
 
+changelog = 'concat("\t", truncate_end(9, commit_id), " ", tags, "- ", if(description, description.first_line(), description_placeholder))'
+
 [ui]
 default-command = ["log", "-T", "my_log_oneline"]
 # diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
