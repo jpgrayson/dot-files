@@ -82,8 +82,15 @@ export PYTHONBREAKPOINT=pudb.set_trace
 export PYTHONSTARTUP=~/.pythonstartup
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export RIPGREP_CONFIG_PATH=~/.config/ripgrep/ripgreprc
-#export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
+if [ -n "$XDG_RUNTIME_DIR" ]; then
+    if [ -e "$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh" ]; then
+        export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
+    elif [ -e "$XDG_RUNTIME_DIR/ssh-agent.socket" ]; then
+        export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+    fi
+elif [ -e "$HOME/.bitwarden-ssh-agent.sock" ]; then
+     export SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock
+fi
 export GPG_TTY=$(tty)
 export HOMEBREW_NO_ENV_HINTS=1
 
