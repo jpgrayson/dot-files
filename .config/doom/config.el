@@ -2,11 +2,15 @@
 
 ;; Place your private configuration here
 
+(if (featurep :system 'macos)
+    (setq
+     doom-font (font-spec :family "IosevkaTerm Nerd Font" :size 14)
+     doom-big-font (font-spec :family "IosevkaTerm Nerd Font" :size 24))
+  (setq
+   doom-font (font-spec :family "Iosevka Term Nerd Font" :size 14)
+   doom-big-font (font-spec :family "Iosevka Term Nerd Font" :size 24)))
+
 (setq
-  ;; doom-font (font-spec :family "Iosevka Fixed SS08" :size 14)
-  ;; doom-big-font (font-spec :family "Iosevka Fixed SS08" :size 24)
-  doom-font (font-spec :family "Iosevka Term Nerd Font" :size 14)
-  doom-big-font (font-spec :family "Iosevka Term Nerd Font" :size 24)
   doom-theme 'doom-one
   ;enable-local-variables t
   org-directory "~/org"
@@ -21,6 +25,9 @@
   case-fold-search nil
   ;; delete-window-choose-selected 'pos ;; default is 'mru
   )
+
+(when (featurep :system 'macos)
+  (add-to-list 'default-frame-alist '(undecorated-round . t)))
 
 (setq-default display-fill-column-indicator-character 9482)
 
