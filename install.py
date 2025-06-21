@@ -16,6 +16,7 @@ EXCLUDE = [
     HERE / '.git',
     HERE / '.gitmodules',
     HERE / '.gitignore',
+    HERE / '.jj',
 ]
 
 
