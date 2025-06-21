@@ -1,0 +1,107 @@
+start-at-login = true
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+automatically-unhide-macos-hidden-apps = true
+
+after-startup-command = [
+  # 'exec-and-forget sketchybar >> $HOME/.sketchybar/service.log 2>&1',
+  # JankyBorders has a built-in detection of already running process,
+  # so it won't be run twice on AeroSpace restart
+  'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0',
+]
+
+exec-on-workspace-change = [
+#   '/bin/bash',
+#   '-c',
+#   'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE FOCUSED_DISPLAY=$(aerospace list-monitors --focused | awk "{print $1}")',
+]
+
+[gaps]
+    inner.horizontal = 4
+    inner.vertical =   4
+    outer.left = 4
+    outer.right = 4
+
+[mode.main.binding]
+    alt-cmd-h = 'focus --boundaries all-monitors-outer-frame left'
+    alt-cmd-j = 'focus --boundaries all-monitors-outer-frame down'
+    alt-cmd-k = 'focus --boundaries all-monitors-outer-frame up'
+    alt-cmd-l = 'focus --boundaries all-monitors-outer-frame right'
+
+    shift-alt-cmd-h = 'move left'
+    shift-alt-cmd-j = 'move down'
+    shift-alt-cmd-k = 'move up'
+    shift-alt-cmd-l = 'move right'
+
+    ctrl-alt-cmd-h = 'join-with left'
+    ctrl-alt-cmd-j = 'join-with down'
+    ctrl-alt-cmd-k = 'join-with up'
+    ctrl-alt-cmd-l = 'join-with right'
+
+    alt-cmd-f = 'fullscreen'
+    shift-alt-cmd-f = 'macos-native-fullscreen'
+    alt-cmd-w = 'layout accordion horizontal vertical'
+    alt-cmd-e = 'layout tiles horizontal vertical'
+    alt-cmd-t = 'layout floating tiling'
+
+    alt-cmd-1 = 'workspace 1'
+    alt-cmd-2 = 'workspace 2'
+    alt-cmd-3 = 'workspace 3'
+    alt-cmd-4 = 'workspace 4'
+    alt-cmd-5 = 'workspace 5'
+    alt-cmd-6 = 'workspace 6'
+    alt-cmd-7 = 'workspace 7'
+    alt-cmd-8 = 'workspace 8'
+    alt-cmd-9 = 'workspace 9'
+    alt-cmd-0 = 'workspace 10'
+
+    shift-alt-cmd-1 = 'move-node-to-workspace 1'
+    shift-alt-cmd-2 = 'move-node-to-workspace 2'
+    shift-alt-cmd-3 = 'move-node-to-workspace 3'
+    shift-alt-cmd-4 = 'move-node-to-workspace 4'
+    shift-alt-cmd-5 = 'move-node-to-workspace 5'
+    shift-alt-cmd-6 = 'move-node-to-workspace 6'
+    shift-alt-cmd-7 = 'move-node-to-workspace 7'
+    shift-alt-cmd-8 = 'move-node-to-workspace 8'
+    shift-alt-cmd-9 = 'move-node-to-workspace 9'
+    shift-alt-cmd-0 = 'move-node-to-workspace 10'
+
+    alt-cmd-z = 'move-node-to-monitor left'
+    alt-cmd-x = 'move-node-to-monitor right'
+    shift-alt-cmd-z = 'move-workspace-to-monitor left'
+    shift-alt-cmd-x = 'move-workspace-to-monitor right'
+
+    shift-alt-cmd-c = 'reload-config'
+    shift-alt-cmd-r = 'flatten-workspace-tree'
+
+    alt-cmd-r = 'mode resize'
+    alt-cmd-a = 'resize smart -50'
+    alt-cmd-s = 'resize smart +50'
+
+[mode.resize.binding]
+    h = 'resize width -50'
+    j = 'resize height +50'
+    k = 'resize height -50'
+    l = 'resize width +50'
+    alt-cmd-h = 'focus left'
+    alt-cmd-j = 'focus down'
+    alt-cmd-k = 'focus up'
+    alt-cmd-l = 'focus right'
+    enter = 'mode main'
+    esc = 'mode main'
+    q = 'mode main'
+    alt-cmd-r = 'mode main'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.Music'
+    run = 'layout floating'
+    check-further-callbacks = true
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.Music'
+    if.window-title-regex-substring = 'Music'
+    run = 'layout tiling'
