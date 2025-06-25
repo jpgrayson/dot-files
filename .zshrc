@@ -85,6 +85,7 @@ export RIPGREP_CONFIG_PATH=~/.config/ripgrep/ripgreprc
 #export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
 export GPG_TTY=$(tty)
+export HOMEBREW_NO_ENV_HINTS=1
 
 # source <(pip completion --zsh)
 
