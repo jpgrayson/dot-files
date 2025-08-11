@@ -15,6 +15,8 @@ config.color_scheme = "Ef-Elea-Dark"
 config.use_fancy_tab_bar = true
 config.hide_tab_bar_if_only_one_tab = true
 
+config.default_cursor_style = 'SteadyBar'
+
 config.scrollback_lines = 5000
 
 config.window_frame = {
