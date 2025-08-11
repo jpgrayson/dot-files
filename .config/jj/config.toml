@@ -4,10 +4,12 @@
 
 [git]
 private-commits = "description(glob:'wip:*')"
-push-bookmark-prefix = "chore/"
 
 [snapshot]
 auto-track = "none()"
+
+[templates]
+git_push_bookmark = '"chore/" ++ change_id.short()'
 
 [template-aliases]
 # Highlight unique prefix and show at least 5 characters
