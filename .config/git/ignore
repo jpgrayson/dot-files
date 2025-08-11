@@ -6,3 +6,5 @@
 .projectroot
 .python-version
 *.pyc
+
+**/.claude/settings.local.json
