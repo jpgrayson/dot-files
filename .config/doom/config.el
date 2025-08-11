@@ -60,6 +60,13 @@
   (setq flycheck-python-flake8-executable "flake8"
         flycheck-python-pycompile-executable "python3"))
 
+(after! gptel
+  (let ((anthropic-path (expand-file-name "~/.anthropic.el")))
+    (if (file-exists-p anthropic-path)
+        (progn
+          (load-file anthropic-path)
+          (gptel-make-anthropic "Claude" :stream t :key anthropic-api-key)))))
+
 ; (after! vterm
 ;   (advice-add #'vterm-redraw :after (lambda (&rest args) (evil-refresh-cursor evil-state))))
 
