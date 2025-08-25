@@ -7,3 +7,5 @@ vim.opt.backup = false
 vim.opt.writebackup = false
 vim.opt.swapfile = false
 vim.opt.breakindent = true
+
+vim.g.lazyvim_python_lsp = "basedpyright"
