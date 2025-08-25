@@ -90,13 +90,14 @@
 (after! yaml-ts-mode
   (add-to-list 'yaml-ts-mode-hook '+spell-fu-disable))
 
-; (after! lsp-python-ms
-;   (set-lsp-priority! 'mspyls 1))
-
 (after! lsp-ui
   (setq lsp-ui-doc-enable nil
         lsp-enable-snippet nil)
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.jj\\'"))
+
+(after! lsp-mode
+  (setq lsp-pyright-langserver-command "basedpyright")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\].aws-sam\\'"))
 
 (after! swift-mode
   (setq swift-mode:parenthesized-expression-offset 4
