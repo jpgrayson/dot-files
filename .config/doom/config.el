@@ -65,7 +65,9 @@
     (if (file-exists-p anthropic-path)
         (progn
           (load-file anthropic-path)
-          (gptel-make-anthropic "Claude" :stream t :key anthropic-api-key)))))
+          (setq
+           gptel-model "claude-sonnet-4-20250514"
+           gptel-backend (gptel-make-anthropic "Claude" :stream t :key anthropic-api-key))))))
 
 ; (after! vterm
 ;   (advice-add #'vterm-redraw :after (lambda (&rest args) (evil-refresh-cursor evil-state))))
