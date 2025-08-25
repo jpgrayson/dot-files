@@ -2,6 +2,16 @@
 "diff removed token" = { underline = false }
 "diff added token" = { underline = false }
 
+[fix.tools.ruff-format]
+command = ["uvx", "ruff", "format", "--stdin-filename=$path"]
+patterns = ["glob:'**/*.py'"]
+enabled = false
+
+[fix.tools.ruff-isort]
+command = ["uvx", "ruff", "check", "--quiet", "--select=I", "--fix", "--stdin-filename=$path"]
+patterns = ["glob:'**/*.py'"]
+enabled = false
+
 [git]
 private-commits = "description(glob:'wip:*')"
 
