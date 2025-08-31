@@ -20,6 +20,7 @@ private-commits = "description(glob:'wip:*')"
 auto-track = "none()"
 
 [templates]
+log = "my_log_oneline"
 git_push_bookmark = '"chore/" ++ change_id.short()'
 
 [template-aliases]
@@ -66,7 +67,7 @@ if(root,
 changelog = 'concat("\t", truncate_end(9, commit_id), " ", tags, "- ", if(description, description.first_line(), description_placeholder))'
 
 [ui]
-default-command = ["log", "-T", "my_log_oneline"]
+default-command = "log"
 # diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
 editor = "nvim"
 
