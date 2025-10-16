@@ -26,6 +26,9 @@
   ;; delete-window-choose-selected 'pos ;; default is 'mru
   )
 
+(after! sh-script
+  (add-to-list 'sh-ancestor-alist '(bats . bash)))
+
 (when (featurep :system 'macos)
   (add-to-list 'default-frame-alist '(undecorated-round . t)))
 
