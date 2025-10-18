@@ -92,6 +92,7 @@
        ;;ansible
        ;;biblio            ; Writes a PhD for you (citation needed)
        ;;collab            ; buffers with friends
+       agent-shell
        claude
        debugger          ; FIXME stepping through code, to help you add bugs
        ;;direnv
