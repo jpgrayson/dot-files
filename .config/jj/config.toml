@@ -9,7 +9,7 @@ enabled = false
 
 [fix.tools.ruff-isort]
 command = ["uvx", "ruff", "check", "--quiet", "--select=I", "--fix", "--stdin-filename=$path"]
-patterns = ["glob:'**/*.py'"]
+patterns = ["glob:'**/*.py'", "glob:'**/*.pyi'"]
 enabled = false
 
 [git]
