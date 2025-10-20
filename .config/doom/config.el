@@ -10,6 +10,10 @@
    doom-font (font-spec :family "Iosevka Term Nerd Font" :size 14)
    doom-big-font (font-spec :family "Iosevka Term Nerd Font" :size 24)))
 
+(let ((my-env-file (expand-file-name "my-env" doom-local-dir)))
+  (when (file-exists-p my-env-file)
+    (doom-load-envvars-file my-env-file)))
+
 (setq
   doom-theme 'doom-one
   ;enable-local-variables t
