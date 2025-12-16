@@ -19,6 +19,8 @@ config.default_cursor_style = 'SteadyBar'
 
 config.scrollback_lines = 5000
 
+config.window_decorations = "TITLE | RESIZE | MACOS_USE_BACKGROUND_COLOR_AS_TITLEBAR_COLOR"
+
 config.window_frame = {
 	font = wezterm.font("IosevkaTerm Nerd Font Mono"),
 	font_size = 16.0,
