@@ -54,7 +54,7 @@ if(root,
         ),
         if(
           description,
-          description.first_line(),
+          truncate_end(72, description.first_line(), "…"),
           description_placeholder,
         ),
       ) ++ "\n",
