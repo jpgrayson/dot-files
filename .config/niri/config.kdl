@@ -265,6 +265,10 @@ layout {
 spawn-at-startup "waybar"
 spawn-at-startup "mako"
 spawn-at-startup "wezterm"
+spawn-at-startup "swayidle" "-w" \
+    "timeout" "601" "niri msg action power-off-monitors" \
+    "timeout" "600" "swaylock -f" \
+    "before-sleep" "swaylock -f"
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
 // If the client will specifically ask for CSD, the request will be honored.
@@ -289,7 +293,7 @@ animations {
     // off
 
     // Slow down all animations by this factor. Values below 1 speed them up instead.
-    slowdown 0.6
+    slowdown 0.05
 }
 
 // Window rules let you adjust behavior for individual windows.
