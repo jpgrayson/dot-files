@@ -185,14 +185,4 @@
  (:prefix "p"
   :desc "Display project info" "I" #'projectile-project-info))
 
-;; (map!
-;;  :leader
-;;  (:prefix "g"
-;;   :desc "StGit dispatch" "_" #'magit-stgit-dispatch))
-
-;; (use-package! magit-stgit)
-
-;; (after! (:and magit magit-stgit)
-;;   (transient-append-suffix 'magit-dispatch "Z"
-;;     '("/" "StGit" magit-stgit)))
 ;;; config.el ends here

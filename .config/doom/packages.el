@@ -33,16 +33,4 @@
 
 (package! majutsu :recipe (:host github :repo "0WD0/majutsu"))
 
-;; (package! magit-stgit
-;;   ;:recipe (:host github :repo "stacked-git/magit-stgit")
-;;   :recipe (:local-repo "~/code/magit-stgit"
-;;            :build (:not compile)))
-
-(add-load-path! "~/code/magit-stgit")
-
-; (use-package! magit-stgit
-;   :after magit
-;                                         ; :defer-incrementally t
-;   )
-
 ;;; packages.el ends here
