@@ -109,7 +109,7 @@
         swift-mode:multiline-statement-offset 4
         swift-mode:switch-case-offset 4))
 
-(defvar jj-mode-fontlock-keywords '(
+(defvar jj-desc-mode-fontlock-keywords '(
     ("^JJ: " (0 'font-lock-comment-delimiter-face)
              ("    \\(M\\) .*" nil nil (1 'font-lock-variable-name-face))
              ("    \\(A\\) .*" nil nil (1 'font-lock-string-face))
@@ -126,10 +126,10 @@
        (3 'font-lock-warning-face nil t)))
 ))
 
-(define-derived-mode jj-mode
+(define-derived-mode jj-desc-mode
   text-mode
   "jj"
-  (setq-local font-lock-defaults '(jj-mode-fontlock-keywords))
+  (setq-local font-lock-defaults '(jj-desc-mode-fontlock-keywords))
   "Major mode for editing jj descriptions.")
 
 (defconst my-with-editor-regexp "\\(\.jjdescription\\|\.stgit-edit\\(\.txt\\|\.patch\\)\\)$")
@@ -141,7 +141,7 @@
       (setq! fill-column 72)
       (unless with-editor-mode
         (with-editor-mode 1))
-      (jj-mode))))
+      (jj-desc-mode))))
 
 (add-hook 'find-file-hook #'my-with-editor-check-buffer)
 
