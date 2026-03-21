@@ -18,9 +18,6 @@
   poetry
   )
 
-(package! python-black
-          :recipe (:host github :repo "wbolster/emacs-python-black"))
-
 ; (package! cython-mode)
 
 (package! scad-mode)

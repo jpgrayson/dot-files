@@ -181,23 +181,6 @@
   "C-b" #'backward-char)
 
 (map!
- :after python
- :localleader
- :map python-mode-map
- (:prefix ("b" . "black")
-   "b" #'python-black-buffer
-   "r" #'python-black-region
-   "s" #'python-black-statement
-   "S" #'python-black-on-save-mode))
-
-;; (map!
-;;  :leader
-;;  (:prefix-map ("t" . "toggle")
-;;    :desc "Auto-revert mode" "r" #'global-auto-revert-mode
-;;    )
-;;  )
-
-(map!
  :leader
  (:prefix "p"
   :desc "Display project info" "I" #'projectile-project-info))
