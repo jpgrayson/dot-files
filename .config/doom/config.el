@@ -146,6 +146,13 @@
 (add-hook 'find-file-hook #'my-with-editor-check-buffer)
 
 (map!
+ :leader
+ :desc "JJ log" "g j" #'majutsu-log
+ (:prefix-map ("j" . "jj")
+  :desc "JJ log" "j" #'majutsu-log
+  :desc "JJ blame" "b" #'majutsu-annotate-addition))
+
+(map!
  :after evil
  :gi "C-u" #'doom/backward-kill-to-bol-and-indent
  :gi "C-w" #'evil-delete-backward-word

@@ -34,6 +34,8 @@
 
 (package! kdl-ts-mode :recipe (:host github :repo "merrickluo/kdl-ts-mode"))
 
+(package! majutsu :recipe (:host github :repo "0WD0/majutsu"))
+
 ;; (package! magit-stgit
 ;;   ;:recipe (:host github :repo "stacked-git/magit-stgit")
 ;;   :recipe (:local-repo "~/code/magit-stgit"
