@@ -47,7 +47,7 @@ if(commit.root(),
         format_short_change_id_with_change_offset(commit),
         if(
           commit.author().email(),
-          truncate_end(8, commit.author().email().local(), "…"),
+          pad_end(8, truncate_end(8, commit.author().email().local(), "…")),
           email_placeholder
         ),
         format_short_commit_id(commit.commit_id()),
@@ -80,6 +80,7 @@ changelog = 'concat("\t", truncate_end(9, commit_id), " ", tags, "- ", if(descri
 default-command = "log"
 # diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
 editor = "nvim"
+diff-editor = ":builtin"
 
 [user]
 name = "Peter Grayson"
