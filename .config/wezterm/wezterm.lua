@@ -22,18 +22,21 @@ config.scrollback_lines = 5000
 config.window_decorations = "TITLE | RESIZE | MACOS_USE_BACKGROUND_COLOR_AS_TITLEBAR_COLOR"
 
 config.window_frame = {
-	font = wezterm.font("IosevkaTerm Nerd Font Mono"),
-	font_size = 16.0,
+	font = wezterm.font { family = 'IosevkaTerm Nerd Font', weight = 'Bold', style = "Italic" },
+	font_size = 14.0,
 	active_titlebar_bg = '#232323',
 	inactive_titlebar_bg = '#232323',
 }
+
+config.window_background_opacity = 0.97
+config.text_background_opacity = 0.50
 
 config.colors = {
 	tab_bar = {
 		inactive_tab_edge = '#7f7f10',
 		active_tab = {
-			bg_color = '#303030',
-			fg_color = '#d0d0d0',
+			bg_color = '#452535',
+			fg_color = '#e0e0e0',
 		},
 		inactive_tab = {
 			bg_color = '#222222',
