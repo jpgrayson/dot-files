@@ -79,6 +79,12 @@
 ; (after! vterm
 ;   (advice-add #'vterm-redraw :after (lambda (&rest args) (evil-refresh-cursor evil-state))))
 
+(after! with-editor
+  ;; Use the symlink path to avoid shell-quote-argument escaping the @ in the
+  ;; Cellar path (emacs-plus@31), which jj doesn't unescape correctly.
+  (when (featurep :system 'macos)
+    (setq with-editor-emacsclient-executable "/opt/homebrew/bin/emacsclient")))
+
 (after! magit
   (let ((width 150))
     (set-popup-rules!
