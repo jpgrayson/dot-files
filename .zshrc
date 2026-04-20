@@ -28,6 +28,12 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]
 then
     source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 
+    # Drop prezto's utility wrappers for make/diff/wdiff — they only exist to
+    # optionally pipe through colormake/colordiff (not installed here), and
+    # leaving them as autoload stubs breaks tools that snapshot the shell
+    # environment without preserving fpath (e.g. Claude Code).
+    unfunction make diff wdiff 2>/dev/null
+
     # Do not user prezto's partial-word and substring completions
     zstyle -d ':completion:*' matcher-list
 
