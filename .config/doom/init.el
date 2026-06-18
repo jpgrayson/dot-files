@@ -81,6 +81,7 @@
        ;;eshell            ; the elisp shell that works everywhere
        ;;shell             ; simple shell REPL for Emacs
        ;;term              ; basic terminal emulator for Emacs
+       ghostel           ; libghostty-vt terminal emulator (private module)
        vterm             ; the best terminal emulation in Emacs
 
        :checkers
