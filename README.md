@@ -14,7 +14,8 @@ The `install.py` script cautiously creates symlinks from the repo to
 
 For already existing dot files, they will only be replaced by symlinks
 if their contents are identical to the corresponding dot file in the
-repo.
+repo. Otherwise they are left untouched.
 
-For existing dot directories, `install.py` asks whether to replace the
-existing dot directory with a symlink to the repo.
+For existing dot directories, `install.py` descends into them and links
+individual files, leaving any of your own files alongside the linked
+ones in place. A directory that is already a symlink is left as-is.
