@@ -28,6 +28,7 @@
   case-replace nil
   case-fold-search nil
   ;; delete-window-choose-selected 'pos ;; default is 'mru
+  majutsu-log-template-author [:author :email :local]
   )
 
 (after! sh-script
