@@ -9,8 +9,10 @@ config.font = wezterm.font("IosevkaTerm Nerd Font Mono")
 
 config.font_size = 14.0
 -- config.color_scheme = "Catppuccin Mocha (Gogh)"
+config.color_scheme = "Catppuccin Mocha"
+-- config.color_scheme = "Tokyo Night (Gogh)"
 -- config.color_scheme = "Frontend Galaxy (Gogh)"
-config.color_scheme = "Ef-Elea-Dark"
+-- config.color_scheme = "Ef-Elea-Dark"
 
 config.use_fancy_tab_bar = true
 config.hide_tab_bar_if_only_one_tab = true
@@ -21,11 +23,28 @@ config.scrollback_lines = 5000
 
 config.window_decorations = "TITLE | RESIZE | MACOS_USE_BACKGROUND_COLOR_AS_TITLEBAR_COLOR"
 
+local function darken(hex, factor)
+	return tostring(wezterm.color.parse(hex):darken(factor))
+end
+
+local function lighten(hex, factor)
+	return tostring(wezterm.color.parse(hex):lighten(factor))
+end
+
+-- Derive the tab bar colors from the active color scheme.
+local scheme = wezterm.color.get_builtin_schemes()[config.color_scheme]
+local bar_bg = darken(scheme.background, 0.1)
+local dim_fg = scheme.brights[8]
+local active_tab = (scheme.tab_bar or {}).active_tab or {
+	bg_color = scheme.ansi[6],
+	fg_color = scheme.background
+}
+
 config.window_frame = {
 	font = wezterm.font { family = 'IosevkaTerm Nerd Font', weight = 'Bold', style = "Italic" },
-	font_size = 14.0,
-	active_titlebar_bg = '#232323',
-	inactive_titlebar_bg = '#232323',
+	font_size = 10.0,
+	active_titlebar_bg = bar_bg,
+	inactive_titlebar_bg = bar_bg,
 }
 
 config.window_background_opacity = 0.97
@@ -33,26 +52,27 @@ config.text_background_opacity = 0.50
 
 config.colors = {
 	tab_bar = {
-		inactive_tab_edge = '#7f7f10',
+		background = bar_bg,
+		inactive_tab_edge = scheme.selection_bg,
 		active_tab = {
-			bg_color = '#452535',
-			fg_color = '#e0e0e0',
+			bg_color = active_tab.bg_color,
+			fg_color = active_tab.fg_color,
 		},
 		inactive_tab = {
-			bg_color = '#222222',
-			fg_color = '#c0c0c0',
+			bg_color = darken(scheme.background, 0.05),
+			fg_color = dim_fg,
 		},
 		inactive_tab_hover = {
-			bg_color = '#252525',
-			fg_color = '#e0e0e0',
+			bg_color = lighten(scheme.background, 0.1),
+			fg_color = scheme.foreground,
 		},
 		new_tab = {
-			bg_color = '#252525',
-			fg_color = '#c0c0c0',
+			bg_color = lighten(scheme.background, 0.1),
+			fg_color = dim_fg,
 		},
 		new_tab_hover = {
-			bg_color = '#2a2a2a',
-			fg_color = '#e0e0e0',
+			bg_color = lighten(scheme.background, 0.2),
+			fg_color = scheme.foreground,
 		},
 	},
 }
