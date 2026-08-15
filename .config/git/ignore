@@ -8,3 +8,4 @@
 *.pyc
 
 **/.claude/settings.local.json
+**/.maki/
