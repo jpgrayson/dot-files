@@ -343,7 +343,8 @@ binds {
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Super+Alt+Return { spawn "wezterm"; }
-    Super+Alt+Space { spawn "fuzzel"; }
+    Super+Space { spawn "fuzzel"; }
+    Super+Alt+Space { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
     Ctrl+Alt+L { spawn "swaylock"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
@@ -544,6 +545,4 @@ binds {
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
     Super+Alt+Shift+P { power-off-monitors; }
-
-    Mod+Space { spawn "noctalia" "ipc" "call" "launcher" "toggle"; }
 }
