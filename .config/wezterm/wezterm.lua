@@ -77,6 +77,8 @@ config.colors = {
 	},
 }
 
+config.enable_kitty_keyboard = true
+
 config.keys = {
 	{ key = 'UpArrow', mods = 'SUPER', action = wezterm.action.ScrollByLine(-1) },
 	{ key = 'DownArrow', mods = 'SUPER', action = wezterm.action.ScrollByLine(1) },
