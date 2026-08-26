@@ -68,6 +68,10 @@
   (setq flycheck-python-flake8-executable "flake8"
         flycheck-python-pycompile-executable "python3"))
 
+(after! projectile
+  (setq projectile-vcs-markers
+        (cons '(".jj" . jj) (assoc-delete-all ".jj" projectile-vcs-markers))))
+
 (after! gptel
   (let ((anthropic-path (expand-file-name "~/.anthropic.el")))
     (if (file-exists-p anthropic-path)
