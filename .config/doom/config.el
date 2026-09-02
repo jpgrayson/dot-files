@@ -18,7 +18,6 @@
   org-journal-file-type 'weekly
   python-shell-interpreter "python3"
   rustic-lsp-server 'rust-analyzer
-  markdown-command "markdown_py"
   projectile-enable-caching (not (executable-find doom-projectile-fd-binary))
   projectile-project-search-path '("~/code")
   read-process-output-max 8192
