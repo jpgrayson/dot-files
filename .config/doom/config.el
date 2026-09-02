@@ -12,6 +12,7 @@
 
 (setq
   doom-theme 'doom-one
+  auth-sources '("~/.authinfo")
   ;enable-local-variables t
   org-directory "~/org"
   org-journal-file-type 'weekly
@@ -91,6 +92,9 @@
     (set-popup-rules!
       `(("^ ?\\*jj"
          :slot 2 :vslot 1 :width ,width :height '+popup-shrink-to-fit :autosave t :quit t :ttl nil :side right)))))
+
+(after! forge
+  (setq code-review-auth-login-marker 'forge))
 
 (after! ghostel
   (let ((width 150))
