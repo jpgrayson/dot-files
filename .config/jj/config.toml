@@ -1,5 +1,15 @@
 #:schema https://docs.jj-vcs.dev/latest/config-schema.json
 
+[aliases]
+eject = {
+  definition = ["squash", "--from", "@", "--into"],
+  doc = "Eject changes from working copy into another revision",
+}
+retrunk = {
+  definition = ["rebase", "--onto", "trunk()", "--simplify-parents"],
+  doc = "Rebase everything onto trunk",
+}
+
 [colors]
 "diff removed token" = { underline = false }
 "diff added token" = { underline = false }
