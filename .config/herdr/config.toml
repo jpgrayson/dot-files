@@ -1,0 +1,20 @@
+onboarding = false
+[keys]
+prefix = "ctrl+o"
+rename_pane = "prefix+shift+o"
+new_workspace = "prefix+shift+c"
+
+previous_workspace = ["prefix+p", "prefix+ctrl+p"]
+next_workspace = ["prefix+n", "prefix+ctrl+n"]
+
+previous_tab = ["prefix+left", "ctrl+shift+tab"]
+next_tab = ["prefix+right", "ctrl+tab"]
+
+previous_agent = "prefix+shift+p"
+next_agent = "prefix+shift+n"
+
+[ui]
+show_agent_labels_on_pane_borders = true
+
+[ui.toast]
+delivery = "herdr"
