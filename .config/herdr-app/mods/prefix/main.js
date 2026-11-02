@@ -1,6 +1,6 @@
 import { View, div } from "gpui-kit";
 import { v_flex, h_flex } from "gpui-base";
-import { closeOverlay, focused, hc, nextCommand, props, run, theme } from "herdr";
+import { closeOverlay, focused, hc, nextCommand, panes, props, run, theme } from "herdr";
 
 // Adapted from herdr.dev/mods/herdrdev/tmux-prefix: Ctrl+O prefix with the
 // bindings from ~/.config/herdr/config.toml (terminal herdr). Every binding
@@ -20,6 +20,7 @@ const BINDINGS = [
   ["s", "Split down", "pane.split", { direction: "down" }],
   ["x", "Close pane", "pane.close"],
   ["z", "Zoom pane", "pane.zoom"],
+  ["g", "Toggle jjui", toggleJjui],
   ["n", "Next space", "space.next"],
   ["ctrl-n", "Next space", "space.next"],
   ["p", "Previous space", "space.prev"],
@@ -44,6 +45,16 @@ const BINDINGS = [
   ["L", "Move right", "pane.swap", { direction: "right" }],
   ...Array.from({ length: 10 }, (_, i) => [String(i), `Tab ${i === 0 ? 10 : i}`, "tab.select", { index: i === 0 ? 10 : i }]),
 ];
+
+// Close jjui if this tab runs it (the focused pane first), else split it in to
+// the right of the focused pane, where it starts in that pane's folder.
+function toggleJjui() {
+  const tab = focused()?.tab;
+  const isJjui = (p) => p.tab === tab && (p.program?.key === "jjui" || p.program?.name === "jjui");
+  const open = panes().find((p) => isJjui(p) && p.focused) ?? panes().find(isJjui);
+  if (open) return run("pane.close", { pane: open.pane });
+  run("pane.split", { direction: "right", argv: ["zsh", "-ic", "exec jjui"] });
+}
 
 export default class Prefix extends View {
   init(_props, cx) {
@@ -95,7 +106,10 @@ export default class Prefix extends View {
     const binding = lookup && BINDINGS.find((b) => b[0] === lookup);
     // An unbound key just ends the prefix.
     this.dismiss();
-    if (binding) run(binding[2], binding[3] ?? {});
+    if (!binding) return;
+    // A binding's command is a command name, or a function to call.
+    if (typeof binding[2] === "function") binding[2]();
+    else run(binding[2], binding[3] ?? {});
   }
 
   render() {
@@ -117,7 +131,7 @@ export default class Prefix extends View {
     const groups = [];
     for (const [key, label, command, args = {}] of BINDINGS) {
       if (/^\d$/.test(key)) continue;
-      const id = command + JSON.stringify(args);
+      const id = typeof command === "function" ? key : command + JSON.stringify(args);
       let g = groups.find((g) => g.id === id);
       if (!g) groups.push((g = { id, label, keys: [] }));
       g.keys.push(pretty(key));
