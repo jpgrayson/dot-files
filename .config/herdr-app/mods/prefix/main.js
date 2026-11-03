@@ -21,6 +21,7 @@ const BINDINGS = [
   ["x", "Close pane", "pane.close"],
   ["z", "Zoom pane", "pane.zoom"],
   ["g", "Toggle jjui", toggleJjui],
+  ["[", "Copy mode", "mod.open", { name: "copy-mode" }],
   ["n", "Next space", "space.next"],
   ["ctrl-n", "Next space", "space.next"],
   ["p", "Previous space", "space.prev"],

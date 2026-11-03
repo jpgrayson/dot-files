@@ -1,0 +1,4 @@
+# Written by build.sh and diff.mjs on every run.
+main.under-test.mjs
+cases.json
+oracle.json

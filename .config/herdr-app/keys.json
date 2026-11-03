@@ -61,6 +61,7 @@
   },
   "terminal": {
     "cmd-c": "terminal.copy",
+    "cmd-x": "mod.open:copy-mode",
     "cmd-v": "terminal.paste",
     "ctrl-v": "terminal.paste_image",
     "alt-left": "send:\u001bb",

@@ -1,0 +1,15 @@
+import { spansOutside } from "./main.under-test.mjs";
+let failed = 0, passed = 0;
+const eq = (name, got, want) => { const ok = JSON.stringify(got) === JSON.stringify(want); ok ? passed++ : failed++; if (!ok) console.log(`FAIL ${name}\n  got  ${JSON.stringify(got)}\n  want ${JSON.stringify(want)}`); };
+eq("no selection", spansOutside(3, 7, null), [[3, 7]]);
+eq("selection before", spansOutside(3, 7, [0, 2]), [[3, 7]]);
+eq("selection after", spansOutside(3, 7, [8, 9]), [[3, 7]]);
+eq("covers all", spansOutside(3, 7, [0, 9]), []);
+eq("exactly", spansOutside(3, 7, [3, 7]), []);
+eq("cuts the start", spansOutside(3, 7, [1, 4]), [[5, 7]]);
+eq("cuts the end", spansOutside(3, 7, [6, 12]), [[3, 5]]);
+eq("cuts the middle", spansOutside(3, 7, [5, 5]), [[3, 4], [6, 7]]);
+eq("zero-length match", spansOutside(4, 3, null), []);
+eq("touching start edge", spansOutside(3, 7, [0, 3]), [[4, 7]]);
+console.log(`${passed} passed, ${failed} failed`);
+process.exit(failed ? 1 : 0);
