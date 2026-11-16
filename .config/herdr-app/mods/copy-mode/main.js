@@ -1,49 +1,51 @@
 /**
- * Copy mode: a vim-style, read-only view of a terminal's text, for moving
- * around, searching, selecting and copying to the clipboard.
+ * Copy mode: vim keys for moving around a terminal's text, searching,
+ * selecting and copying to the clipboard, right in the terminal's own pane.
  *
  * Adapted from the copy-mode mod in github.com/ParadiseWitch/herdr-mods
- * (commit 932f429) and since substantially rewritten: macOS clipboard, the
- * terminal's own font and size, rows drawn as one text element each, focus
- * handed back to the terminal on close, and a much larger set of vim keys
- * (counts, operators, text objects, block selection).
+ * (commit 932f429) and since substantially rewritten: macOS clipboard, focus
+ * handed back to the terminal on close, a much larger set of vim keys (counts,
+ * operators, text objects), and (with herdr-app 0.1.16's terminal.select,
+ * terminal.adjust_selection and the selection in terminals()) drawn by the
+ * terminal itself instead of in a dialog.
  *
  * Opening: keys.json binds `cmd-x` (section `terminal`) to
  * `mod.open:copy-mode`, and the prefix mod runs the same on `ctrl-o [`. Either
- * shows this mod as the dialog described in mod.json, in herdr's own frame,
- * over the focused terminal. Herdr closes a dialog on Esc before the mod's key
- * handler sees the key, so init binds Esc in this view's own key context, which
- * comes first; Esc then cancels step by step and closes only when nothing is
- * left to cancel.
+ * opens this mod as the window mod.json describes: a slim status strip with no
+ * frame, which takes the keyboard but leaves the terminal in view. Herdr
+ * remembers where the strip was dragged to (its overlay `key`). Clicking
+ * anywhere else, which takes the keyboard from the strip, ends copy mode.
  *
- * Loading: the text comes from `hc read <terminal> --lines N --json`. Opening
- * reads only the screen, which is instant, with the cursor on its last line.
- * History (up to HISTORY_LINES) waits until it's wanted: the cursor reaching the
- * top line, scrolling up past the top of the view, or a search. For a
- * full-screen app herdr-core collects it by scrolling the app itself, which
- * takes seconds, holds up typing into the app meanwhile and can't be cancelled,
- * so opening and dismissing copy mode mustn't start it. When it arrives it is
- * slotted in above the screen, and the cursor, view, selection and matches move
- * down with it so nothing on screen jumps. The status line says while history
- * is loading, and why it is incomplete when it is.
+ * Drawing: the cursor and any selection are the terminal's own text selection,
+ * so they look as a mouse selection does: the cursor is a one-cell selection.
+ * The view is the terminal's own too, scrolled with terminal.scroll. A mod
+ * can't draw on a terminal, so search matches aren't highlighted; instead the
+ * match the cursor lands on is selected until the next key, and while a
+ * search is typed the match it would go to is.
  *
- * Wrapping: a line wider than the dialog wraps onto further display lines, as
- * in a terminal pane, and copies as the one line it is. As with Vim's 'wrap', j
- * and k move by whole lines and gj and gk by display lines; the scrolling keys
- * (ctrl-e, ctrl-d, ctrl-f...) also move by display lines, unlike Vim's, so a line
- * taller than the view can still be read through.
+ * Text: `hc read --json` gives the terminal's text as logical lines (a line
+ * wider than the terminal comes back whole), while the selection addresses
+ * cells: rows from the oldest retained history through the screen, columns
+ * across the terminal. Opening reads the program's cursor cell
+ * (terminal.select at "cursor") and the last row with text in it
+ * (adjust_selection "end"), then the text: the screen and all of its history
+ * on the normal screen, just the screen in a full-screen app (the alternate
+ * screen has no history, and reading one scrolls the app). Each line is
+ * wrapped at the terminal's width as the terminal wraps it, and the lines are
+ * stacked up from that last row; blank lines fill the rows above and below so
+ * that line and row numbers agree with the terminal's. The text is a snapshot:
+ * output that arrives later isn't in it.
  *
- * Layout: the text, and below it one status line in the terminal's font, as
- * in Vim, on an edge-to-edge band: a badge colored for the mode and any message
- * on the left, keys typed so far and the cursor position (line/lines:column) on
- * the right. While searching it is the
- * / or ? prompt instead, with the match count or why the pattern is invalid.
+ * Wrapping: as with Vim's 'wrap', j and k move by whole lines and gj and gk by
+ * the terminal's rows; the scrolling keys (ctrl-e, ctrl-d, ctrl-f...) also
+ * move by rows, unlike Vim's, so a line taller than the view can still be
+ * read through. A line copies as the one line it is.
  *
  * Keys. {count} is an optional number typed first (3j, 2w, 5G, y3e).
  *
  *   Motions: move the cursor, extend a selection, or follow y
  *     h j k l, arrows   left, down, up, right (also Backspace, Space)
- *     gj gk             down / up a display line, within a wrapped line
+ *     gj gk             down / up a row, within a wrapped line
  *     w b e ge          next word / previous word / end of word / end of previous word
  *     W B E gE          the same for WORDs (runs of non-blanks)
  *     0 ^ $ g_          line start / first non-blank / line end / last non-blank
@@ -65,22 +67,20 @@
  *     ctrl-e ctrl-y     the view a line down / up, cursor kept on screen
  *     zz zt zb          put the cursor line in the middle / at the top / at the bottom
  *
- *   Search and jump
+ *   Search
  *     / ?               search forward / backward for a JavaScript regular
- *                       expression, typed on the bottom line; smartcase (an
+ *                       expression, typed on the strip; smartcase (an
  *                       upper-case letter, unless escaped as in \S, makes it
  *                       case-sensitive); Backspace deletes (on an empty line,
  *                       cancels), ctrl-w a word, ctrl-u all, cmd-v pastes; Enter
  *                       accepts, Esc cancels, an empty search repeats the last.
- *                       * # and s match their text literally
- *     s {chars} {label} jump: type two or more characters of a match on screen,
- *                       then its label (a sole match jumps at once)
+ *                       * and # match their text literally. The strip shows
+ *                       which match the cursor is on, as [3/17].
  *
  *   Selecting
- *     v V ctrl-v        characterwise / linewise / block selection; the same key
- *                       again ends it, another switches kind keeping the anchor
- *     o                 go to the other end of the selection
- *     O                 in a block, the other corner on the same line; else as o
+ *     v V               characterwise / linewise selection; the same key again
+ *                       ends it, the other switches kind keeping the anchor
+ *     o O               go to the other end of the selection
  *   Text objects, in a selection (selecting the object) or after y:
  *     iw aw iW aW       a word / WORD, inner or with surrounding blanks; in a
  *                       selection of more than one glyph, the next word(s) too
@@ -95,25 +95,25 @@
  *     yy                the cursor line ({count}yy: that many lines)
  *     Y                 in a selection: its lines, whole; else to the end of the
  *                       line, like Neovim's Y (y$)
- *     Enter             the selection, or else the cursor line
+ *     Enter, cmd-c      the selection, or else the cursor line
  *
- *   Esc, ctrl-[         cancel a pending key, the search, the jump or the
- *                       selection; with nothing to cancel, close
+ *   Esc, ctrl-[         cancel a pending key, the search or the selection;
+ *                       with nothing to cancel, close
  *   q                   close
  *
  * Where it differs from Vim: columns are glyphs, so a wide (CJK) glyph or
- * emoji counts as one column (though it is laid out as two cells, which its
- * font may not exactly fill, so the cursor and highlights after one can sit a
- * little off); / and ? take JavaScript regex
- * syntax, not Vim's (\d+ and (a|b), not \v or \<); a whitespace-only line
- * counts as blank for { and }; word objects and their
- * counts stay on the cursor's line; a block is not padded with spaces on
- * short lines; and a copy never ends with a line break, so a pasted line
- * doesn't run in a shell. Every other motion above was checked against nvim.
+ * emoji counts as one column; / and ? take JavaScript regex syntax, not Vim's
+ * (\d+ and (a|b), not \v or \<); a whitespace-only line counts as blank for {
+ * and }; word objects and their counts stay on the cursor's line; in a
+ * selection the end of a line (after $) shows on its last glyph, though it
+ * copies the line break; and a copy never ends with a line break, so a pasted
+ * line doesn't run in a shell. Every other motion above was checked against
+ * nvim.
  */
 import { View, div } from "gpui-kit";
-import { v_flex, h_flex } from "gpui-base";
+import { h_flex } from "gpui-base";
 import {
+  checking,
   closeOverlay,
   focused,
   hc,
@@ -124,27 +124,25 @@ import {
   setShared,
   settings,
   shared,
+  terminals,
   theme,
 } from "herdr";
 
-const HISTORY_LINES = 2000;
-const PADDING = 8;
-const JUMP_LABELS = "asdfghjklqwertyuiopzxcvbnm";
-const PROBE_CELLS = 100;
-const KEY_CONTEXT = "CopyMode";
-const SCROLL_UP_KEYS = new Set(["ctrl-y", "ctrl-b", "ctrl-u", "pageup"]);
-const ESCAPE_ACTION = "copy_mode_escape";
+// History rows read at most: the view's own history is usually shorter.
+const MAX_HISTORY = 10000;
 const MAX_COUNT = 99999;
+// How long after our last command the terminal's reported selection and
+// scroll can be trusted: they are reported a frame or so after a command.
+const SETTLE_MS = 250;
+// How long to wait for the terminal to report a selection while opening.
+const REPORT_TIMEOUT_MS = 500;
 
-// The terminals' font and size, so the snapshot reads like the pane it came from.
+// The strip is drawn in the terminals' font, like Vim's status line.
 const fontFamily = () => settings().font_family ?? "JetBrains Mono";
 const fontSize = () => {
   const size = settings().font_size;
   return typeof size === "number" && size > 0 ? size : 14;
 };
-const lineHeight = () => Math.ceil(fontSize() * 1.25);
-// The status line at the bottom, like Vim's: one row of the terminal font.
-const statusLineHeight = () => lineHeight() + 4;
 
 const clamp = (value, low, high) => Math.min(high, Math.max(low, value));
 
@@ -545,16 +543,14 @@ function bracketObject(rows, pos, open, close, count, around) {
   return { start: innerStart, end: innerEnd };
 }
 
-// The text of an inclusive range. kind is "char" (from start to end), "line"
-// (whole lines) or "block" (columns start.col to end.col of each line; end.col
-// may be Infinity, for a block extended with $). Lines join with "\n" and
+// The text of an inclusive range. kind is "char" (from start to end) or "line"
+// (whole lines). Lines join with "\n" and
 // there is no trailing newline, so a pasted line doesn't run in a shell.
 function textOf(rows, { kind, start, end }) {
   const out = [];
   for (let row = start.row; row <= end.row; row++) {
     const glyphs = rows[row] ?? [];
     if (kind === "line") out.push(glyphs.join(""));
-    else if (kind === "block") out.push(glyphs.slice(start.col, end.col + 1).join(""));
     else {
       const from = row === start.row ? start.col : 0;
       const to = row === end.row ? end.col + 1 : glyphs.length;
@@ -598,13 +594,6 @@ const foldCase = (text) => {
   }).join("");
 };
 
-// Smartcase: ignore case unless the text has an upper-case letter.
-const smartSearch = (text, forward) => ({
-  text,
-  forward,
-  ignoreCase: text === text.toLowerCase(),
-  wholeWord: false,
-});
 
 // A / or ? search: `text` is a JavaScript regular expression. Smartcase as in
 // Vim: an upper-case letter makes it case-sensitive, except one escaped by a
@@ -675,10 +664,7 @@ const MOTIONS = {
   gg: {
     type: LINEWISE,
     vertical: true,
-    to: (m, n, has) => {
-      m.topOnLoad = !has;
-      return { row: has ? n - 1 : 0 };
-    },
+    to: (m, n, has) => ({ row: has ? n - 1 : 0 }),
   },
   G: {
     type: LINEWISE,
@@ -786,35 +772,57 @@ function keyToken(event) {
   return Array.from(typed).length === 1 ? typed : null;
 }
 
-// The parts of columns first..last (inclusive) not covered by `cut` (an
-// inclusive [first, last] pair, or null): zero, one or two [first, last] spans.
-const spansOutside = (first, last, cut) => {
-  if (last < first) return [];
-  if (!cut || cut[1] < first || cut[0] > last) return [[first, last]];
-  const spans = [];
-  if (cut[0] > first) spans.push([first, cut[0] - 1]);
-  if (cut[1] < last) spans.push([cut[1] + 1, last]);
-  return spans;
-};
 
 const plural = (n, word, many = `${word}s`) => `${n} ${n === 1 ? word : many}`;
 
+// --- cells ------------------------------------------------------------------
+//
+// The terminal's selection addresses cells, { row, col }: rows from the oldest
+// retained history through the screen, columns across the terminal.
+
+const sameCell = (a, b) => Boolean(a && b) && a.row === b.row && a.col === b.col;
+const sameSelection = (a, b) =>
+  a === b || (Boolean(a && b) && sameCell(a.start, b.start) && sameCell(a.end, b.end));
+
+// The text of a terminal `cols` wide with rows 0..total-1, given its lines as
+// `hc read` returns them: whole lines, the last one ending on row `lastRow`
+// (null: the first one starting on row 0, as on the alternate screen). Lines
+// that would start above row 0 are gone from the terminal, so they are
+// dropped; blank lines fill the rows above and below the text, so that each
+// line starts on the row the terminal shows it on. Returns those lines and
+// `first`, the first one read: the rows above it are filler, for the terminal
+// may show text there that hc read didn't return (its history lost).
+function layoutText(lines, cols, total, lastRow) {
+  const counts = lines.map((line) => wrapStarts(Array.from(line), cols).length);
+  let first = lastRow === null ? 0 : lastRow + 1 - counts.reduce((sum, n) => sum + n, 0);
+  let drop = 0;
+  while (first < 0 && drop < lines.length) first += counts[drop++];
+  const kept = lines.slice(drop);
+  const rows = counts.slice(drop).reduce((sum, n) => sum + n, 0);
+  const above = Math.max(0, first);
+  const below = Math.max(0, total - above - rows);
+  return { lines: [...Array(above).fill(""), ...kept, ...Array(below).fill("")], first: above };
+}
+
 export default class CopyMode extends View {
   // Defaults for every field render touches: a hot reload can render before
-  // init has finished, and that must not break the view.
+  // init has finished, and that must not break the strip.
   lines = []; // the text, a string per line
   rows = []; // the same, as glyph arrays (see "text" above)
   foldedLines = []; // lower-cased lines, filled in as searches need them
   cursor = { row: 0, col: 0 };
   wantCol = 0; // the column j and k aim for; Infinity after $
-  top = 0; // first row in view
-  topLine = 0; // which of that row's display lines the view starts on
-  viewHeight = 0; // the view's height in pixels, once laid out
-  viewWidth = 0; // the view's width in pixels, once laid out; until then no wrapping
-  starts = new Map(); // wrapStarts of each row, for startsWidth cells
+  top = 0; // first line in view
+  topLine = 0; // which of that line's display lines (terminal rows) the view starts on
+  viewLen = 0; // rows the terminal shows
+  cols = Infinity; // the terminal's width in cells; Infinity (no wrapping) until known
+  starts = new Map(); // wrapStarts of each line, for startsWidth cells
   startsWidth = 0;
-  cellWidth = 0; // one glyph's advance in the terminal font, measured by the probe
-  visual = null; // null, "char", "line" or "block"
+  rowStarts = null; // the terminal row each line starts on (rowStartTable)
+  totalRows = 0; // rows the text takes, which are the terminal's
+  firstRow = 0; // the first line read; the cursor stays off the filler above it
+  padded = null; // { row, length }: a line given blanks out to the program's cursor
+  visual = null; // null, "char" or "line"
   anchor = null; // the selection's other end
   // Keys typed toward a command: [operatorCount] [operator] [count] [prefix].
   count = 0;
@@ -822,44 +830,42 @@ export default class CopyMode extends View {
   operatorCount = 0;
   prefix = null; // "g", "z", "f", "F", "t", "T", "i" or "a"
   lastFind = null; // { kind, ch } of the last f/F/t/T
-  searching = false; // the search field is up
+  searching = false; // the search prompt is up
   searchError = null; // why the pattern being typed is invalid
   searchForward = true;
   searchCount = 1; // a count typed before / or ?
+  searchView = null; // the view when the search started, to go back to on Esc
   query = "";
   lastSearch = null; // { text, forward, ignoreCase, wholeWord }
   matches = []; // [{ row, col, length }] in text order
-  matchesByRow = new Map();
-  jump = null;
+  preview = null; // the match a search being typed would go to
+  landed = null; // the match the last key moved the cursor to
+  flash = null; // that match, shown selected until the next key
   target = null; // the terminal copied from
-  status = "loading…"; // an error, shown in place of the status line note
+  alt = false; // it shows the alternate screen (no history, no scrolling)
+  wasAtBottom = true; // its view was at the end when copy mode opened
+  native = null; // the terminal's selection as we last set it: { start, end } cells
+  viewTop = null; // the terminal's top row in view as we last set it
+  lastCommandAt = 0;
+  status = "loading…"; // an error, shown in place of the strip's note
   message = null; // feedback for the last key, until the next
   note = null; // why history is incomplete
-  loadingHistory = false;
-  historyRequested = false; // history is read at most once (requestHistory)
-  topOnLoad = false; // gg is waiting for history: go to its first line
+  loading = false;
   handle = null; // the focus handle, from init
-  capture = null; // this copy's keys.capturing stamp
+  hadFocus = false;
   interacted = false; // a key or click arrived, so don't grab focus on mount
   mounted = false;
   closed = false;
 
   init(_props, cx) {
     this.handle = cx.focus_handle();
-    // Only an overlay copy takes the keyboard; publish it so pane mods leave it
-    // alone for as long as this dialog is up. The stamp lets this copy clear
-    // only its own mark.
-    if (props()?.overlay)
-      setShared("keys.capturing", (this.capture = { state: "copy-mode", ts: Date.now() }));
-    // Herdr binds Esc to close the overlay, which happens before onKeyDown
-    // sees it and would dismiss the dialog from Visual mode. A binding in this
-    // view's own key context is deeper in, so it comes first. (try: as win98's
-    // menu does, in case the keymap refuses it.)
-    try {
-      cx.bind_keys([{ keystroke: "escape", action: ESCAPE_ACTION, context: KEY_CONTEXT }]);
-    } catch {}
-    // An overlay holds the keyboard when it opens, so a reload sees no focused
-    // pane; the last target keeps the text readable across reloads.
+    // herdr-app check renders the strip once; leave the terminals alone.
+    if (checking()) {
+      this.status = null;
+      return;
+    }
+    // The strip holds the keyboard, but focused() still names the terminal
+    // under it; after a reload the last target keeps copy mode working.
     this.target =
       focused()?.terminal ??
       panes().find((pane) => pane.focused)?.terminal ??
@@ -870,69 +876,103 @@ export default class CopyMode extends View {
       return;
     }
     setShared("copy-mode.target", this.target);
+    this.loading = true;
     cx.spawn(async (cx) => {
       try {
-        const screen = await this.readTerminal(0);
-        if (this.closed) return;
-        this.setLines(screen.lines);
-        this.cursor = { row: Math.max(0, screen.lines.length - 1), col: 0 };
-        this.top = this.cursor.row;
+        await this.load(cx);
         this.status = null;
-        this.scrollToCursor();
-        cx.notify();
       } catch (err) {
         this.status = String(err?.message ?? err);
-        cx.notify();
       }
+      this.loading = false;
+      cx.notify();
     });
+    cx.timer.every(250, (cx) => this.watch(cx));
   }
 
-  // Whether the key just handled shows the person wants more than the screen:
-  // the cursor reached the top, the view can't scroll further up, or a search.
-  // Not while a command is half typed: the y of yy may be about to close.
-  wantsHistory(token) {
-    if (this.pendingKeys()) return false;
-    return (
-      this.cursor.row === 0 ||
-      this.searching ||
-      Boolean(this.lastSearch) ||
-      (this.top === 0 && this.topLine === 0 && SCROLL_UP_KEYS.has(token))
-    );
+  terminalInfo() {
+    return terminals().find((terminal) => terminal.address === this.target) ?? null;
   }
 
-  // Reads history, once. Not on open: a read of a full-screen app scrolls that
-  // app, which holds up typing into it for seconds, and can't be cancelled, so
-  // opening and dismissing copy mode must not start one.
-  requestHistory(cx) {
-    if (this.historyRequested || !this.target || !this.rows.length || this.closed) return;
-    this.historyRequested = true;
-    this.loadingHistory = true;
-    cx.spawn(async (cx) => {
-      try {
-        const all = await this.readTerminal(HISTORY_LINES);
-        if (this.closed) return;
-        this.loadingHistory = false;
-        if (!all.complete) {
-          this.note =
-            all.why === "working"
-              ? "no history while the agent works"
-              : `history incomplete${all.why ? ` (${all.why})` : ""}`;
-        }
-        const added = all.lines.length - this.lines.length;
-        if (added > 0) this.prependHistory(all.lines, added);
-        cx.notify();
-      } catch (err) {
-        this.loadingHistory = false;
-        this.status = String(err?.message ?? err);
-        cx.notify();
-      }
-    });
+  paneInfo() {
+    return panes().find((pane) => pane.terminal === this.target) ?? null;
+  }
+
+  async load(cx) {
+    const term = this.terminalInfo();
+    const pane = this.paneInfo();
+    if (!term || !pane) throw new Error("the terminal isn't shown in a pane");
+    const cols = Number(term.cols);
+    if (!(cols > 0)) throw new Error("the terminal's width is unknown");
+    const scroll = pane.scroll ?? null;
+    this.alt = !scroll;
+    const total = scroll ? scroll.total : Number(term.rows);
+    const offset = scroll ? scroll.offset : 0;
+    this.viewLen = scroll ? scroll.len : Number(term.rows);
+    this.wasAtBottom = !scroll || scroll.from_bottom === 0;
+    const mouse = term.selection ?? null;
+    // The program's cursor; then the last row with text, where the text read
+    // below ends. (end also scrolls the view to the end; placeView puts it back.)
+    this.command("terminal.select", { at: "cursor" });
+    const atCursor = await this.reported(cx, mouse);
+    let lastRow = null;
+    if (!this.alt) {
+      this.command("terminal.adjust_selection", { direction: "end" });
+      lastRow = (await this.reported(cx, atCursor))?.end.row ?? total - 1;
+    }
+    this.native = this.terminalInfo()?.selection ?? null;
+    const history = this.alt ? 0 : Math.min(MAX_HISTORY, Math.max(0, total - this.viewLen));
+    const read = await this.readTerminal(history);
+    if (this.closed) return;
+    if (!read.complete) {
+      this.note =
+        read.why === "working"
+          ? "no history while the agent works"
+          : `history incomplete${read.why ? ` (${read.why})` : ""}`;
+    }
+    this.cols = cols;
+    const { lines, first } = layoutText(read.lines, cols, total, lastRow);
+    this.setLines(lines);
+    this.firstRow = first;
+    // A row or so above the text is usual (a blank row hc read leaves out);
+    // more means the terminal shows text whose history is gone from hc read.
+    if (first > 1) this.note = `can't read above line ${first + 1}`;
+    // Start on a mouse selection, else at the program's cursor, else (the view
+    // scrolled back) at the bottom of the view.
+    if (mouse) {
+      this.visual = "char";
+      this.anchor = this.posAtCell(mouse.start);
+      this.cursor = this.posAtCell(mouse.end);
+    } else if (this.wasAtBottom && atCursor) {
+      this.padToCell(atCursor.end);
+      this.cursor = this.posAtCell(atCursor.end);
+    } else {
+      this.cursor = this.posAtCell({ row: offset + this.viewLen - 1, col: 0 });
+    }
+    if (this.cursor.row < first) this.cursor = { row: first, col: 0 };
+    if (this.anchor && this.anchor.row < first) this.anchor = { row: first, col: 0 };
+    this.wantCol = this.cursor.col;
+    this.setTop(this.displayPosAt(offset));
+    this.scrollToCursor();
+    this.loading = false;
+    this.sync();
+  }
+
+  // The terminal's selection once it reports one other than `previous`, or
+  // whatever it reports after a while.
+  async reported(cx, previous) {
+    const deadline = Date.now() + REPORT_TIMEOUT_MS;
+    for (;;) {
+      const selection = this.terminalInfo()?.selection ?? null;
+      if ((selection && !sameSelection(selection, previous)) || Date.now() > deadline) return selection;
+      await cx.sleep(16);
+    }
   }
 
   // The terminal's last `history` lines plus its screen (0: just the screen),
   // trailing blank lines dropped. JSON, because plain output appends notes such
   // as "[hc] incomplete: older output may be missing" to the text, where
-  // they'd read as terminal output; here they become a status line note instead.
+  // they'd read as terminal output; here they become a note on the strip.
   async readTerminal(history) {
     const out = await hc(["read", this.target, "--lines", String(history), "--json"]);
     if (out.code !== 0) throw new Error((out.stderr || "read failed").trim());
@@ -944,76 +984,347 @@ export default class CopyMode extends View {
     return { lines, complete: result.complete !== false, why: result.why ?? null };
   }
 
+  // The program's cursor usually sits on a blank cell past the text, which hc
+  // read leaves out: blanks put back out to `cell` let copy mode start on that
+  // very cell, as WezTerm's does. They're left out of anything copied.
+  padToCell(cell) {
+    const { row } = this.displayPosAt(cell.row);
+    if (row < this.firstRow) return;
+    const missing = Math.min(cell.col, this.cols - 1) + 1 - this.glyphCellsAt(cell.row).end;
+    if (missing <= 0) return;
+    const length = this.rows[row].length;
+    const lines = [...this.lines];
+    lines[row] += " ".repeat(missing);
+    const firstRow = this.firstRow;
+    this.setLines(lines);
+    this.firstRow = firstRow;
+    this.padded = { row, length };
+  }
+
+  // The text to copy from: the lines as read, without padToCell's blanks.
+  copyRows() {
+    if (!this.padded) return this.rows;
+    const rows = [...this.rows];
+    rows[this.padded.row] = rows[this.padded.row].slice(0, this.padded.length);
+    return rows;
+  }
+
   setLines(lines) {
     this.lines = lines;
     this.rows = lines.map((line) => Array.from(line));
     this.foldedLines = [];
     this.starts = new Map();
+    this.rowStarts = null;
   }
 
-  // History arrived: `lines` is it plus the screen, `added` rows longer than
-  // what is shown. Keep everything already on screen where the reader put it:
-  // cursor, view, selection anchor and search matches all move down.
-  prependHistory(lines, added) {
-    this.setLines(lines);
-    // gg asked for the first line, which is now further up.
-    const row = this.topOnLoad ? 0 : this.cursor.row + added;
-    this.cursor = { ...this.cursor, row };
-    this.top += added;
-    if (this.anchor) this.anchor = { ...this.anchor, row: this.anchor.row + added };
-    this.computeMatches();
-    if (this.jump) this.updateJump();
-    this.scrollToCursor();
+  // Every 250 ms: clicking anywhere else takes the keyboard from the strip,
+  // which ends copy mode, leaving any selection made with the mouse. A
+  // terminal that changed width has rewrapped its text, which ends it too.
+  watch(_cx) {
+    if (this.closed || this.loading) return;
+    const term = this.terminalInfo();
+    if (this.rows.length && term && Number(term.cols) !== this.cols) {
+      notify({ title: "Copy mode ended", body: "The terminal was resized", level: "info" });
+      return this.finish();
+    }
+    if (this.handle.is_focused()) this.hadFocus = true;
+    else if (this.hadFocus) {
+      const settled = Date.now() - this.lastCommandAt > SETTLE_MS;
+      const ours = !settled || sameSelection(term?.selection ?? null, this.native);
+      this.finish({ refocus: false, keepSelection: !ours });
+    }
   }
 
-  // Both this mod's way out and herdr's cleanup hook: herdr calls close() when
-  // the overlay goes by any route, such as a click beside the dialog.
+  // Herdr's cleanup hook: the window went some other way (a layout switch).
   close() {
+    this.finish({ refocus: false, fromHost: true });
+  }
+
+  // Ends copy mode: the terminal's selection cleared (unless it's no longer
+  // ours), its view back at the end if that's where it was, the strip closed
+  // and the keyboard handed back to the terminal.
+  finish({ refocus = true, keepSelection = false, fromHost = false } = {}) {
     if (this.closed) return;
     this.closed = true;
+    if (this.target && this.native && !keepSelection) this.command("terminal.clear_selection", {});
+    if (this.target && this.wasAtBottom && !this.alt && this.viewTop !== null)
+      this.command("terminal.scroll", { to: "bottom" });
     const overlay = props()?.overlay;
-    if (!overlay) return;
-    closeOverlay(overlay);
-    if (this.capture && shared("keys.capturing")?.ts === this.capture.ts)
-      setShared("keys.capturing", null);
-    // Hand the keyboard back to the terminal we copied from; closing the
-    // overlay alone can leave nothing focused (a hollow terminal cursor).
-    if (this.target) run("pane.focus", { terminal: this.target });
+    if (overlay && !fromHost) closeOverlay(overlay);
+    if (refocus && this.target) run("pane.focus", { terminal: this.target });
   }
 
-  // --- view ----------------------------------------------------------------
+  command(name, args) {
+    run(name, { terminal: this.target, ...args });
+    this.lastCommandAt = Date.now();
+  }
+
+  // --- the terminal: cells, its selection and its view ------------------------
 
   viewRows() {
-    const height = this.viewHeight || 640;
-    return Math.max(1, Math.floor((height - statusLineHeight() - PADDING * 2) / lineHeight()));
+    return Math.max(1, this.viewLen || 24);
   }
 
-  // Cells across the view; Infinity (no wrapping) until it has been laid out.
   wrapWidth() {
-    if (!this.viewWidth) return Infinity;
-    const cellWidth = this.cellWidth || fontSize() * 0.6;
-    return Math.max(1, Math.floor((this.viewWidth - PADDING * 2) / cellWidth));
+    return this.cols;
   }
 
-  // The column each display line of `row` starts on. One more than the text
-  // needs when the cursor or a jump label stands just past the end of a line
-  // that fills its last display line, as it would otherwise have nowhere to be.
-  lineStarts(row) {
+  // wrapStarts of `row` at the terminal's width.
+  baseStarts(row) {
     const width = this.wrapWidth();
     if (width !== this.startsWidth) {
       this.starts = new Map();
       this.startsWidth = width;
+      this.rowStarts = null;
     }
     let starts = this.starts.get(row);
     if (!starts) {
       starts = wrapStarts(this.rows[row] ?? [], width);
       this.starts.set(row, starts);
     }
+    return starts;
+  }
+
+  // The terminal row each line starts on.
+  rowStartTable() {
+    this.baseStarts(0);
+    if (!this.rowStarts) {
+      let row = 0;
+      this.rowStarts = this.rows.map((_, i) => {
+        const start = row;
+        row += this.baseStarts(i).length;
+        return start;
+      });
+      this.totalRows = row;
+    }
+    return this.rowStarts;
+  }
+
+  // The terminal row of a display position.
+  cellRowOf({ row, line }) {
+    const table = this.rowStartTable();
+    return (table[row] ?? 0) + Math.min(line, this.baseStarts(row).length - 1);
+  }
+
+  // The display position at terminal row `cellRow`.
+  displayPosAt(cellRow) {
+    const table = this.rowStartTable();
+    if (!table.length) return { row: 0, line: 0 };
+    const target = clamp(cellRow, 0, this.totalRows - 1);
+    let low = 0;
+    let high = table.length - 1;
+    while (low < high) {
+      const mid = (low + high + 1) >> 1;
+      if (table[mid] <= target) low = mid;
+      else high = mid - 1;
+    }
+    return { row: low, line: Math.min(target - table[low], this.baseStarts(low).length - 1) };
+  }
+
+  // The cell glyph `pos` starts on; past a line's end, its last glyph's.
+  cellOf(pos) {
+    const row = this.clampRow(pos.row);
     const glyphs = this.rows[row] ?? [];
-    const pastEnd =
-      (row === this.cursor.row && this.cursor.col >= glyphs.length) ||
-      this.jump?.labelsByRow?.get(row)?.has(glyphs.length);
-    if (pastEnd && cellsOf(glyphs.slice(starts[starts.length - 1])) >= width) {
+    const col = clamp(pos.col, 0, Math.max(0, glyphs.length - 1));
+    const starts = this.baseStarts(row);
+    let line = starts.length - 1;
+    while (line > 0 && starts[line] > col) line--;
+    const cell = cellsOf(glyphs.slice(starts[line], col));
+    return { row: this.cellRowOf({ row, line }), col: Math.min(cell, this.cols - 1) };
+  }
+
+  // The glyph shown in a cell (the nearest, past the end of a row's text).
+  posAtCell(cell) {
+    const { row, line } = this.displayPosAt(cell.row);
+    const glyphs = this.rows[row] ?? [];
+    const starts = this.baseStarts(row);
+    const end = line + 1 < starts.length ? starts[line + 1] : glyphs.length;
+    let col = starts[line] ?? 0;
+    for (let used = 0; col < end - 1 && used + glyphCells(glyphs[col]) <= cell.col; col++) {
+      used += glyphCells(glyphs[col]);
+    }
+    return { row, col: Math.min(col, lastCol(this.rows, row)) };
+  }
+
+  // The cell each glyph on terminal row `cellRow` starts on, in order, and
+  // (as .end) the first cell past them: the terminal's glyphs, so not
+  // padToCell's blanks.
+  glyphCellsAt(cellRow) {
+    const { row, line } = this.displayPosAt(cellRow);
+    const glyphs = (this.padded?.row === row ? this.copyRows() : this.rows)[row] ?? [];
+    const starts = this.baseStarts(row);
+    const end = line + 1 < starts.length ? starts[line + 1] : glyphs.length;
+    const cells = [];
+    let used = 0;
+    for (let col = starts[line] ?? 0; col < end; col++) {
+      cells.push(used);
+      used += glyphCells(glyphs[col]);
+    }
+    cells.end = used; // the first cell after the text
+    return cells;
+  }
+
+  // The last terminal row with anything but blanks on it, where
+  // adjust_selection's "end" goes.
+  lastTextRow() {
+    for (let row = this.rows.length - 1; row >= 0; row--) {
+      const glyphs = this.rows[row];
+      if (glyphs.some((glyph) => !isBlank(glyph))) {
+        const starts = this.baseStarts(row);
+        let line = starts.length - 1;
+        while (line > 0 && glyphs.slice(starts[line]).every(isBlank)) line--;
+        return this.cellRowOf({ row, line });
+      }
+    }
+    return 0;
+  }
+
+  // What the terminal should show selected: the match a search would go to or
+  // just went to, the selection, or the cursor as one cell. A line selection
+  // runs from edge to edge of its rows, as a triple click's does.
+  wantedSelection() {
+    const span = this.searching ? this.preview : this.visual ? null : this.flash;
+    if (span) {
+      const last = { row: span.row, col: span.col + Math.max(1, span.length) - 1 };
+      return { start: this.cellOf(span), end: this.cellOf(last) };
+    }
+    if (this.visual === "line" && this.anchor) {
+      const first = (row) => this.rowStartTable()[row] ?? 0;
+      const last = (row) => first(row) + this.baseStarts(row).length - 1;
+      const right = this.cols - 1;
+      return this.cursor.row >= this.anchor.row
+        ? { start: { row: first(this.anchor.row), col: 0 }, end: { row: last(this.cursor.row), col: right } }
+        : { start: { row: last(this.anchor.row), col: right }, end: { row: first(this.cursor.row), col: 0 } };
+    }
+    const end = this.cellOf(this.cursor);
+    if (!this.visual || !this.anchor) return { start: end, end };
+    return { start: this.cellOf(this.anchor), end: this.reachable(end) };
+  }
+
+  // Where adjust_selection can take the selection's end nearest `cell`: on a
+  // blank cell past a row's text (padToCell's), only its last glyph is, or
+  // the row's start or last cell.
+  reachable(cell) {
+    const cells = this.glyphCellsAt(cell.row);
+    if (cell.col < cells.end || cell.col === 0 || cell.col === this.cols - 1) return cell;
+    return { row: cell.row, col: cells.length ? cells[cells.length - 1] : 0 };
+  }
+
+  // Shows the cursor, selection and view in the terminal: a new selection
+  // where its start moves, else its end walked to where it should be.
+  sync() {
+    if (this.loading || this.closed || !this.target || !this.rows.length) return;
+    const want = this.wantedSelection();
+    // A one-cell cursor is selected afresh, as it may stand where only select
+    // can put it (past the text).
+    const one = sameCell(want.start, want.end) && !sameSelection(this.native, want);
+    if (!this.native || !sameCell(this.native.start, want.start) || one) {
+      this.command("terminal.select", { at: want.start });
+      this.native = { start: want.start, end: want.start };
+    }
+    const moved = !sameCell(this.native.end, want.end);
+    if (moved) this.moveEnd(this.native.end, want.end);
+    this.native = want;
+    this.placeView(moved);
+  }
+
+  // Walks the selection's moving end with terminal.adjust_selection, which
+  // goes a cell or a row at a time. Up and down (and a page, the view's
+  // height) keep the column, even past the end of a row's text, so first the
+  // row: by pages and rows, overshooting by a page and stepping back when
+  // that's shorter, and starting from the first row (home) or the last with
+  // text in it (end) when that's nearer.
+  // Then across, from glyph to glyph: from where the end is, if that's a
+  // glyph's start; from the row's start (line_start); or from its end, as
+  // line_end goes past the text and left from there lands on the last glyph
+  // (when that's one cell wide; right from the last glyph would go on to the
+  // next row).
+  moveEnd(start, to) {
+    const adjust = (direction, times = 1) => {
+      for (let n = 0; n < times; n++) this.command("terminal.adjust_selection", { direction });
+    };
+    const page = this.viewRows();
+    // The pages and rows from `row` to the target row, and what they cost.
+    const vertical = (row) => {
+      const distance = Math.abs(to.row - row);
+      const sign = to.row > row ? 1 : -1;
+      let pages = Math.floor(distance / page);
+      const past = row + sign * (pages + 1) * page;
+      if (distance - pages * page > page / 2 && past >= 0 && past < this.totalRows) pages++;
+      const rows = Math.abs(to.row - (row + sign * pages * page));
+      return { row, sign, pages, rows, cost: pages + rows };
+    };
+    let from = start;
+    let plan = vertical(from.row);
+    const lastRow = this.lastTextRow();
+    for (const [direction, cell] of [["home", { row: 0, col: 0 }], ["end", { row: lastRow, col: this.cols - 1 }]]) {
+      const other = vertical(cell.row);
+      if (other.cost + 1 < plan.cost) {
+        adjust(direction);
+        from = cell;
+        plan = other;
+      }
+    }
+    adjust(plan.sign > 0 ? "page_down" : "page_up", plan.pages);
+    const row = plan.row + plan.sign * plan.pages * page;
+    adjust(to.row > row ? "down" : "up", plan.rows);
+    if (from.col === to.col) return;
+    const cells = this.glyphCellsAt(to.row);
+    const target = cells.indexOf(to.col);
+    if (target === -1) return adjust(to.col === 0 ? "line_start" : "line_end");
+    const at = cells.indexOf(from.col);
+    const last = cells.length - 1;
+    const fromHere = at === -1 ? Infinity : Math.abs(target - at);
+    const fromStart = 1 + target;
+    const fromEnd = cells.end - cells[last] === 1 && cells.end < this.cols ? 2 + last - target : Infinity;
+    if (fromHere <= Math.min(fromStart, fromEnd)) return adjust(target > at ? "right" : "left", fromHere);
+    if (fromStart <= fromEnd) {
+      adjust("line_start");
+      return adjust("right", target);
+    }
+    adjust("line_end");
+    adjust("left", 1 + last - target);
+  }
+
+  // Puts the terminal's view where ours is. Scrolling is relative and the
+  // terminal reports its scroll a frame late, so this goes to the top first;
+  // `force`: the selection's end moved, and the terminal's view follows it.
+  placeView(force) {
+    if (this.alt) return;
+    const max = Math.max(0, this.totalRows - this.viewRows());
+    const top = clamp(this.cellRowOf(this.topPos()), 0, max);
+    if (!force && top === this.viewTop) return;
+    this.command("terminal.scroll", { to: "top" });
+    if (top > 0) this.command("terminal.scroll", { lines: top });
+    this.viewTop = top;
+  }
+
+  // Before a key: take up changes made outside copy mode, once the terminal
+  // has reported our own. A selection that isn't as we set it is what the
+  // terminal has (the next sync starts over from it); a view scrolled with the
+  // wheel is where the view is, the cursor pulled into it.
+  adopt() {
+    if (Date.now() - this.lastCommandAt < SETTLE_MS) return;
+    const selection = this.terminalInfo()?.selection ?? null;
+    if (!sameSelection(selection, this.native)) this.native = selection;
+    const offset = this.alt ? null : this.paneInfo()?.scroll?.offset;
+    if (typeof offset === "number" && this.viewTop !== null && offset !== this.viewTop) {
+      this.viewTop = offset;
+      this.setTop(this.displayPosAt(offset));
+      this.cursorIntoView();
+    }
+  }
+
+  // --- view ----------------------------------------------------------------
+
+  // The column each display line of `row` starts on. One more than the text
+  // needs when the cursor stands just past the end of a line that fills its
+  // last display line (in a selection, after $), as in Vim.
+  lineStarts(row) {
+    const starts = this.baseStarts(row);
+    const glyphs = this.rows[row] ?? [];
+    const pastEnd = row === this.cursor.row && this.cursor.col >= glyphs.length;
+    if (pastEnd && cellsOf(glyphs.slice(starts[starts.length - 1])) >= this.wrapWidth()) {
       return [...starts, glyphs.length];
     }
     return starts;
@@ -1114,7 +1425,8 @@ export default class CopyMode extends View {
 
   // Puts the cursor on a display line, as near wantCol as that line allows.
   // wantCol is kept, so moving on with j or k goes back to it.
-  placeCursor({ row, line }) {
+  placeCursor(pos) {
+    const { row, line } = pos.row < this.firstRow ? { row: this.firstRow, line: 0 } : pos;
     const starts = this.lineStarts(row);
     const last = this.visual ? lineLength(this.rows, row) : lastCol(this.rows, row);
     const low = Math.min(starts[line], last);
@@ -1167,7 +1479,14 @@ export default class CopyMode extends View {
   // --- cursor and selection --------------------------------------------------
 
   clampRow(row) {
-    return clamp(row, 0, Math.max(0, this.rows.length - 1));
+    const last = Math.max(0, this.rows.length - 1);
+    return clamp(row, Math.min(this.firstRow, last), last);
+  }
+
+  // `target` kept off the unread filler above firstRow: there, the start of
+  // the first line read instead.
+  readable(target) {
+    return target.row < this.firstRow ? { ...target, row: this.firstRow, col: 0, wantCol: undefined } : target;
   }
 
   // `delta` rows from the cursor, stopping at the first or last line; null
@@ -1175,7 +1494,7 @@ export default class CopyMode extends View {
   // as in Vim. With `colOf`, also a column: colOf(rows, row).
   rowBy(delta, colOf) {
     const row = this.cursor.row;
-    if ((delta > 0 && row >= this.rows.length - 1) || (delta < 0 && row <= 0)) return null;
+    if ((delta > 0 && row >= this.rows.length - 1) || (delta < 0 && row <= this.firstRow)) return null;
     const target = this.clampRow(row + delta);
     return colOf ? { row: target, col: colOf(this.rows, target) } : { row: target };
   }
@@ -1186,6 +1505,7 @@ export default class CopyMode extends View {
   // in the line break, as in Vim.
   moveCursor(target, vertical = false) {
     if (!this.rows.length) return;
+    target = this.readable(target);
     const row = this.clampRow(target.row);
     const last = this.visual ? lineLength(this.rows, row) : lastCol(this.rows, row);
     if (vertical) {
@@ -1240,31 +1560,7 @@ export default class CopyMode extends View {
       comparePos(this.anchor, this.cursor) <= 0
         ? [this.anchor, this.cursor]
         : [this.cursor, this.anchor];
-    if (this.visual !== "block") return { kind: this.visual, start, end };
-    const left = Math.min(this.anchor.col, this.cursor.col);
-    // $ widens a block to every line's end.
-    const right = this.wantCol === Infinity ? Infinity : Math.max(this.anchor.col, this.cursor.col);
-    return {
-      kind: "block",
-      start: { row: start.row, col: left },
-      end: { row: end.row, col: right },
-    };
-  }
-
-  // The columns of `row` to draw selected, inclusive [first, last], or null.
-  // An empty line in a selection shows as one selected cell, as in Vim.
-  selectedCols(row, selection) {
-    if (!selection || row < selection.start.row || row > selection.end.row) return null;
-    const last = lineLength(this.rows, row) - 1;
-    if (selection.kind === "block") {
-      if (selection.start.col > last) return null;
-      return [selection.start.col, Math.min(selection.end.col, last)];
-    }
-    if (last < 0) return [0, 0];
-    if (selection.kind === "line") return [0, last];
-    const first = row === selection.start.row ? Math.min(selection.start.col, last) : 0;
-    const end = row === selection.end.row ? Math.min(selection.end.col, last) : last;
-    return [first, end];
+    return { kind: this.visual, start, end };
   }
 
   toggleVisual(kind) {
@@ -1283,17 +1579,12 @@ export default class CopyMode extends View {
     this.visual = kind;
   }
 
-  // o: to the other end. O: in a block, to the other corner on this line.
-  swapSelectionEnds(sameLine) {
+  // o and O: to the other end.
+  swapSelectionEnds() {
     if (!this.visual) return;
     const anchor = this.anchor;
-    if (sameLine && this.visual === "block") {
-      this.anchor = { row: anchor.row, col: this.cursor.col };
-      this.moveCursor({ row: this.cursor.row, col: anchor.col });
-    } else {
-      this.anchor = { ...this.cursor };
-      this.moveCursor(anchor);
-    }
+    this.anchor = { ...this.cursor };
+    this.moveCursor(anchor);
   }
 
   // The range y{motion} copies, from the cursor to `target`: Vim's rules,
@@ -1301,6 +1592,7 @@ export default class CopyMode extends View {
   // start of a line stops at the end of the one before, and copies whole
   // lines when it also started at or before its line's first non-blank).
   motionRange(target, type) {
+    target = this.readable(target);
     const row = this.clampRow(target.row);
     const to = { row, col: clamp(target.col ?? 0, 0, lineLength(this.rows, row)) };
     const [start, end] = comparePos(this.cursor, to) <= 0 ? [this.cursor, to] : [to, this.cursor];
@@ -1317,7 +1609,7 @@ export default class CopyMode extends View {
   }
 
   copy(range, cx) {
-    const text = range ? textOf(this.rows, range) : "";
+    const text = range ? textOf(this.copyRows(), range) : "";
     if (!text) {
       this.message = "nothing to copy";
       return;
@@ -1325,7 +1617,7 @@ export default class CopyMode extends View {
     try {
       cx.write_to_clipboard(text);
       notify({ title: "Copied", body: plural(text.split("\n").length, "line"), level: "info" });
-      this.close();
+      this.finish();
     } catch (err) {
       this.status = String(err?.message ?? err);
       notify({ title: "Copy failed", body: this.status, level: "error" });
@@ -1336,31 +1628,36 @@ export default class CopyMode extends View {
 
   onKeyDown(event, cx) {
     this.interacted = true;
-    if (event.key === "escape" || keyToken(event) === "ctrl-[") {
-      cx.stop_propagation();
-      return this.escape(cx);
-    }
     cx.stop_propagation();
-    if (this.searching) {
-      this.searchKey(event, cx);
-      return cx.notify();
-    }
     const token = keyToken(event);
-    if (!token) return;
+    const escape = event.key === "escape" || token === "ctrl-[";
+    if (this.loading || !this.rows.length) {
+      if (escape || token === "q") this.finish();
+      return;
+    }
+    this.adopt();
     this.message = null;
-    if (this.jump) this.jumpKey(token);
-    else this.feed(token, cx);
-    if (this.wantsHistory(token)) this.requestHistory(cx);
+    this.flash = null;
+    this.landed = null;
+    if (escape) this.escape(cx);
+    else if (this.searching) this.searchKey(event, cx);
+    else if (event.modifiers?.platform && event.key === "c") this.runCommand("enter", cx);
+    else if (token) this.feed(token, cx);
+    if (this.closed) return;
+    if (!this.searching) this.scrollToCursor();
+    // The match the cursor went to stays selected until the next key.
+    if (this.landed && !this.visual && !this.searching && sameCell(this.landed, this.cursor))
+      this.flash = this.landed;
+    this.sync();
     cx.notify();
   }
 
   escape(cx) {
     this.message = null;
     if (this.searching) this.cancelSearch();
-    else if (this.jump) this.jump = null;
     else if (this.pendingKeys()) this.resetPending();
     else if (this.visual) this.toggleVisual(this.visual);
-    else return this.close();
+    else return this.finish();
     cx.notify();
   }
 
@@ -1387,7 +1684,6 @@ export default class CopyMode extends View {
 
   // One key of normal or visual mode.
   feed(token, cx) {
-    this.topOnLoad = false;
     if (this.prefix) return this.finishPrefix(token, cx);
     if (/^[0-9]$/.test(token) && (token !== "0" || this.count > 0)) {
       this.count = Math.min(MAX_COUNT, this.count * 10 + Number(token));
@@ -1447,16 +1743,12 @@ export default class CopyMode extends View {
         return this.toggleVisual("char");
       case "V":
         return this.toggleVisual("line");
-      case "ctrl-v":
-        return this.toggleVisual("block");
       case "o":
       case "O":
-        return this.swapSelectionEnds(token === "O");
+        return this.swapSelectionEnds();
       case "/":
       case "?":
         return this.startSearch(token === "/", count);
-      case "s":
-        return this.startJump();
       case "ctrl-d":
       case "ctrl-u":
         return this.scrollHalfPage(
@@ -1480,7 +1772,7 @@ export default class CopyMode extends View {
       case "zb":
         return this.scrollCursorTo("bottom");
       case "q":
-        return this.close();
+        return this.finish();
     }
   }
 
@@ -1513,6 +1805,7 @@ export default class CopyMode extends View {
       range = bracketObject(this.rows, this.cursor, open, close, count, around);
     }
     if (!range) return;
+    range = { start: this.readable(range.start), end: this.readable(range.end) };
     if (operator) return this.copy({ kind: "char", ...range }, cx);
     // In a selection, the object becomes the (characterwise) selection.
     this.visual = "char";
@@ -1586,29 +1879,23 @@ export default class CopyMode extends View {
     return found;
   }
 
-  // Matches of the search being typed, else of the last one, for n/N and to
-  // draw.
+  // Matches of the search being typed, else of the last one, for n/N.
   computeMatches() {
     this.matches = [];
-    this.matchesByRow = new Map();
     const search = this.searching ? patternSearch(this.query, this.searchForward) : this.lastSearch;
     this.searchError = this.searching ? (search.error ?? null) : null;
     if (!search?.text) return;
     for (let row = 0; row < this.lines.length; row++) {
       const found = this.matchesInRow(row, search);
-      if (!found.length) continue;
-      this.matchesByRow.set(row, found);
       for (const { col, length } of found) this.matches.push({ row, col, length });
     }
   }
 
-  // The count-th match after (or before) `from`, wrapping around the ends.
-  nextMatch(from, forward, count) {
+  // The count-th match after (or before) `from`, wrapping around the ends:
+  // its index and whether it wrapped, or null when there are no matches.
+  findMatch(from, forward, count) {
     const matches = this.matches;
-    if (!matches.length) {
-      this.message = this.lastSearch ? `not found: ${this.lastSearch.text}` : "no previous search";
-      return null;
-    }
+    if (!matches.length) return null;
     let index = -1;
     if (forward) index = matches.findIndex((match) => comparePos(match, from) > 0);
     else
@@ -1624,10 +1911,21 @@ export default class CopyMode extends View {
         index = (index + matches.length) % matches.length;
       }
     }
-    if (wrapped)
-      this.message = forward ? "search wrapped to the top" : "search wrapped to the bottom";
-    const { row, col } = matches[index];
-    return { row, col };
+    return { index, wrapped };
+  }
+
+  // Where n, N, * and # go; the strip says which match it is, as Vim's [3/17].
+  nextMatch(from, forward, count) {
+    const found = this.findMatch(from, forward, count);
+    if (!found) {
+      this.message = this.lastSearch ? `not found: ${this.lastSearch.text}` : "no previous search";
+      return null;
+    }
+    const match = this.matches[found.index];
+    this.landed = match;
+    const wrapped = found.wrapped ? `search wrapped to the ${forward ? "top" : "bottom"} ` : "";
+    this.message = `${wrapped}[${found.index + 1}/${this.matches.length}]`;
+    return { row: match.row, col: match.col };
   }
 
   // * and #: the keyword under or after the cursor on its line, as a whole
@@ -1661,7 +1959,9 @@ export default class CopyMode extends View {
     this.searchForward = forward;
     this.searchCount = count;
     this.query = "";
+    this.searchView = { top: this.top, topLine: this.topLine };
     this.computeMatches();
+    this.updatePreview();
   }
 
   // Typing on the / or ? line, drawn by the mod itself (like Vim's command
@@ -1685,10 +1985,28 @@ export default class CopyMode extends View {
       else return;
     }
     this.computeMatches();
+    this.updatePreview();
+  }
+
+  // As Vim's 'incsearch': the match the search being typed would go to, shown
+  // selected with the view on it.
+  updatePreview() {
+    this.preview = null;
+    if (this.searchView) this.setTop({ row: this.searchView.top, line: this.searchView.topLine });
+    const found = this.searching && !this.searchError && this.findMatch(this.cursor, this.searchForward, this.searchCount);
+    if (!found) return;
+    this.preview = this.matches[found.index];
+    const cursor = this.cursor;
+    this.cursor = { row: this.preview.row, col: this.preview.col };
+    this.scrollToCursor();
+    this.cursor = cursor;
   }
 
   cancelSearch() {
     this.searching = false;
+    this.preview = null;
+    if (this.searchView) this.setTop({ row: this.searchView.top, line: this.searchView.topLine });
+    this.searchView = null;
     this.computeMatches();
   }
 
@@ -1696,6 +2014,8 @@ export default class CopyMode extends View {
   // last search in the new direction), and the cursor goes to its next match.
   commitSearch() {
     this.searching = false;
+    this.preview = null;
+    this.searchView = null;
     if (this.query) {
       const search = patternSearch(this.query, this.searchForward);
       if (search.error) {
@@ -1712,185 +2032,16 @@ export default class CopyMode extends View {
     if (target) this.moveCursor(target);
   }
 
-  // --- jump (s) --------------------------------------------------------------
-
-  startJump() {
-    this.jump = {
-      query: "",
-      targetsByLabel: new Map(),
-      labelsByRow: new Map(),
-      count: 0,
-      only: null,
-    };
-  }
-
-  // Matches of the typed text in view, smartcase. Labels (lowercase, drawn
-  // one cell after each match) only become active from two characters on, so
-  // the first two keystrokes always refine instead of jumping. A label is
-  // never a character that follows a match, the likely next keystroke.
-  updateJump() {
-    const search = smartSearch(this.jump.query, true);
-    const found = [];
-    const following = new Set();
-    const first = this.topPos();
-    const last = this.lastPos();
-    for (let row = first.row; row <= last.row && row < this.rows.length; row++) {
-      for (const { col, length } of this.matchesInRow(row, search)) {
-        const pos = { row, line: this.lineOf(row, col) };
-        if (compareLines(pos, first) < 0 || compareLines(pos, last) > 0) continue;
-        found.push({ row, col, length });
-        const next = this.rows[row][col + length];
-        if (next) following.add(next.toLowerCase());
-      }
-    }
-    const targetsByLabel = new Map();
-    const labelsByRow = new Map();
-    if (Array.from(search.text).length >= 2) {
-      const labels = Array.from(JUMP_LABELS).filter((label) => !following.has(label));
-      found.slice(0, labels.length).forEach(({ row, col, length }, i) => {
-        targetsByLabel.set(labels[i], { row, col });
-        if (!labelsByRow.has(row)) labelsByRow.set(row, new Map());
-        labelsByRow.get(row).set(col + length, labels[i]);
-      });
-    }
-    this.jump = {
-      ...this.jump,
-      targetsByLabel,
-      labelsByRow,
-      count: found.length,
-      only: found.length === 1 ? found[0] : null,
-    };
-  }
-
-  jumpKey(token) {
-    if (token === "backspace") {
-      this.jump.query = Array.from(this.jump.query).slice(0, -1).join("");
-      return this.updateJump();
-    }
-    if (Array.from(token).length !== 1) return; // arrows, ctrl keys: stay in the mode
-    const labelled = this.jump.targetsByLabel.get(token);
-    if (labelled) {
-      this.jump = null;
-      return this.moveCursor(labelled);
-    }
-    this.jump.query += token;
-    this.updateJump();
-    if (this.jump.only) {
-      const only = this.jump.only;
-      this.jump = null;
-      this.moveCursor(only);
-    }
-  }
-
   // --- render ----------------------------------------------------------------
 
-  // A display line's text is always one element, so it lays out the same
-  // wherever the cursor is (splitting it into colored runs moved glyphs by
-  // subpixels as the run boundaries changed). A selection is a box behind the
-  // text; search matches, the cursor and jump labels are opaque cells drawn over
-  // it (their own copy of the glyphs, in their own colors). All of them sit at
-  // their cell offset × cell width, measured from the font (see renderProbe).
-  renderLine(row, line, starts, selection, colors, font, size, height) {
-    const glyphs = this.rows[row] ?? [];
-    const cellWidth = this.cellWidth || size * 0.6;
-    const start = starts[line];
-    const end = line + 1 < starts.length ? starts[line + 1] - 1 : Infinity; // inclusive
-    const shown = glyphs.slice(start, end + 1);
-    const leftOf = (col) => cellsOf(glyphs.slice(start, col));
-    const inLine = (col) => col >= start && col <= end;
-    // Clips an inclusive column span to this display line, or null when outside.
-    const clip = ([first, last]) =>
-      first > end || last < start ? null : [Math.max(first, start), Math.min(last, end)];
-    const box = (first, last, background) =>
-      div()
-        .absolute()
-        .top(0)
-        .left(leftOf(first) * cellWidth)
-        .w(Math.max(1, cellsOf(glyphs.slice(first, last + 1))) * cellWidth)
-        .h(height)
-        .bg(background);
-    const cells = (col, text, background, foreground) =>
-      div()
-        .absolute()
-        .top(0)
-        .left(leftOf(col) * cellWidth)
-        .w(cellsOf(Array.from(text)) * cellWidth)
-        .h(height)
-        .bg(background)
-        .text_color(foreground)
-        .child(text);
-    const cell = (col, text) => cells(col, text, colors.accent, colors.accent_foreground);
-    const behind = [];
-    const selected = this.selectedCols(row, selection);
-    const selectedHere = selected && clip(selected);
-    if (selectedHere) behind.push(box(selectedHere[0], selectedHere[1], colors.selection));
-    // Search matches are opaque, dark text on the terminal's yellow (as Vim's
-    // default Search highlight), so they read well and differ from a selection.
-    // As in Vim, the selection wins where they overlap: only the parts of a
-    // match outside it are drawn.
-    const over = [];
-    for (const { col, length } of this.matchesByRow.get(row) ?? []) {
-      for (const span of spansOutside(col, col + length - 1, selected)) {
-        const here = clip(span);
-        if (!here) continue;
-        const text = glyphs.slice(here[0], here[1] + 1).join("");
-        over.push(cells(here[0], text, colors.ansi3, colors.background));
-      }
-    }
-    if (row === this.cursor.row) {
-      const col = Math.min(this.cursor.col, glyphs.length);
-      if (inLine(col)) over.push(cell(col, glyphs[col] ?? " "));
-    }
-    for (const [col, label] of this.jump?.labelsByRow?.get(row) ?? []) {
-      if (inLine(col)) over.push(cell(col, label));
-    }
-    return div()
-      .relative()
-      .h(height)
-      .flex_none()
-      .whitespace_nowrap()
-      .font_family(font)
-      .text_size(size)
-      .line_height(`${height}px`)
-      .text_color(colors.foreground)
-      .children(behind)
-      .child(div().absolute().top(0).left(0).h(height).child(shown.join("")))
-      .children(over);
-  }
-
-  // An invisible run of PROBE_CELLS glyphs whose width gives the font's cell advance.
-  renderProbe(font, size, height) {
-    return div()
-      .id("copy-mode-probe")
-      .absolute()
-      .top(0)
-      .left(0)
-      .invisible()
-      .whitespace_nowrap()
-      .font_family(font)
-      .text_size(size)
-      .line_height(`${height}px`)
-      .on_size_change((bounds, cx) => {
-        const width = bounds.width / PROBE_CELLS;
-        if (width > 0 && Math.abs(width - this.cellWidth) > 0.001) {
-          this.cellWidth = width;
-          cx.notify();
-        }
-      })
-      .child("0".repeat(PROBE_CELLS));
-  }
-
   modeName() {
-    if (this.jump) return "JUMP";
     if (this.visual === "char") return "VISUAL";
     if (this.visual === "line") return "V-LINE";
-    if (this.visual === "block") return "V-BLOCK";
     return "NORMAL";
   }
 
-  // The mode badge's [background, foreground]: yellow is left to search matches.
+  // The mode badge's [background, foreground].
   modeColors(colors) {
-    if (this.jump) return [colors.ansi2, colors.background];
     if (this.visual) return [colors.ansi5, colors.background];
     return [colors.accent, colors.accent_foreground];
   }
@@ -1898,142 +2049,89 @@ export default class CopyMode extends View {
   statusNote() {
     if (this.status) return this.status;
     if (this.message) return this.message;
-    if (this.loadingHistory) return "loading history…";
     return this.note ?? "";
   }
 
+  // The strip, like Vim's status line in the terminal's font: while searching,
+  // the / or ? prompt and the pattern; otherwise a badge colored for the mode
+  // and any message on the left, typed keys and the cursor position (line/
+  // lines:column) on the right. A press anywhere on it that isn't stopped
+  // drags it, and Herdr remembers where it was dropped.
   render(cx) {
     const colors = theme();
-    const font = fontFamily();
     const size = fontSize();
-    const height = lineHeight();
-    this.scrollToCursor();
-    const selection = this.selection();
-    const children = [this.renderProbe(font, size, height)];
-    let room = this.viewRows();
-    for (let row = this.top, line = this.topLine; room > 0 && row < this.rows.length; row++) {
-      const starts = this.lineStarts(row);
-      for (; room > 0 && line < starts.length; line++, room--) {
-        children.push(this.renderLine(row, line, starts, selection, colors, font, size, height));
-      }
-      line = 0;
-    }
-    const position = this.rows.length
-      ? `${this.cursor.row + 1}/${this.rows.length}:${this.cursor.col + 1}`
-      : "—";
-    const pending = this.pendingKeys();
-    return v_flex()
+    const strip = h_flex()
       .id("copy-mode")
       .size_full()
-      .key_context(KEY_CONTEXT)
-      .on_action(ESCAPE_ACTION, (_event, cx) => this.escape(cx))
       .track_focus(this.handle)
       .on_key_down((event, cx) => this.onKeyDown(event, cx))
-      .on_mouse_down("left", (_e, cx) => {
+      .on_mouse_down("left", () => {
         this.interacted = true;
         if (!this.handle.is_focused()) this.handle.focus();
-        cx.stop_propagation();
       })
-      .on_size_change((bounds, cx) => {
-        // Take the keyboard once laid out, unless the person got there first
-        // or another copy now owns keys.capturing.
-        if (!this.mounted) {
-          this.mounted = true;
-          cx.timer.after(32, () => {
-            const overlay = props()?.overlay;
-            if (this.closed || this.interacted) return;
-            if (overlay && shared("keys.capturing")?.ts !== this.capture?.ts) return;
-            if (!this.handle.is_focused()) this.handle.focus();
-          });
-        }
-        this.viewHeight = bounds.height;
-        this.viewWidth = bounds.width;
-        cx.notify();
+      .on_size_change((_bounds, cx) => {
+        // Take the keyboard once laid out, unless the person got there first.
+        if (this.mounted) return;
+        this.mounted = true;
+        cx.timer.after(32, () => {
+          if (!this.closed && !this.interacted && !this.handle.is_focused()) this.handle.focus();
+        });
       })
-      .gap(0)
-      .overflow_hidden()
-      .child(
-        // Padding here, not on the root, so the status line runs edge to edge.
-        v_flex()
-          .flex_1()
-          .min_h(0)
-          .p(PADDING)
-          .child(v_flex().relative().flex_1().min_h(0).overflow_hidden().gap(0).children(children)),
-      )
-      .child(this.renderStatusLine(colors, font, size, position, pending));
-  }
-
-  // Vim's bottom line, as a band lighter than both the dialog and the dimmed
-  // pane behind it, with a rule above: while searching, the / or ? prompt and
-  // the pattern; otherwise a badge colored for the mode and any message on the
-  // left, typed keys and the cursor position on the right.
-  renderStatusLine(colors, font, size, position, pending) {
-    const line = h_flex()
-      .h(statusLineHeight())
-      .flex_none()
       .items_center()
       .gap(12)
-      .pr(PADDING)
+      .pr(8)
+      .rounded(6)
+      .border_1()
+      .border_color(colors.border)
       .bg(colors.raised)
-      .border_t_1()
-      .border_color(colors.input)
-      .font_family(font)
-      .text_size(size)
-      .line_height(`${lineHeight()}px`);
+      .overflow_hidden()
+      .font_family(fontFamily())
+      .text_size(size);
     if (this.searching) {
       // The prompt, the pattern and a block cursor, run together as in Vim.
-      return line
-        .pl(PADDING)
+      return strip
+        .pl(8)
         .child(
           h_flex()
             .flex_1()
             .min_w(0)
             .overflow_hidden()
             .text_color(colors.foreground)
-            .child(
-              div()
-                .whitespace_nowrap()
-                .child(`${this.searchForward ? "/" : "?"}${this.query}`),
-            )
-            .child(
-              div()
-                .w(this.cellWidth || size * 0.6)
-                .h(lineHeight())
-                .flex_none()
-                .bg(colors.accent),
-            ),
+            .child(div().whitespace_nowrap().child(`${this.searchForward ? "/" : "?"}${this.query}`))
+            .child(div().w(size * 0.6).h(size * 1.25).flex_none().bg(colors.accent)),
         )
         .child(
           this.searchError
             ? div().text_color(colors.blocked).child(this.searchError)
-            : div()
-                .text_color(colors.muted)
-                .child(plural(this.matches.length, "match", "matches")),
+            : div().text_color(colors.muted).child(plural(this.matches.length, "match", "matches")),
         );
     }
-    const jump = this.jump?.query ? `${this.jump.query}  (${this.jump.count})` : "";
     const [badgeBackground, badgeForeground] = this.modeColors(colors);
-    return line
+    const pending = this.pendingKeys();
+    const position = this.rows.length
+      ? `${this.cursor.row + 1}/${this.rows.length}:${this.cursor.col + 1}`
+      : "—";
+    return strip
       .child(
         h_flex()
           .h_full()
           .flex_none()
           .items_center()
-          .px(PADDING)
+          .px(8)
           .bg(badgeBackground)
           .text_color(badgeForeground)
           .font_semibold()
           .child(this.modeName()),
       )
-      .when(Boolean(jump), (el) => el.child(div().text_color(colors.accent).child(jump)))
       .child(
         div()
           .flex_1()
+          .min_w(0)
           .truncate()
           .text_color(this.status ? colors.blocked : colors.muted)
-          .child(this.statusNote()),
+          .child(this.loading ? "loading…" : this.statusNote()),
       )
       .when(Boolean(pending), (el) => el.child(div().text_color(colors.accent).child(pending)))
-      .child(div().text_color(colors.muted).child(position));
+      .child(div().flex_none().text_color(colors.muted).child(position));
   }
 }

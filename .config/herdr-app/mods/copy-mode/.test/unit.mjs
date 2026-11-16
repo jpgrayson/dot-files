@@ -1,5 +1,4 @@
-// Unit tests for what the nvim oracle can't cover: view-relative keys, jump,
-// history prepend, Esc, copy and close, key tokens. Run: node unit.mjs
+// Unit tests for what the nvim oracle can't cover: view-relative keys, Esc, copy and close, key tokens. Run: node unit.mjs
 import { makeMode, press, search, state } from "./harness.mjs";
 import { keyToken, foldCase, textOf } from "./main.under-test.mjs";
 
@@ -103,18 +102,18 @@ const numbered = (n) => Array.from({ length: n }, (_, i) => `line ${i}`);
   eq("v selection", textOf(m.rows, m.selection()), "bcdef\nghi");
   press(m, "V");
   eq("v to V keeps the anchor", [m.visual, m.anchor], ["line", { row: 0, col: 1 }]);
-  press(m, "<C-v>");
-  eq("block", textOf(m.rows, m.selection()), "bc\nhi");
-  press(m, "O");
-  eq("O: other corner, same line", [pos(m), m.anchor], [[1, 1], { row: 0, col: 2 }]);
   press(m, "o");
-  eq("o: other end", [pos(m), m.anchor], [[0, 2], { row: 1, col: 1 }]);
+  eq("o: other end", [pos(m), m.anchor], [[0, 1], { row: 1, col: 2 }]);
+  press(m, "O");
+  eq("O: back again", [pos(m), m.anchor], [[1, 2], { row: 0, col: 1 }]);
   press(m, "<C-v>");
-  eq("ctrl-v again ends it", [m.visual, m.anchor], [null, null]);
+  eq("ctrl-v does nothing", m.visual, "line");
+  press(m, "V");
+  eq("V again ends it", [m.visual, m.anchor], [null, null]);
   press(m, "v$");
-  eq("v$ stands past the end", pos(m), [0, 6]);
+  eq("v$ stands past the end", pos(m), [1, 6]);
   press(m, "<escape>");
-  eq("Esc ends the selection, cursor back on the line", [m.visual, pos(m), m.closed], [null, [0, 5], false]);
+  eq("Esc ends the selection, cursor back on the line", [m.visual, pos(m), m.closed], [null, [1, 5], false]);
 }
 
 // --- copying
@@ -164,9 +163,10 @@ const numbered = (n) => Array.from({ length: n }, (_, i) => `line ${i}`);
   eq("/ moves to the next match", pos(m), [0, 4]);
   press(m, "n");
   eq("n", pos(m), [1, 4]);
+  eq("n says which match", m.message, "[3/4]");
   press(m, "2n");
   eq("2n wraps", pos(m), [0, 0]);
-  eq("wrap message", m.message, "search wrapped to the top");
+  eq("wrap message, and which match", m.message, "search wrapped to the top [1/4]");
   search(m, "/", "FOO");
   eq("smartcase upper: case-sensitive", m.matches.length, 1);
   search(m, "?", "o");
@@ -201,27 +201,6 @@ const numbered = (n) => Array.from({ length: n }, (_, i) => `line ${i}`);
   eq("f + a named key cancels", [m.prefix, pos(m)], [null, [0, 4]]);
 }
 
-// --- jump
-{
-  const m = makeMode(["alpha beta", "alphabet gamma", "delta alps"], 0, 0);
-  press(m, "sal");
-  eq("jump: 3 matches, labels after 2 chars", [m.jump.count, m.jump.targetsByLabel.size], [3, 3]);
-  // characters after matches ("p", "p", "p") are never labels
-  eq("labels skip the next characters", [...m.jump.targetsByLabel.keys()].includes("p"), false);
-  const [label, target] = [...m.jump.targetsByLabel].find(([, t]) => t.row === 2);
-  press(m, label);
-  eq("label jumps", [m.jump, pos(m)], [null, [target.row, target.col]]);
-  press(m, "sgam");
-  eq("a sole match jumps at once", [m.jump, pos(m)], [null, [1, 9]]);
-  press(m, "sal<BS>");
-  eq("backspace edits", m.jump.query, "a");
-  press(m, "<escape>");
-  eq("Esc ends jump without closing", [m.jump, m.closed], [null, false]);
-  const v = makeMode(["one two three"], 0, 0);
-  press(v, "vsth");
-  eq("jump extends a selection", [v.visual, pos(v)], ["char", [0, 8]]);
-}
-
 // --- Esc: each press undoes one thing, then closes
 {
   state.props = { overlay: "o2" };
@@ -231,10 +210,6 @@ const numbered = (n) => Array.from({ length: n }, (_, i) => `line ${i}`);
   eq("Esc ends the selection", [m.visual, m.closed], [null, false]);
   m.escape(m.cx);
   eq("then Esc closes", m.closed, true);
-  const j = makeMode(["abc"], 0, 0);
-  press(j, "s");
-  j.escape(j.cx);
-  eq("Esc in jump mode only ends the jump", [j.jump, j.closed], [null, false]);
   const s = makeMode(["abc"], 0, 0);
   press(s, "/");
   s.escape(s.cx);
@@ -255,30 +230,11 @@ const numbered = (n) => Array.from({ length: n }, (_, i) => `line ${i}`);
   const colors = { accent: "A", accent_foreground: "a", ansi2: "G", ansi5: "M", background: "b" };
   const m = makeMode(["abc"], 0, 0);
   eq("normal badge", [m.modeName(), m.modeColors(colors)], ["NORMAL", ["A", "a"]]);
-  for (const [keys, name] of [["v", "VISUAL"], ["V", "V-LINE"], ["<C-v>", "V-BLOCK"]]) {
+  for (const [keys, name] of [["v", "VISUAL"], ["V", "V-LINE"]]) {
     const v = makeMode(["abc"], 0, 0);
     press(v, keys);
     eq(`${name} badge`, [v.modeName(), v.modeColors(colors)], [name, ["M", "b"]]);
   }
-  const j = makeMode(["abc"], 0, 0);
-  press(j, "s");
-  eq("jump badge", [j.modeName(), j.modeColors(colors)], ["JUMP", ["G", "b"]]);
-}
-
-// --- history prepend keeps everything in place
-{
-  const m = makeMode(["s1 foo", "s2", "s3 foo"], 2, 3);
-  search(m, "/", "foo");
-  press(m, "gg");
-  press(m, "v$");
-  m.prependHistory(["h1", "h2 foo", "s1 foo", "s2", "s3 foo"], 2);
-  eq("cursor shifts", pos(m), [2, 6]);
-  eq("anchor shifts", m.anchor, { row: 2, col: 3 });
-  eq("matches recomputed", m.matches.map((x) => x.row), [1, 2, 4]);
-  const j = makeMode(numbered(5), 4, 0);
-  press(j, "sli");
-  j.prependHistory(["h", ...numbered(5)], 1);
-  eq("jump targets follow", [...j.jump.targetsByLabel.values()].map((t) => t.row), [1, 2, 3, 4, 5]);
 }
 
 // --- key tokens

@@ -25,13 +25,10 @@ export function makeMode(lines, row = 0, col = 0, viewRows = 10, viewCols = 0) {
   mode.handle = { focus() {}, is_focused: () => true };
   mode.status = null;
   mode.setLines(lines);
-  mode.viewHeight = 38 + viewRows * 18; // status line (22) and padding (16) + rows of 18px (font 14)
+  mode.viewLen = viewRows; // the terminal's rows in view
+  mode.cols = viewCols || Infinity; // its width; 0: no wrapping
   mode.cursor = { row, col };
   mode.wantCol = col;
-  if (viewCols) {
-    mode.cellWidth = 10;
-    mode.viewWidth = 16 + viewCols * 10; // padding (16) + cells of 10px
-  }
   mode.scrollToCursor();
   mode.copied = null;
   mode.tasks = [];
@@ -60,7 +57,6 @@ export function press(mode, keys) {
       continue;
     }
     if (token === "escape") mode.escape(mode.cx);
-    else if (mode.jump) mode.jumpKey(token);
     else mode.feed(token, mode.cx);
   }
   return mode;

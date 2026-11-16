@@ -12,7 +12,7 @@ const lines = ["foo bar baz", "Error: thing 42", "", "  x = foo(12, 345)", "æ—¥æ
 
 { const m = makeMode(lines); search(m, "/", "\\d+"); eq("\\d+ finds 42", pos(m), [1, 13]);
   press(m, "n"); eq("n: 12", pos(m), [3, 10]); press(m, "n"); eq("n: 345", pos(m), [3, 14]);
-  eq("match lengths", m.matchesByRow.get(3), [{ col: 10, length: 2 }, { col: 14, length: 3 }]); }
+  eq("match lengths", m.matches.filter((x) => x.row === 3).map(({ col, length }) => ({ col, length })), [{ col: 10, length: 2 }, { col: 14, length: 3 }]); }
 { const m = makeMode(lines); search(m, "/", "ba[rz]"); eq("class", pos(m), [0, 4]); press(m, "n"); eq("class n", pos(m), [0, 8]); }
 { const m = makeMode(lines); search(m, "/", "error"); eq("smartcase lower ignores case", pos(m), [1, 0]); }
 { const m = makeMode(lines); search(m, "/", "Foo"); eq("upper is case-sensitive: no match stays", pos(m), [0, 0]);
@@ -34,6 +34,5 @@ const lines = ["foo bar baz", "Error: thing 42", "", "  x = foo(12, 345)", "æ—¥æ
 { const m = makeMode(lines, 5, 0); search(m, "?", "fo+"); eq("? backward regex", pos(m), [3, 6]); press(m, "n"); eq("? n", pos(m), [0, 0]); }
 { const m = makeMode(lines); search(m, "/", "b.."); eq("dot", pos(m), [0, 4]); press(m, "vny"); }
 { const m = makeMode(lines); press(m, "*"); eq("* stays literal whole word", m.lastSearch.wholeWord, true); }
-{ const m = makeMode(["a.b a.b axb"]); press(m, "sa."); eq("jump stays literal (2, not 3)", m.jump?.count, 2); }
 console.log(`${passed} passed, ${failed} failed`);
 process.exit(failed ? 1 : 0);

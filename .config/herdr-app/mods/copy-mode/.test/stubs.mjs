@@ -10,11 +10,14 @@ const chain = () => {
   });
   return element;
 };
-export const div = chain, v_flex = chain, h_flex = chain;
+export const div = chain, h_flex = chain;
 export const state = { notifications: [], closed: 0, props: {} };
 export const closeOverlay = () => state.closed++;
-export const focused = () => null, panes = () => [], hc = async (args) => state.hc?.(args) ?? { code: 1 };
+export const focused = () => null, panes = () => state.panes ?? [], terminals = () => state.terminals ?? [];
+export const hc = async (args) => state.hc?.(args) ?? { code: 1 };
+export const checking = () => false;
 export const notify = (n) => state.notifications.push(n);
 export const props = () => state.props;
-export const run = () => null, setShared = () => null, shared = () => null;
+export const run = (name, args) => (state.run?.(name, args), null);
+export const setShared = () => null, shared = () => null;
 export const settings = () => ({ font_size: 14 }), theme = () => ({});

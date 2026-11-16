@@ -23,7 +23,7 @@ const yanks = [
   "yw", "yW", "ye", "yb", "y2w", "y$", "y0", "y^", "yy", "2yy", "yj", "yk", "y}", "y{",
   "yiw", "yaw", "yiW", "yaW", "y2iw", "y2aw", "yi(", "ya(", "yi[", "ya[", "yi{", "ya{", "yib", "yaB",
   "yi\"", "ya\"", "yi'", "yfa", "yta", "yFa", "yTa", "yge", "yG", "ygg", "y%",
-  "viwy", "vey", "Vjy", "vjy", "v$y", "<C-v>jy", "<C-v>2jhy", "<C-v>j$y", "<C-v>jjoy", "<C-v>jOhy", "vjoky", "vkoy", "Vjoky", "vey", "vwwy", "vbby", "v3ey", "veiwy", "vawy", "vi(y",
+  "viwy", "vey", "Vjy", "vjy", "v$y", "vjoky", "vkoy", "Vjoky", "vey", "vwwy", "vbby", "v3ey", "veiwy", "vawy", "vi(y",
 ];
 const cases = [];
 for (const lines of texts) {
@@ -57,7 +57,6 @@ const wrapKeys = [
 ];
 const wrapYanks = [
   "ygj", "ygk", "y2gj", "y2gk", "vgjy", "vgky", "v2gjy", "Vgjy", "Vgky", "v$gjy", "v$gky", "vgjgjy", "vgjoy",
-  "<C-v>gjy", "<C-v>gkly",
 ];
 for (const lines of wrapped) {
   for (let row = 0; row < lines.length; row++) {
@@ -74,7 +73,7 @@ const expected = JSON.parse(readFileSync(dir + "oracle.json", "utf8"));
 
 // Deliberate differences from Vim, counted apart from real mismatches:
 // - columns are glyphs, not display cells, so tabs and wide (CJK) glyphs count
-//   as one column for j/k/|/blocks (terminal text has no tabs; see the notes);
+//   as one column for j/k/| (terminal text has no tabs; see the notes);
 // - whitespace-only lines are blank lines for { and };
 // - copies never end in a newline (Vim's v$y and selections ending on an empty
 //   line take the line break);
@@ -82,14 +81,11 @@ const expected = JSON.parse(readFileSync(dir + "oracle.json", "utf8"));
 //   span lines).
 const wide = (lines) => lines.some((line) => /[\t\u2e80-\uffff]/.test(line));
 function deviation(c, got, exp) {
-  if (wide(c.lines) && /[jkG|%]|gg|<C-v>/.test(c.keys)) return "display columns";
+  if (wide(c.lines) && /[jkG|%]|gg/.test(c.keys)) return "display columns";
   if (c.lines.some((l) => /^\s+$/.test(l)) && /[{}]/.test(c.keys)) return "blank lines";
   if (typeof exp === "string" && exp.endsWith("\n") && got === exp.slice(0, -1)) return "no trailing newline";
   if (/[ia][wW]/.test(c.keys)) return "line-bound word objects";
   if (exp === "\n" && got === null) return "no trailing newline";
-  if (c.keys.startsWith("<C-v>") && typeof exp === "string" && / +(\n|$)/.test(exp))
-    return "block: no space padding of short lines";
-  if (/<C-v>.*O/.test(c.keys)) return "block: O on ragged lines";
   return null;
 }
 const deviations = new Map();

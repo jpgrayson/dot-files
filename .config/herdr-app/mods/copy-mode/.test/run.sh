@@ -5,7 +5,7 @@ set -e
 dir=$(cd "$(dirname "$0")" && pwd)
 cd "$dir"
 sh build.sh
-suites="unit regex searchline spans history wrap"
+suites="unit regex searchline wrap native"
 command -v nvim >/dev/null && suites="$suites diff" || echo "diff: skipped, nvim not found"
 for t in $suites; do
   if out=$(node "$t.mjs" 2>&1); then

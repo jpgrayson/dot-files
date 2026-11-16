@@ -2,8 +2,10 @@
   "place": "none",
   "title": "Copy mode",
   "overlay": {
-    "kind": "dialog",
-    "width": 0.6,
-    "height": 0.85
+    "kind": "window",
+    "key": "copy-mode",
+    "frame": "none",
+    "width": 560,
+    "height": 30
   }
 }
